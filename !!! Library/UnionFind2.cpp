@@ -1,8 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <numeric> // std::iota()
-#include <utility> // std::swap()
-
+#include <bits/stdc++.h>
 using namespace std;
 
 class UnionFind
