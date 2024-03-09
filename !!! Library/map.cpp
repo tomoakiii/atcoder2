@@ -28,15 +28,24 @@ int main(){
     }
 
     map<int, int> mp3;
-    mp3[1] = 100;
-    mp3[3] = 300;
-    mp3[2] = 200;
+    mp3[1] = -100;
+    mp3[3] = -300;
+    mp3[2] = -200;
 
     for(auto itr = mp3.begin(); itr != mp3.end(); ++itr) {
         std::cout << "key = " << itr->first         // キーを表示
                         << ", val = " << itr->second << "\n";    // 値を表示
     }
 
+    cout << endl;
+    mp3[-1] = -100;
+    mp3[-3] = -300;
+    mp3[-2] = -200;
+
+    for(auto itr = mp3.begin(); itr != mp3.end(); ++itr) {
+        std::cout << "key = " << itr->first         // キーを表示
+                        << ", val = " << itr->second << "\n";    // 値を表示
+    }
 
 
     map<std::string, int> mp2;
