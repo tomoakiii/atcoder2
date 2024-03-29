@@ -85,7 +85,11 @@ int main () {
     vector<int> A(N);
     for(auto &a:A) cin>>a;
     vector<int> dp(500001, 0);
+<<<<<<< HEAD
     SegTree st(dp);
+=======
+    SegTree<int> st(dp);
+>>>>>>> origin/main
     for (int i=0; i<N; i++){
         int l = max(A[i]-D, 0);
         int r = min(A[i]+D, 500000);
