@@ -38,7 +38,6 @@ int main(){
     }
     
     cin >> N >> K;
-    dp[][]
     cout << endl;
     
     return 0;
