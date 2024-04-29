@@ -1,41 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
-int H, W;
 typedef long long ll;
+const int INFi = 0x0F0F0F0F;
+
 
 int main(){
+    int H, W;
     cin >> H >> W;
-    vector A(H, vector<long>(W));
-    vector B(H, vector<long>(W));
-    map<ll, int> sA;
-    int r = 0;
-    for (int i=0; i<H; i++){
-        for (int j=0; j<W; j++){
-            cin >> A[i][j];
-            if (sA.find(A[i][j]) == sA.end()){
-                sA[[i][j]] = r++;
+    vector A(H, vector<ll>(W));
+    vector B(H, vector<ll>(W));
+    for(auto &aa:A) for(auto &a:aa) cin>>a;
+    for(auto &aa:B) for(auto &a:aa) cin>>a;
+    vector<int> p(H), q(W);
+    for(int i=0; i<H; i++) p[i] = i;
+    for(int i=0; i<W; i++) q[i] = i;
+    int mn = INFi;
+    do{
+        do{
+            bool flg = true;
+            for(int i=0; i<H; i++) for(int j=0; j<W; j++) {
+                if (A[p[i]][q[j]] != B[i][j]){
+                    flg = false;
+                }
             }
-            A[i][j] = sA[A[i][j]];
-        }
-    }
-    for (int i=0; i<H; i++){
-        for (int j=0; j<W; j++){
-            cin >> B[i][j];
-            if (sA.find(B[i][j]) == sA.end()){
-                cout << -1 << endl;
-                return 0;
+            if (flg) {
+                int cnt = 0;
+                for (int i=0; i<H-1; i++) for (int i2=i+1; i2<H; i2++) {
+                    if (p[i] > p[i2]) cnt++;
+                }
+                for (int i=0; i<W-1; i++) for (int i2=i+1; i2<W; i2++) {
+                    if (q[i] > q[i2]) cnt++;
+                }
+                mn = min(mn, cnt);
             }
-            B[i][j] = sA[B[i][j]];
-        }
-    }
-
-    auto Acp = A;
-    auto Bcp = B;
-    for (int i=0; i<H; i++){
-        sort(Acp[i].begin(),Acp[i].end());
-        sort(Bcp[i].begin(),Bcp[i].end());
-    }
-
-    cout << buyT << endl;
+        } while(next_permutation(q.begin(), q.end()));
+    } while(next_permutation(p.begin(), p.end()));
+    if (mn == INFi) mn = -1;
+    cout << mn << endl;
     return 0;
 }
