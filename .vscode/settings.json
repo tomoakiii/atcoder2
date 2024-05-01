@@ -87,7 +87,8 @@
         "valarray": "cpp",
         "variant": "cpp",
         "all": "cpp",
-        "fenwicktree": "cpp"
+        "fenwicktree": "cpp",
+        "internal_type_traits": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
