@@ -18,24 +18,47 @@ int main()
         cin >> xy[i].x >> xy[i].y;        
     }
     double dist = 0;
-    for(int i=1; i<N; i++){
-        dist += sqrt((xy[i].x)*(xy[i-1].x) + (xy[i].y)*(xy[i-1].y));        
+    
+    auto fdist = [&](int i, int j)->double {
+        double dx = (xy[i].x - xy[j].x);
+        double dy = (xy[i].y - xy[j].y);
+        return sqrt(dx*dx + dy*dy);        
+    };
+
+    for(int i=1; i<N; i++){        
+        dist += fdist(i, i-1);
     }
     double x=1;
     int M=0;
-    while(x < dist){
+    while(x <= 2*dist){
         x*=2;
         M++;
     }
-    vector dp(N, vector<double>(M)); // dp[i][j]: 最後にiを通って、j個パスした
-    dp[0][0] = dist;
-    dp[1][0] = dist;
-    for(int i=2; i<N; i++){
-        for(int j=0; j<min(M, i-1); j++){
-            dp[i][j] = min()
+
+    vector<double> penalty(M+1);
+    penalty[0] = 0;
+    double p=1;
+    for(int i=1; i<=M; i++){
+        penalty[i] = (1<<(i-1));
+    }
+
+    vector dp(N, vector<double>(M+1, N*dist)); // dp[i][j]: 最後にiを通って、j個パスした
+    dp[0][0] = 0;    
+    for(int i=0; i<N-1; i++){        
+        for(int j=0; j<=M; j++){ // 今までいくつスキップしてきたか
+            double d = dp[i][j] - penalty[j];
+            for (int nx=i+1; nx<N && j+nx-i-1<=M ; nx++){ // 次どこにいくか                
+                int step = nx-i-1; // 追加スキップ回数
+                dp[nx][j+step] = min(dp[nx][j+step], d + fdist(nx, i) + penalty[j+step]);
+            }            
         }
     }
     
-    cout << endl;
+    double ans = INF;
+    for(auto d: dp[N-1]){
+        ans = min(d, ans);
+    }
+
+    std::cout << std::setprecision(24) <<  ans << endl;
     return 0;
 }

@@ -4,6 +4,7 @@ using namespace std;
 using namespace atcoder;
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
+
 template <class Type> class SegTree {
 private:
     int n, sz, trsize;
@@ -16,6 +17,7 @@ private:
         Type val;
     };
     vector<nd> tr;
+
 public:
     // tr[n-1] ~ tr[n-1+sz-1] = original vector v
     SegTree(vector<Type> v) {
@@ -44,10 +46,13 @@ public:
     // MaxElement(0, start, end);
     // 0 is top of segtree. Start and End are number of original array. End is included in search area
     Type MaxElement(int ind, int a, int b){
-        if(tr[ind].l == a && tr[ind].r == b) return tr[ind].max;
-        if (tr[ind].c >= a && tr[ind].c < b) return
-            max(MaxElement(2*ind+1, a, tr[ind].c),
+        if(tr[ind].l == a && tr[ind].r == b) {
+            return tr[ind].max;
+        }
+        if (tr[ind].c >= a && tr[ind].c < b) {
+            return max(MaxElement(2*ind+1, a, tr[ind].c),
                 MaxElement(2*ind+2, tr[ind].c + 1, b));
+        }
         if (tr[ind].c >= b) return MaxElement(2*ind+1, a, b);
         return MaxElement(2*ind+2, a, b);   
     }
@@ -60,7 +65,7 @@ public:
         }
         if (tr[ind].c >= a && tr[ind].c < b) {
             return min(MinElement(2*ind+1, a, tr[ind].c),
-                       MinElement(2*ind+2, tr[ind].c + 1, b));
+                MinElement(2*ind+2, tr[ind].c + 1, b));
         }
         if (tr[ind].c >= b) return MinElement(2*ind+1, a, b);
         return MinElement(2*ind+2, a, b);
@@ -75,14 +80,12 @@ public:
             i = (i-1)/2;
         }
     }
+
+
 };
 
-
-// test case:
-// 10 5
-// 10 1 6 8 7 2 5 9 3 4
-
 int main(){
+
     ll N, K;
     cin >> N >> K;
     vector<ll> P(N), OD(N);        
