@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <atcoder/dsu>
 
+#define rep(i,n) for (int i = 0; i < (n); ++i)
 using namespace std;
 using namespace atcoder;
 
@@ -21,5 +22,29 @@ int main() {
         cout << i << " ";
     }
     cout << endl;
+
+    /* 値が大きい順に並べて、同値ならインデックス小さいもの勝ちにする */
+    rep(i, N){
+        cin >> A[i] >> B[i];
+    }
+    vector<int> ord(N);
+    iota(ord.begin(), ord.end(), 0);
+    auto func = [&](int l, int r){
+        ll lft = A[l];
+        ll rgt = A[r];
+        if(lft == rgt) {
+            return (l < r); // lインデックスの方が小さいのが正解
+        } else {
+            return (lft > rgt); // lftの方が大きいのが正解
+        }                
+    };
+    sort(ord.begin(), ord.end(), func);
+    rep(i, N){
+        cout << ord[i] + 1 << " ";
+    }
+    cout << endl;
+
+
+
     return 0;
 }

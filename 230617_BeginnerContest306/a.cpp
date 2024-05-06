@@ -10,15 +10,12 @@ const int INFi = 0x0F0F0F0F;
 
 int main(){
     ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
+    string S;
+    cin >> N >> S;
     rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+        cout << S[i] << S[i];
     }
     
-    cout << sm << endl;
+    cout << endl;
     return 0;
 }

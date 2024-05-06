@@ -9,16 +9,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll S, lastS = 0;
+    
+    rep (i, 8) {
+        cin >> S;
+        if (S < 100 || S > 675 || S%25 != 0 || S < lastS){
+            cout << "No" << endl;
+            return 0;
+        }
+        lastS = S;
     }
     
-    cout << sm << endl;
+    cout << "Yes" << endl;
     return 0;
 }

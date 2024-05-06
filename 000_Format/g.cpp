@@ -14,7 +14,7 @@ int main(){
     vector A(N, 0);
 
     ll sm = 0;
-    for(int i=0; i<N;i++) {
+    rep(i, N) {
         cin >> A[i];
         sm += A[i];
     }
