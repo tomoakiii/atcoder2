@@ -1,10 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-#include <bits/stdc++.h>
-using namespace std;
-#define INF 100000000000007
-
+#include <atcoder/all>
+using namespace atcoder;
+typedef long long ll;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
 template <class Type> class SegTree {
 private:
     int n, sz, trsize;
@@ -17,7 +16,6 @@ private:
         Type val;
     };
     vector<nd> tr;
-
 public:
     // tr[n-1] ~ tr[n-1+sz-1] = original vector v
     SegTree(vector<Type> v) {
@@ -32,7 +30,7 @@ public:
         while ((n-1)/k > 0){
             for(int i=(n-1)/k; i<(trsize-1)/k; i+=2){
                 tr[i/2].min = min(tr[i].min, tr[i+1].min);
-                tr[i/2].max = max(tr[i].min, tr[i+1].min);
+                tr[i/2].max = max(tr[i].max, tr[i+1].max);
             }
             k*=2;
         }
@@ -57,10 +55,13 @@ public:
     // MinElement(0, start, end);
     // 0 is top of segtree. Start and End are number of original array. End is included in search area
     Type MinElement(int ind, int a, int b){
-        if(tr[ind].l == a && tr[ind].r == b) return tr[ind].min;
-        if (tr[ind].c >= a && tr[ind].c < b) return
-            min(MaxElement(2*ind+1, a, tr[ind].c),
-                MinElement(2*ind+2, tr[ind].c + 1, b));
+        if(tr[ind].l == a && tr[ind].r == b){
+            return tr[ind].min;
+        }
+        if (tr[ind].c >= a && tr[ind].c < b) {
+            return min(MinElement(2*ind+1, a, tr[ind].c),
+                       MinElement(2*ind+2, tr[ind].c + 1, b));
+        }
         if (tr[ind].c >= b) return MinElement(2*ind+1, a, b);
         return MinElement(2*ind+2, a, b);
     }
@@ -74,23 +75,31 @@ public:
             i = (i-1)/2;
         }
     }
-
-
 };
 
 
-int main () {
-    int N, D;
-    cin >> N >> D;
-    vector<int> A(N);
-    for(auto &a:A) cin>>a;
-    vector<int> dp(500001, 0);
-    SegTree<int> st(dp);
-    for (int i=0; i<N; i++){
-        int l = max(A[i]-D, 0);
-        int r = min(A[i]+D, 500000);
-        st.SetVal(A[i], 1 + st.MaxElement(0, l, r));
+// test case:
+// 10 5
+// 10 1 6 8 7 2 5 9 3 4
+
+int main(){
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> P(N), OD(N);        
+    for(int i=0; i<N;i++) {
+        cin >> P[i];
+        P[i]--;
+        OD[P[i]] = i;        
     }
-    cout << st.MaxElement(0, 0, 500000) << endl;
+    SegTree<ll> ST(OD);
+    ll sm = INF;
+    for(int i=0; i<N-K+1; i++){
+        ll end = i+K-1;
+        ll mn = ST.MinElement(0, i, end);
+        ll mx = ST.MaxElement(0, i, end);
+        sm = min(sm, mx - mn);
+    }
+    
+    cout << sm << endl;
     return 0;
 }

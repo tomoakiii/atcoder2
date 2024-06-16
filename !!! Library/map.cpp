@@ -21,12 +21,13 @@ bool operator<(const Person &lhs, const Person &rhs)
 int main(){
     map<Person, int> mp;
     Person p("aaa", 170);
+    cout << mp.count(p) << endl;
     mp[p] = 123;
     for(auto itr = mp.begin(); itr != mp.end(); ++itr) {
         std::cout << "key = " << itr->first.m_name          // キーを表示
                         << ", val = " << itr->second << "\n";    // 値を表示
     }
-
+    cout << mp.count(p) << endl;
     map<int, int> mp3;
     mp3[1] = -100;
     mp3[3] = -300;

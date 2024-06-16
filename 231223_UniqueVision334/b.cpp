@@ -1,31 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+typedef long long ll;
 int main(){
-    long long A, M, L, R;
+    ll A, M, L, R;
     cin >> A >> M >> L >> R;
-    L-=A;
-    R-=A;
-    if (L>0 && L%M != 0){
-        L -= L%M;
-        L += M;
-    } else if (L<0 && L%M != 0) {
-        L *= -1;
-        L -= L%M;
-        L *= -1;
+    L-=A, R-=A;
+    ll mx=0;
+    if (L<0) {
+        mx = 10 + (-1*L) / M;
     }
-    if (R>0 && R%M != 0){
-        R -= R%M;
-    } else if (R<0 && R%M != 0) {
-        R *= -1;
-        R -= L%M;
-        R += M;
-        R *= -1;
-    }
-    if (L>R){
-        cout << 0 << endl;
-    } else {
-        cout << (R-L)/M+1 << endl;
-    }
+    L += M*mx;
+    R += M*mx;
+    cout << ((R/M) - ((L-1)/M)) << endl;
     return 0;
 }
