@@ -14,31 +14,37 @@ int main(){
     mint cnt = 0;
     vector<int> dM(60), dN(60);
     int ind=0;
-    while(M > 0) {
-        dM[ind++] = M%2;
-        M /= 2;
+    ll N2=N, M2=M;
+    while(M2 > 0) {
+        dM[ind++] = M2%2;
+        M2 /= 2;
     }
+    map<ll, mint> memo;
     ind=0;
-    while(N > 0) {
-        dN[ind++] = N%2;
-        N /= 2;
-    }
-    rep(i, 60){
-        if (dM[i] == 0) continue;
-        ll sm;
-        for (int j = i+1; j < 60; j++) {        
-            if (dN[j] == 0) continue;                        
-            if (i==j) sm = 1;
-            else sm = (1 << (j-1));
-            cnt = cnt + sm;        
+    auto func = [&](auto func, ll n)->mint{
+        int ind=0;
+        ll n2 = n;
+        while(n2 > 0) {
+            dN[ind++] = n2%2;
+            n2 /= 2;
         }
-        sm = 0;
-        for (int j = 0; j < i; j++){
-            if(dN[j] == 0) continue;
-            sm += (1 << j);
+        ind--;
+        int nn = n - (1<<ind);
+        mint tret = 0;
+        if (nn > 0) {
+            if (memo.count(nn) > 0) {
+                mint t = func(func, nn);
+                cnt = cnt + t;
+                tret = tret + func(func, nn);
+            }
+            else cnt = cnt + memo[nn];
         }
-        cnt = cnt + sm;
-    }
+        for (int i=0; i< ind; i++){
+            if (dM[i]) cnt = cnt + (1<<(ind-1));
+        }
+        if (dM[ind]) cnt = cnt + n - (1<<ind) + 1;
+    };
+    func(func, N);
     cout << cnt.val() << endl;
     return 0;
 }
