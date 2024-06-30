@@ -70,9 +70,10 @@ public:
         int i = ind+n-1;
         tr[i].val = tr[i].min = tr[i].max = val;
         while(i>0){
-            tr[(i-1)/2].min = min(tr[(i-1)/2].min, tr[i].min);
-            tr[(i-1)/2].max = max(tr[(i-1)/2].max, tr[i].max);
-            i = (i-1)/2;
+            int ii = (i-1)/2;
+            tr[ii].min = min(tr[ii*2+1].min, tr[ii*2+2].min);
+            tr[ii].max = max(tr[ii*2+1].max, tr[ii*2+2].max);
+            i = ii;
         }
     }
 };
