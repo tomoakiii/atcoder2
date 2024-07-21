@@ -49,8 +49,8 @@ int main(){
     }
     for(auto m : mp) {
         rep(i, N){
-            if (!visit[i]) {
-                
+            if (!m[i]) {
+
             }
         }
     }
