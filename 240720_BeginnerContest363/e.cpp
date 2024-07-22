@@ -24,33 +24,23 @@ int main(){
     priority_queue<edge, vector<edge>, decltype(comp)> que(comp);
 
     edge e;
-    for(int i=0; i<H; i++) {
-        for(int j=0; j<W; j+=W-1){        
-            e.pH = i;
-            e.pW = j;
-            e.a = A[i][j];
-            visit[i][j] = true;
-            que.push(e);
+    rep(i,H) {
+        rep(j,W) {        
+            if (i==0 || i == H-1 || j == 0 || j == W-1){
+                e.pH = i;
+                e.pW = j;
+                e.a = A[i][j];
+                visit[i][j] = true;
+                que.push(e);
+            }
         }
     }
-    for(int i=0; i<H; i+=H-1) {
-        for(int j=1; j<W-1; j++){        
-            e.pH = i;
-            e.pW = j;
-            e.a = A[i][j];
-            visit[i][j] = true;
-            que.push(e);
-        }
-    }    
     int nx[4] = {1, -1, 0, 0};
     int ny[4] = {0, 0, 1, -1};
     ll ans = H*W;
     while(Y--) {
         cr++;        
-        while(true){
-            if(que.empty()) {                
-                break;
-            }
+        while(!que.empty()){
             auto q = que.top();
             if(cr < q.a) {                
                 break;
@@ -59,16 +49,14 @@ int main(){
                 que.pop();                
             }
             rep(k, 4){
-                int ni = q.pH + ny[k];
-                int nj = q.pW + nx[k];
-                if(ni < 0 || ni >= H || nj < 0 || nj >= W) {
+                e.pH = q.pH + ny[k];
+                e.pW = q.pW + nx[k];
+                if(e.pH < 0 || e.pH >= H || e.pW < 0 || e.pW >= W) {
                     continue;
                 }
-                if (visit[ni][nj]) continue;
-                e.pH = ni;
-                e.pW = nj;
-                e.a = A[ni][nj];
-                visit[ni][nj] = true;
+                if (visit[e.pH][e.pW]) continue;
+                e.a = A[e.pH][e.pW];
+                visit[e.pH][e.pW] = true;
                 que.push(e);
             }            
         }
