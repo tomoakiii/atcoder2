@@ -11,14 +11,12 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    vector<pair<ll, int>> A(N);
+    rep(i,N) {
+        cin>>A[i].first;
+        A[i].second = i+1;
     }
-    
-    cout << sm << endl;
+    sort(A.begin(), A.end(), greater<pair<ll, int>>());
+    cout << A[1].second << endl;
     return 0;
 }

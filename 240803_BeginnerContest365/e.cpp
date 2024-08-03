@@ -11,14 +11,17 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
+    vector<ll> A(N);
     rep(i, N) {
         cin >> A[i];
-        sm += A[i];
     }
+    ll ans = 0;
     
-    cout << sm << endl;
+    rep () {        
+        rep (j)
+        A[i]        
+    }
+
+    cout << ans << endl;
     return 0;
 }

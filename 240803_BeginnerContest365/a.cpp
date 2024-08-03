@@ -11,14 +11,13 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
+    ll ans;
+    if(N%4 != 0) ans = 365;
+    else if(N%4 == 0 && N%100 != 0) ans = 366;
+    else if(N%100 == 0 && N%400 != 0) ans = 365;
+    else if (N%400 == 0 )ans = 366;    
+    else ans = -1;
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
-    }
-    
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }
