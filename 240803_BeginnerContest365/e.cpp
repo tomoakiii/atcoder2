@@ -12,16 +12,32 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
+
+    ll sm = 0;
     rep(i, N) {
         cin >> A[i];
+        sm += A[i];
     }
     ll ans = 0;
-    
-    rep () {        
-        rep (j)
-        A[i]        
+    vector<ll> S(N+1);
+    rep(i, N) {
+        S[i+1] = S[i] ^ A[i];
     }
 
+    ll t = 1;
+    rep(k, 30) {
+        ll c0=0, c1=0;
+        rep (i,N+1) {
+            if (S[i]>>k & 1 == 1) {
+                c1++;
+            } else {
+                c0++;
+            }
+        }
+        ans += (c0 * c1) * t;
+        t *= 2;
+    }
+    ans -= sm;
     cout << ans << endl;
     return 0;
 }
