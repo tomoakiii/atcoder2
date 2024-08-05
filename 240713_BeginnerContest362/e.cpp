@@ -17,46 +17,32 @@ int main(){
     rep(i, N) {
         cin >> A[i];
     }
-
-    vector<mint> cnt(81);
-    cnt[1] = N;
-    
-
-    auto f = [&](auto f, int from, ll d, int len) -> ll {
-        ll l=len;
-        for(int i = from+1; i<N; i++){
-            ll d2 = A[i] - A[from];
-            if (d2 != d) continue;
-            visit[i] = true;
-            l = max(l, f(f, i, d, len+1));
-        }
-        return l;
-    };
-    map<ll, vector<bool>> mp;
-    rep(i,N){
+    vector dp(N, vector<vector<mint>>(N, vector<mint>(N+1, 0)));
+    rep(i,N) {
         for(int j=i+1; j<N; j++) {
-            ll d = A[j]-A[i];
-            if (mp.find(d) != mp.end())continue;
-            vector<bool> visit(N, false);            
-            ll len = f(f, j, d, 2);
-            mp[d] = visit;
-            ll k = 1;
-            for(int i=len; i>1; i--) {
-                cnt[i] += k;
-                k++;
-            }
-        }        
+            dp[i][j][2] = 1;
+        }
     }
-    for(auto m : mp) {
-        rep(i, N){
-            if (!m[i]) {
 
+    rep(i,N) rep(j,N) for(int k=2; k<N; k++) {
+        int nk=k+1;
+        int ni=j;
+        ll tgt = A[j]+(A[j]-A[i]);
+        for(int x=j+1; x<N; x++){
+            if (A[x] == tgt) {
+                dp[ni][x][nk] += dp[i][j][k];
             }
         }
     }
-    for(int i=1; i<=N; i++) {
-        cout << cnt[i].val() << " ";
-    }    
+
+    cout << N << " ";
+    for(int k=2; k<=N; k++) {
+        mint sm = 0;
+        rep(i, N) for(int j=i+1; j<N; j++) {
+            sm += dp[i][j][k];
+        }
+        cout << sm.val() << " ";
+    }
     cout << endl;
     return 0;
 }
