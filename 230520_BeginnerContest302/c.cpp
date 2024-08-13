@@ -23,25 +23,23 @@ int main(){
     }
         
     
-    rep(k, N){
-        vector<bool> b(N, false);  
-        auto f = [&](auto f, int cur, int a)->void{
-            if (a==N-1) {
-                cout << "Yes" << endl;
-                exit(0);
+    vector<int> ord(N);
+    iota(ord.begin(), ord.end(), 0);
+    bool fans=false;
+    do {
+        bool ans=true;
+		rep(i, N-1) {
+            if (dist[ord[i]][ord[i+1]] != 1) {
+                ans=false;
             }
-            rep(i, N) {
-                if (b[i]) continue;
-                b[i] = true;
-                if (dist[cur][i] == 1) {
-                    f(f, i, a+1);
-                }
-                b[i] = false;
-            }
-        };
-        f(f, k, 0);
-    }
+        }
+        if(ans) {
+            fans=true;
+            break;
+        }
+	} while (next_permutation(ord.begin(), ord.end()));
     
-    cout << "No" << endl;
+    
+    cout << (fans?"Yes":"No") << endl;
     return 0;
 }
