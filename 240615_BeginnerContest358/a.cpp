@@ -9,16 +9,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string s, t;
+    cin >> s >> t;
+    string s2 = s + " " + t;
+    if (s2 == "AtCoder Land") {
+        cout << "Yes" << endl;
+    } else 
+    {
+        cout << "No" << endl;
     }
-    
-    cout << sm << endl;
     return 0;
 }
