@@ -7,18 +7,36 @@ using namespace atcoder;
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+using mint = modint998244353;
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll N, X;
+    cin >> N >> X;
+    vector<ll> T(N, 0);
+    rep(i, N) cin >> T[i];
+    vector<mint> dp(X+1);
+    struct edge{
+        mint val;
+        int time;
+    };
+    set<ll> que;
+    que.insert(0);
+    dp[0] = 1;
+    mint invN = 1;
+    invN /= N;
+    auto it = que.begin();
+    while(it != que.end()){
+        ll q = *it;        
+        rep(i, N) {
+            if (q + T[i] > X) continue;
+            dp[q + T[i]] += dp[q] * invN;
+            que.insert(q+T[i]);            
+        }
+        it++;
     }
-    
-    cout << sm << endl;
+    mint ans = 0;
+    for(ll t=max((ll)0, X-T[0]+1); t<=X; t++) {
+        ans += dp[t] * invN;
+    }
+    cout << ans.val() << endl;
     return 0;
 }

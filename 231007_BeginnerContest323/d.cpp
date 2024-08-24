@@ -1,24 +1,27 @@
-#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-using namespace atcoder;
-#define rep(i,n) for (int i = 0; i < (n); ++i)
-
-typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
+    int N;
     cin >> N;
-    vector A(N, 0);
+    map<long long, long long> SC;
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    for (int i =0; i<N; i++){
+        int s, c;
+        cin >> s >> c;
+        SC[s] = c;
     }
-    
-    cout << sm << endl;
+
+    long long cnt=0, num, qty;
+    auto itr = SC.begin();
+    while (itr != SC.end()){
+        num = (*itr).first;
+        qty = (*itr).second;
+        SC[2*num] += qty/2;
+        cnt += qty%2;
+        itr++;
+    }
+    cout << cnt << endl;
+
     return 0;
 }

@@ -1,24 +1,35 @@
-#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-using namespace atcoder;
-#define rep(i,n) for (int i = 0; i < (n); ++i)
-
-typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
+    int N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    struct node{
+        int win;
+        int id;
+    }; 
+    auto comp = [](node &a, node &b){
+        if (a.win == b.win){ return a.id > b.id; }
+        else { return a.win < b.win; }
+    }; // > (<) is smallest (largest) first
+    priority_queue<node, vector<node>, decltype(comp)> pq(comp);
+    for (int i =0; i<N; i++){
+        string s;
+        cin >> s;
+        node n;
+        n.id = i+1;
+        n.win = 0;
+        for (int j=0; j<N; j++){
+            if (s[j]=='o'){
+                n.win++;
+            }
+        }
+        pq.push(n);
     }
-    
-    cout << sm << endl;
+    while (!pq.empty()){
+        auto n=pq.top();
+        cout << n.id << " ";
+        pq.pop();
+    }
     return 0;
 }

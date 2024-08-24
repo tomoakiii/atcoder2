@@ -8,18 +8,19 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string X;
+    cin >> X;
+    int len = X.size();
+    int end = len;
+    for(int c = len-1 ; c >= len-3 ; c--) {
+        if (X[c]=='0') end = c;
+        else break;
     }
-    
-    cout << sm << endl;
+    if(end == len-3) end--;
+    rep(i, end) {
+        cout<<X[i];
+    }
+    cout << endl;
     return 0;
 }

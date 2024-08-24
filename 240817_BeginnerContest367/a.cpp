@@ -8,18 +8,12 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
-    }
-    
-    cout << sm << endl;
+    ll A, B, C;
+    cin >> A >> B >> C;
+    if(C<B) C+=24;
+    if(A<B) A+=24;
+    if(B<A && A<C) cout<<"No"<<endl;
+    else cout<<"Yes"<<endl;
     return 0;
 }
