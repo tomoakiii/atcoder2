@@ -6,9 +6,7 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int a,b,c,d;
-    cin >> a >> b >> c >> d;
-    cout << ((a+b)*(c-d)) << endl;
-    cout << "Takahashi" << endl;
+    const char c[] = {0x49, 0x43, 0x2D, 0x35, 0x2D};
+    printf("%s", c);
     return 0;
 }

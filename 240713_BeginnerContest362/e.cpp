@@ -7,56 +7,53 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 using mint = modint998244353;
+using P = pair<ll, int>;
+using PQ = priority_queue<P, vector<P>, greater<P>>;
+struct Train{
+    int from;
+    int to;
+    ll dpt;
+    ll arv;
+    int idx;
+    bool operator<(const Train &x){
+        return dpt < x.dpt;
+    };
+};
 
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N, 0);
-
-    rep(i, N) {
-        cin >> A[i];
+    ll N,M,X1;
+    cin >> N >> M >> X1;
+    vector<Train> trains(M);
+    int i=0;
+    for(auto &t: trains){
+        cin >> t.from >> t.to >> t.dpt >> t.arv;
+        t.from--; t.to--;
+        t.idx = i++;
     }
-
-    vector<mint> cnt(81);
-    cnt[1] = N;
-    
-
-    auto f = [&](auto f, int from, ll d, int len) -> ll {
-        ll l=len;
-        for(int i = from+1; i<N; i++){
-            ll d2 = A[i] - A[from];
-            if (d2 != d) continue;
-            visit[i] = true;
-            l = max(l, f(f, i, d, len+1));
+    sort(trains.begin(), trains.end());
+    vector<PQ> station(N);
+    rep(i,M){
+        auto t = trains[i];
+        P p = {t.arv, t.idx};
+        station[t.to].push(p);
+    }
+    vector<ll> latest(N);
+    vector<ll> ans(M);
+    for(auto t: trains){
+        ll time = t.dpt;
+        int st = t.from;
+        while(!station[st].empty()){
+            auto tp = station[st].top();
+            if (tp.first > time) break;
+            station[st].pop();
+            latest[st] = max(latest[st], trains[tp.second].arv);
         }
-        return l;
-    };
-    map<ll, vector<bool>> mp;
-    rep(i,N){
-        for(int j=i+1; j<N; j++) {
-            ll d = A[j]-A[i];
-            if (mp.find(d) != mp.end())continue;
-            vector<bool> visit(N, false);            
-            ll len = f(f, j, d, 2);
-            mp[d] = visit;
-            ll k = 1;
-            for(int i=len; i>1; i--) {
-                cnt[i] += k;
-                k++;
-            }
-        }        
+        if (latest[st] <= time) continue;
+        ans[tp.second] += latest[st] - time;
     }
-    for(auto m : mp) {
-        rep(i, N){
-            if (!m[i]) {
 
-            }
-        }
-    }
-    for(int i=1; i<=N; i++) {
-        cout << cnt[i].val() << " ";
-    }    
+    for (auto t: ans) cout << t << " ";
     cout << endl;
     return 0;
 }
