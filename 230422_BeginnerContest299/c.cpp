@@ -11,14 +11,28 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
+    string S;
+    cin >> S;
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    int cnt = 0;
+    bool flg = false;
+    int mx = 0;
+    rep (k, 2){       
+        rep(i, N) {
+            if (S[i] == '-') {
+                flg = true;
+                cnt = 0;
+            }
+            if (flg && S[i] == 'o') {
+                cnt++;
+                mx = max(mx, cnt);
+            }
+        }
+        reverse(S.begin(), S.end());
+        flg = false;
     }
     
-    cout << sm << endl;
+    if (mx == 0) mx = -1;
+    cout << mx << endl;
     return 0;
 }
