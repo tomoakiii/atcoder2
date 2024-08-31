@@ -9,16 +9,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> A(N, 0);
     rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+        cin >> A[i];        
     }
-    
-    cout << sm << endl;
+    rep(i,N) {
+        cout << A[(N-K+i)%N] << " ";
+    }    
+    cout <<  endl;
     return 0;
 }

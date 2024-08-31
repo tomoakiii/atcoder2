@@ -11,14 +11,16 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    int cnt = 0;
+    sort(A.begin(), A.end());
+    while(A[N-2]>=1){        
+        A[N-1]--;
+        A[N-2]--;
+        cnt++;
+        sort(A.begin(), A.end());
     }
-    
-    cout << sm << endl;
+    cout << cnt << endl;
     return 0;
 }
