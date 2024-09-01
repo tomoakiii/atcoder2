@@ -9,54 +9,26 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 using P = pair<ll, ll>;
 
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+//void chmax(ll& x, ll y) {x = max(x, y);}
+
 int main(){
     ll N, M;
     cin >> N >> M;
     vector dist(N, vector<ll>(N, INF));
-    vector brd(N, vector<P>{});
     vector<ll> U(M), V(M);
     vector<ll> T(M);
     rep(i,M) {
         ll u,v,t;
         cin >> u >> v >> t;
         u--, v--;
-        U[i] = u, V[i]  = v, T[i] = t;
-        brd[u].push_back({t, v});
-        brd[v].push_back({t, u});
+        U[i] = u, V[i]  = v, T[i] = t;        
+        chmin(dist[u][v], t);
+        chmin(dist[v][u], t);
     }
-    // rep(i,N) sort(brd[i].begin(), brd[i].end());
-    struct node{
-        int from;
-        int to;
-        ll d;
-        bool operator<(const node& x) const{
-            return (d < x.d);
-        }
-    };
-    rep(stt, N){        
-        dist[stt][stt] = 0;
-        priority_queue<node> que;
-        node n;
-        for (auto q: brd[stt]) {
-            n.from = stt;
-            n.to = q.second;
-            n.d = q.first;
-            que.push(n);
-        }
-        while (!que.empty()){
-            auto q = que.top();
-            que.pop();            
-            if (dist[stt][q.to] > dist[stt][q.from] + q.d) {
-                dist[stt][q.to] = dist[stt][q.from] + q.d;
-                for (auto q2: brd[q.to]) {
-                    n.from = q.to;
-                    n.to = q2.second;
-                    n.d = q2.first;
-                    que.push(n);
-                }
-            }
-        }
-    }
+    rep(i, N) dist[i][i] = 0;
+    rep(k, N) rep(i, N) rep(j, N) {chmin(dist[i][j], dist[i][k] + dist[k][j]);}
     ll Q;
     cin >> Q;
     while (Q--) {
@@ -67,37 +39,24 @@ int main(){
             cin >> B[i];
             B[i]--;
         }
-        vector<bool> visit(K, false);
-        int stt = 0;
-        ll ans = 0;
-        
-        int ind;
-        int gl;
-        int ii;
-        rep (j,K) {
-            ll mdin = INF;  
-            rep (i,K) {
-                if (visit[i]) continue;
-                if (mdin > dist[stt][U[B[i]]]) {
-                    mdin = dist[stt][U[B[i]]];
-                    gl = V[B[i]];
-                    ii = i;
-                    ind = B[i];
+        ll mn = INF;
+        do{            
+            rep(t, 1<<K){
+                int st = 0;
+                ll d=0;
+                int s, g;
+                rep(i,K) {
+                    g = U[B[i]], s = V[B[i]];
+                    if(t>>i&1) swap(g,s);
+                    d += dist[st][s];
+                    d += T[B[i]];
+                    st = g;
                 }
-                if (mdin > dist[stt][V[B[i]]]) {
-                    mdin = dist[stt][V[B[i]]];
-                    gl = U[B[i]];
-                    ii = i;
-                    ind = B[i];
-                }
+                d += dist[g][N-1];
+                chmin(mn, d);
             }
-            ans += mdin;
-            stt = gl;            
-            ans += T[ind];
-            visit[ii] = true;
-        }
-        ans += dist[gl][N-1];
-        cout << ans << endl;
+        }while (next_permutation(B.begin(), B.end()));        
+        cout << mn << endl;
     }
     return 0;
 }
