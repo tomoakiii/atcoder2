@@ -9,16 +9,37 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll N, Q;
+    cin >> N >> Q;
+    const ll M = 200005;
+    vector<ll> hash(M, 1);
+    rep(i, M) {
+        hash[i] = rand()<<30 | rand();
     }
-    
-    cout << sm << endl;
-    return 0;
+    vector<ll> A(N+1), B(N+1);
+    int a;
+    for(int i=1; i<=N; i++) {
+        cin >> a;
+        A[i] = hash[a];
+    }
+    for(int i=1; i<=N; i++) {
+        cin >> a;
+        B[i] = hash[a];
+    }
+    for(int i=1; i<=N; i++) {
+        A[i] = (A[i] + A[i-1]);
+        B[i] = (B[i] + B[i-1]);
+    }
+        
+    while(Q--){
+        int l1, r1, l2, r2;
+        cin >> l1 >> r1 >> l2 >> r2;
+        if ((r1-l1 == r2-l2) && (B[r2] - B[l2-1] == A[r1] - A[l1-1])) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
+        }
+    }
+
+   return 0;
 }
