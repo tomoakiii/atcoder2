@@ -9,16 +9,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
+    // cout << "?" << endl;
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    int l = 1, r = N;
+    int c, v;
+    while(r-l > 1) {
+        int c = (r+l)/2;
+        cout << "? " << c << endl;        
+        cin >> v;
+        if (v==1) r = c;
+        else l = c;
     }
-    
-    cout << sm << endl;
+    cout << "! " << l << endl;
     return 0;
 }
