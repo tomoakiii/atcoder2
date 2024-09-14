@@ -22,34 +22,52 @@ int main(){
         P[b].push_back({a, c});
         sm += c;
     }
-    ll mx[2] = {0, 0};
-    rep(i, N) {
-        if (P[i].size() == 1) {
-            ll nx = P[i][0].first, cnt = P[i][0].second, last = i;
-            while (true) {
-                if (P[nx].size() == 2) {
-                    if (P[nx][0].first == last) { 
-                        cnt += P[nx][1].second;
-                        nx = P[nx][1].first;
-                    } else {
-                        cnt += P[nx][0].second;
-                        nx = P[nx][0].first;
-                    }
-                    last = nx;                    
-                    continue;
-                }
-                if (P[nx].size() > 2) {
-                    break;
-                }
-                if (P[nx].size() == 1) {
-                    cout << cnt << endl;
-                    return 0;
-                }
-            }
-            mx[1] = max(mx[1], cnt);
-            if (mx[1] > mx[0]) swap(mx[0], mx[1]);
+
+    ll mdist=0;
+    int mp;
+    auto dfs = [&](auto dfs, int cur, int from, ll dist)->void{
+        if (mdist<dist){
+            mdist = dist;
+            mp = cur;
         }
-    }
-    cout << (sm + sm - mx[0] - mx[1]) << endl;
+        for(auto [p, d]:P[cur]){
+            if (p==from) continue;
+            dfs(dfs, p, cur, dist+d);
+        }
+    };
+    dfs(dfs, 0,-1,0);
+    mdist=0;
+    int mp1=mp;
+    dfs(dfs, mp1, -1, 0);
+    int mp2=mp;
+    vector<int> dep(N);
+    auto dfs2 = [&](auto dfs2, int cur, int from, ll dist)->void{
+        dep[cur] = dist;
+        for(auto [p, d]:P[cur]){
+            if (p==from) continue;
+            dfs2(dfs2, p, cur, dist+1);
+        }
+    };
+    dfs2(dfs2, mp1, -1, 0);
+    ll ans=0;
+    auto dfs3 = [&](auto dfs3, int cur, int from, bool mway)->void{
+        for(auto [p, d]:P[cur]){
+            if (p==from) continue;
+            if(mway) {
+                if(dep[p] == dep[cur]-1) {
+                    ans += d;
+                    dfs3(dfs3, p, cur, true);
+                } else {
+                    ans += 2*d;
+                    dfs3(dfs3, p, cur, false);
+                }
+            } else {
+                ans += 2*d;
+                dfs3(dfs3, p, cur, false);
+            }
+        }
+    };
+    dfs3(dfs3, mp2, -1, true);
+    cout << ans << endl;
     return 0;
 }

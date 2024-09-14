@@ -4,6 +4,7 @@ using namespace std;
 using namespace atcoder;
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
+
 template <class Type> class SegTree {
 private:
     int n, sz, trsize;

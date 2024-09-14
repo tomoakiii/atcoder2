@@ -26,11 +26,11 @@ int main(){
             (P[i-1][2] * 2); // 0th is black
         P[i][2] = P[i][0] - P[i][1]; // 0th is white        
     }
-    mint sm = 0;
+    ll s = 0;
     for(int i=2; i<=n; i++) {
-        mint I = i;
-        sm = sm + I;
+        s = s + i;
     }
+    mint sm = s;
     sm = sm * P[K][2];
     sm = sm / (N-1);
     sm = sm + P[K][1];

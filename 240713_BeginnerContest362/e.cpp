@@ -31,6 +31,7 @@ int main(){
         t.from--; t.to--;
         t.idx = i++;
     }
+<<<<<<< HEAD
     sort(trains.begin(), trains.end());
     vector<PQ> station(N);
     rep(i,M){
@@ -54,6 +55,34 @@ int main(){
     }
 
     for (auto t: ans) cout << t << " ";
+=======
+    vector dp(N, vector<vector<mint>>(N, vector<mint>(N+1, 0)));
+    rep(i,N) {
+        for(int j=i+1; j<N; j++) {
+            dp[i][j][2] = 1;
+        }
+    }
+
+    rep(i,N) rep(j,N) for(int k=2; k<N; k++) {
+        int nk=k+1;
+        int ni=j;
+        ll tgt = A[j]+(A[j]-A[i]);
+        for(int x=j+1; x<N; x++){
+            if (A[x] == tgt) {
+                dp[ni][x][nk] += dp[i][j][k];
+            }
+        }
+    }
+
+    cout << N << " ";
+    for(int k=2; k<=N; k++) {
+        mint sm = 0;
+        rep(i, N) for(int j=i+1; j<N; j++) {
+            sm += dp[i][j][k];
+        }
+        cout << sm.val() << " ";
+    }
+>>>>>>> ed69aec9ce59af355a2a749389207fd99e3e4f60
     cout << endl;
     return 0;
 }
