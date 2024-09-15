@@ -11,16 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
+    ll N, M;
+    cin >> N >> M;
+    vector<bool> family(N+1, false);
+    rep(i, M) {
+        int a;
+        char b;
+        cin>>a>>b;
+        if (b != 'M') {
+            cout<<"No"<<endl;
+            continue;
+        }
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+        if(!family[a]){
+            family[a] = true;
+            cout<<"Yes"<<endl;
+        } else {
+            cout<<"No"<<endl;
+        }
     }
     
-    cout << sm << endl;
     return 0;
 }
