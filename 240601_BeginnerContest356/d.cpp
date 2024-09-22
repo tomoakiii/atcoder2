@@ -11,40 +11,18 @@ using mint = modint998244353;
 int main(){
     ll N, M;
     cin >> N >> M;    
-    mint cnt = 0;
-    vector<int> dM(60), dN(60);
-    int ind=0;
-    ll N2=N, M2=M;
-    while(M2 > 0) {
-        dM[ind++] = M2%2;
-        M2 /= 2;
+    //N++;
+    mint ans = 0;
+    for(int i=0; i<60; i++) {
+        bool Ni = (N>>i) & 1, Mi = (M>>i) & 1;
+        if (Mi) {
+            ll p = 2ll << (i); // 2digit -> 2^3            
+            ll r = N%p;            
+            ans += (N-r)/2;
+            if (r >= (1ll<<i)) ans += (r - (1ll<<i) + 1ll);
+        }                
     }
-    map<ll, mint> memo;
-    ind=0;
-    auto func = [&](auto func, ll n)->mint{
-        int ind=0;
-        ll n2 = n;
-        while(n2 > 0) {
-            dN[ind++] = n2%2;
-            n2 /= 2;
-        }
-        ind--;
-        int nn = n - (1<<ind);
-        mint tret = 0;
-        if (nn > 0) {
-            if (memo.count(nn) > 0) {
-                mint t = func(func, nn);
-                cnt = cnt + t;
-                tret = tret + func(func, nn);
-            }
-            else cnt = cnt + memo[nn];
-        }
-        for (int i=0; i< ind; i++){
-            if (dM[i]) cnt = cnt + (1<<(ind-1));
-        }
-        if (dM[ind]) cnt = cnt + n - (1<<ind) + 1;
-    };
-    func(func, N);
-    cout << cnt.val() << endl;
+
+    cout << ans.val() << endl;
     return 0;
 }
