@@ -14,38 +14,41 @@ int main(){
     ll H, W, Q;
     cin >> H >> W >> Q;
     vector<set<int>> BmbH(H), BmbW(W);
+
+    for(int y=0; y<H; y++) {
+        for (int x=-1; x<=W; x++) {
+            BmbH[y].insert(x);
+        }
+    }
+
+    for(int y=-1; y<=H; y++) {
+        for (int x=0; x<W; x++) {
+            BmbW[x].insert(y);
+        }
+    }
+
     ll ans = H*W;
     while(Q--) {
         int a, b;
         cin>>a>>b;
         a--, b--;
-        if(BmbH[a].find(b) == BmbH[a].end()){
-            BmbH[a].insert(b);
-            BmbW[b].insert(a);
-            ans--;
-            continue;
-        }
-        int nxl = distance(lower_bound(BmbH[a].begin(), BmbH[a].end(), b), BmbH[a].begin())-1;
-        if(nxl==-1) nxl=-INFi;
-        int nxu = distance(upper_bound(BmbH[a].begin(), BmbH[a].end(), b), BmbH[a].begin());
-        if(nxu==N) nxu=INFi;
-        int nyl = distance(lower_bound(BmbW[b].begin(), BmbW[b].end(), a), BmbW[b].begin())-1;
-        if(nyl==-1) nyl=-INFi;
-        int nyu = distance(upper_bound(BmbW[b].begin(), BmbW[b].end(), a), BmbW[b].begin());
-        if(nyu==N) nyu=INFi;
-        vector<pair<int, pair<int,int>>> dxy{};
-        dxy.push_back({b-nxl, {a, nxl}});
-        dxy.push_back({nxu-b, {a, nxu}});
-        dxy.push_back({a-nyl, {nyl, b}});
-        dxy.push_back({nyu-a, {nyl, b}});
-        sort(dxy.begin(), dxy.end());
-        int d = dxy[0].first;
-        rep(k, dxy.size()) {
-            if(dxy[k].first != d) break;
-            ans--;
-            BmbH[dxy[k].second.first].insert(dxy[k].second.second);
-            BmbW[dxy[k].second.second].insert(dxy[k].second.first);
-        }
+        auto erase = [&](int y, int x)->void{
+            if (y<H && y>=0 && x<W && x>=0) {
+                BmbH[y].erase(x);
+                BmbW[x].erase(y);
+                ans--;
+            }            
+        };
+        
+        auto nxu = BmbH[a].lower_bound(b);
+        int x1 = *nxu, x2 = *prev(nxu);
+        erase(a, x1);
+        if (x1 == b) continue;
+        erase(a, x2);
+        auto nyu = BmbW[b].lower_bound(a);
+        int y1 = *nyu, y2 = *prev(nyu);
+        erase(y1, b);
+        erase(y2, b);
     }
     cout << ans << endl;
     return 0;

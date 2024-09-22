@@ -2,12 +2,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 using namespace atcoder;
-#define rep(i,n) for (int i = 0; i < (n); ++i)
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
 
 class UnionFind
 {
@@ -90,78 +91,38 @@ private:
 	std::vector<int> m_sizes;
 };
 
-
 int main(){
-    int N;
-    cin >> N;
-    vector<int> A(N);
-    rep(i,N) {
-        cin>>A[i];
-        A[i]--;
-    }
-    UnionFind UF(N);
-    vector<bool> visit(N, false);
-    int ind = -1;
-    rep(i, N){
-        auto f=[&](auto f, int cur)->void{
-            UF.unite(cur, i);
-            if (visit[cur]) return;
-            visit[cur] = true;
-            f(f, A[cur]);
-        };
-        f(f, i);
-    }
-
-    map<int, int> mp;
-    int k=-1;
-    rep(i, N) {
-        int p = UF.find(i);
-        if (mp.count(p) == 0) mp[p] = ++k;
-    }
-    vector<vector<int>> grp((int)mp.size());
-    vector<int> depth(N, -1);
-    rep(i, N) {
-        int p = UF.find(i);
-        grp[mp[p]].push_back(i);
-    }
-    
-
-    ll ans = 0;
-    rep(i, grp.size()){        
-        vector<bool> visit2(N, false);
-        int ind = -1;        
-        auto f2=[&](auto f2, int cur)->void{
-            if (visit2[cur]) {
-                ind = cur;
-                return;
+    ll N, Q;
+    cin >> N >> Q;
+    vector V(N, vector<int>(10, -2));    
+    rep(i, N) V[i][0] = i;
+    UnionFind UF(N); 
+    int a, u, v;
+    while(Q--){
+        cin >> a >> u >> v;
+        u--, v--;        
+        if(a == 1) {
+            int p1 = UF.find(u);
+            int p2 = UF.find(v);
+            int c1=0, c2=0;
+            vector<int> tmp(10, -2);
+            rep(i,10){
+                if(V[p1][c1] == V[p2][c2]) {
+                    tmp[i] = V[p1][c1++];
+                    c2++;
+                }else if(V[p1][c1] > V[p2][c2]) {
+                    tmp[i] = V[p1][c1++];
+                } else {
+                    tmp[i] = V[p2][c2++];
+                }
             }
-            visit2[cur] = true;    
-            f2(f2, A[cur]);
-        };
-        f2(f2, grp[i][0]);
-
-        ll cnt = 0;
-        auto f3=[&](auto f3, int cur)->void{            
-            depth[cur] = 0;
-            cnt++;
-            if (A[cur] == ind) return;
-            f3(f3, A[cur]);
-        };
-        f3(f3, ind);
-
-        rep(j, grp[i].size()){
-            auto f4=[&](auto f4, int cur)->int{
-                if (depth[cur] != -1) return depth[cur];
-                return f4(f4, A[cur]) + 1;
-            };
-            depth[grp[i][j]] = f4(f4, grp[i][j]);
-        }
-        ans += cnt * cnt;
-        rep(j, grp[i].size()) {
-            if (depth[grp[i][j]] == 0) continue;
-            ans += cnt;
-            ans += depth[grp[i][j]];
-        }
+            UF.unite(u, v);
+            int p = UF.find(u);
+            V[p] = tmp;
+        } else {       
+            int p = UF.find(u);     
+            cout << V[p][v]+1 << endl;
+        }     
     }
-    cout << ans << endl;
+    return 0;
 }
