@@ -16,40 +16,25 @@ int main(){
     cin >> N >> K;
     vector<ll> A(N, 0);
     rep(i,N) cin >> A[i];
-    
-    int l = 0, r = 0;
-    ll v = 0;
-    vector<int> Kl(N), Kr(N), Klr(N, -1);
-    while(r <= N-1) {
-        if (v <= K || l == r) {
-            r++;
-            if (r >= N) break;
-            v += A[r];
-        }
-        else {            
-            v -= A[l];
-            l++;
-        }
-        if (v == K) {
-            Kl[l]++;
-            Kr[r]++;
-            Klr[l] = r;
-        }
+    vector<ll> S(N+1, 0);
+    rep(i,N) {
+        S[i+1] = A[i] + S[i];
     }
+    vector<mint> dp(N+1);
+    dp[0] = 1;
+    mint Sdp = 1;
+    map<ll, mint> dpSum;
+    dpSum[0] = 1;
 
-    vector<mint> p2(N);
-    p2[0] = 1;
-    rep(i, N-1) p2[i+1] = 2 * p2[i];   
-
-    mint ans = 0;
-    int cnt = 0;
-    rep(l, N) {
-        if (Klr[l] == -1) continue;
-        int r = Klr[i];
-        if (Kr[r])
-        ans = ans + p2[l-1] * p2[N-r-2]
-
+    for(int i=1; i<=N; i++) {
+        dp[i] = Sdp;
+        ll key = S[i]-K;
+        if(dpSum.count(key) != 0) {
+            dp[i] = dp[i] - dpSum[key];
+        }
+        dpSum[S[i]] = dpSum[S[i]] + dp[i].val();
+        Sdp += dp[i];
     }
-    cout << sm << endl;
+    cout << dp[N].val() << endl;
     return 0;
 }
