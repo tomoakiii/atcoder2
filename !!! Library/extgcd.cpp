@@ -21,20 +21,12 @@ ll extgcd(ll a, ll b, ll &i, ll &j){
 
 
 int main(){
-    ll X, Y;
-    cin >> X >> Y;
+    ll X = 27, Y = 36;
     ll A, B;
     ll g = extgcd(X, Y, B, A);
-    if (abs(g) > 2) {
-        cout << -1 << endl;
-        return 0;
-    }
-    A *= -1;
-    if (abs(g) == 1) {
-        A *= 2;
-        B *= 2;
-    }
-    cout << A << " " << B << endl;
-    // cout << abs(B * X - A * Y) << endl;
+
+    cout << "A=" << A << endl;
+    cout << "B=" << B << endl;
+    cout << "GCD=" << g << endl;
     return 0;
 }

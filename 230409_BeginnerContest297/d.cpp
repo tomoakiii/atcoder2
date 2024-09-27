@@ -10,31 +10,21 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-// ai + bj = g
-ll extgcd(ll a, ll b, ll &i, ll &j){
-    if (b == 0) {i = 1; j = 0; return a;}
-    ll p = a/b;
-    ll g = extgcd(b, a-b*p, j, i);
-    j -= p*i;
-    return g;
-}
-
-
 int main(){
-    ll X, Y;
-    cin >> X >> Y;
     ll A, B;
-    ll g = extgcd(X, Y, B, A);
-    if (abs(g) > 2) {
-        cout << -1 << endl;
-        return 0;
+    cin >> A >> B;
+    ll ans = 0;
+    while(A != B) {
+        if (B>A) swap(A,B);
+        ll d = A-B;
+        ll p = d/B;
+        if (d%B != 0) {
+            p++;
+        }
+        ans += p;
+        A -= B * p;
     }
-    A *= -1;
-    if (abs(g) == 1) {
-        A *= 2;
-        B *= 2;
-    }
-    cout << A << " " << B << endl;
-    // cout << abs(B * X - A * Y) << endl;
+    
+    cout << ans << endl;
     return 0;
 }
