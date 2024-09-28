@@ -12,21 +12,20 @@ int main(){
     int N;
     cin >> N;
     vector<ll> A(N);
-    rep(i, N) cin >> A[i];
-    vector<mint> dp(N);
-    mint invN = 1;
-    invN = invN/N;    
-    vector<mint> B;    
+    ll a;
+    rep(i,N) cin >> A[i];
 
-    dp[N-1] = A[N-1] * invN;
-    mint dpSum = dp[N-1];
-    mint cnt = 1;
-    for (int i=N-2; i>=0; i--) {
-        dp[i] = A[i] * invN + dpSum * cnt * invN;
-        dpSum += dp[i];
-        cnt++;
+    mint invN = 1;
+    invN = invN / N;
+    mint ans = 0;
+    mint Psm = invN;
+
+    rep(i,N) {
+        ans = ans + A[i] * Psm;
+        Psm += Psm*invN;
     }
-    cout << dpSum.val() << endl;
+    
+    cout << ans.val() << endl;
     return 0;
     
 }
