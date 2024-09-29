@@ -8,58 +8,54 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
+const ll INFi = 0x0F0F0F0F;
 
 int main(){
     ll N, M, K;
     cin >> N >> M >> K;
-    vector<ll> A(N), B(N);
+    vector<ll> A(N);
     ll sm = 0;
     rep(i, N) {
         cin >> A[i];
         sm += A[i];
     }
-    B = A;
+    vector B = A;
     ll rm = K - sm;
-    
-    vector<ll> ans(N);
-    sort(B.rbegin(), B.rend());
-    ll pTgt = B[M-1];
-    ll smB = 0;
-    rep(i, N){
-        smB += B[i];
-        if (i == M-1) break;
+    if(M==N) {
+        rep(i, N) cout << 0 << " ";
+        cout << endl;
     }
+    sort(B.begin(), B.end());
+    vector Bs = B;
+    rep(i, N-1) Bs[i+1] += Bs[i];
+    map<int, ll> ans;
 
     rep(i, N){
-        ll rrm = rm;
-        if (A[i] < pTgt) {
-            rrm -= (pTgt - A[i]);
-        }
-        auto f= [&](int c)->bool{
-            ll p1M = M * c;
-            ll p1Mr = p1M - smB;            
-            if (p1Mr > rrm) return true;
-            if (p1Mr < 0) return false;
-            if (c > B[M] + rrm - p1Mr) return true;
-            else return false;
-
+        auto f1 = [&](ll c)->bool{
+            int ind = upper_bound(B.begin(), B.end(), B[i]+c+1) - B.begin();
+            int rt = ind - 1;
+            ll ad1 = (Bs[rt] - Bs[N-M-1]);
+            ll cnt = (rt-(N-M-1));
+            if(cnt<0) return false;
+            if (rt >= i && i >= N-M) {
+                ad1 -= B[i];
+                ad1 += B[N-M-1];
+            }
+            ll pay = (B[i]+c+1) * cnt - ad1; 
+            return (pay > rm - c); 
         };
-        int l, r;    
-        l = 0, r = K;
+        ll l, r;
+        l = -1, r = rm + 1;
         while (r-l > 1) {
-            int c = (l+r)/2;
-            if (f(c)) r = c;
+            ll c = (l+r)/2;        
+            if (f1(c)) r = c;
             else l = c;
         }
-        ll tans = (r - A[i]);
-        if (tans > rm) {
-            tans = -1;
-        }
-        ans[i] = tans;
+        if(r > rm) ans[B[i]] = -1;
+        else ans[B[i]] = r;
     }
     
-    rep(i, N) cout << ans[i] << " ";
+    rep(i, N) cout << ans[A[i]] << " ";
     cout << endl;
     return 0;
 }
