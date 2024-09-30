@@ -22,11 +22,17 @@ int main(){
     std::set<int> st{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
     std::set<int> x(st);      // コピーコンストラクタ
     auto itr = st.begin();       // 最初の要素へのイテレータを取得
-    std::cout << *itr << "\n";      // イテレータの指す先のデータを表示
+    // std::cout << *itr << "\n";      // イテレータの指す先のデータを表示
     for(itr = st.begin(); itr != st.end(); ++itr) {
-        std::cout << *itr << "\n";      // イテレータの指す先のデータを表示
+    //    std::cout << *itr << "\n";      // イテレータの指す先のデータを表示
     }
-    st.insert(2);   //  値 2 を追加
-    auto c = st.erase(3);      //  3 を削除、1 が返ってくる
+    set<int> st2;
+    st2.insert(1);
+    itr = st2.begin();
+    cout << *itr << endl;
+    itr = st2.end();
+    itr--;
+    cout << *itr << endl;
+    
     return 0;
 }
