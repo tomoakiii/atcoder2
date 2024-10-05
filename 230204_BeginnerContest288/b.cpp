@@ -11,27 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
-    dsu ds(N);
-    vector<ll> nm(N);
-    rep(i, M) {
-        int a, b;
-        cin >> a >> b;
-        a--; b--;
-        ds.merge(a, b);
-        nm[a]++;
-    }
-    ll ans = 0;
-    vector<ll> nm2(N);
+    ll N, K;
+    cin >> N >> K;
+    set<string> st;
+
     rep(i, N) {
-        nm2[ds.leader(i)] += nm[i];
+        string s;
+        cin >> s;
+        if(i < K)  st.insert(s);
     }
-    for(auto v: ds.groups()) {
-        if(v.size()-1 < nm2[ds.leader(v[0])]) {
-            ans += nm2[ds.leader(v[0])] - v.size() + 1;
-        }
+    auto it = st.begin();
+    for(string s: st) {
+        cout << s << endl;
+
     }
-    cout << ans << endl;
+    
     return 0;
 }
