@@ -11,16 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string S;
+    cin >> S;
+    if (S.size() < 3) {
+        cout << "No" << endl;
+        return 0;
     }
-    
-    cout << sm << endl;
+    int k = S.size()-1;
+
+    if(S[k-2] == 's' && S[k-1] == 'a' && S[k] == 'n'){
+        cout << "Yes"<<endl;
+        return 0;
+    }
+    cout << "No" << endl;
     return 0;
 }

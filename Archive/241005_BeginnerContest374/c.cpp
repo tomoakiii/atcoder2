@@ -13,14 +13,22 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    vector<ll> K(N, 0);
+    rep(i,N){
+        cin>>K[i];
     }
-    
-    cout << sm << endl;
+    ll mn = INF;
+    rep(i, 1<<N){
+        ll A=0, B=0;
+        rep(j,N){
+            if((i>>j) & 1) {
+                A+=K[j];
+            } else{
+                B+=K[j];
+            } 
+        }
+        chmin(mn, max(A, B));
+    }    
+    cout << mn << endl;
     return 0;
 }

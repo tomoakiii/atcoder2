@@ -24,6 +24,7 @@ int main(){
     if(M==N) {
         rep(i, N) cout << 0 << " ";
         cout << endl;
+        return 0;
     }
     sort(B.begin(), B.end());
     vector Bs = B;
@@ -45,7 +46,7 @@ int main(){
             return (pay > rm - c); 
         };
         ll l, r;
-        l = -1, r = rm + 1;
+        l = -1, r = rm + sm;
         while (r-l > 1) {
             ll c = (l+r)/2;        
             if (f1(c)) r = c;
