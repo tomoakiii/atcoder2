@@ -19,15 +19,53 @@ int main(){
     rep(i, N/2) {
         vector<char> tmp(N*N);
         int ind = 0;
-        for(int j = i; j < N-i; j++) for(int k = i; k < N-i; k++) {
-            tmp[ind++] = G[j][k];
-        }
+        int y, x;
+        y = i;
+        for(x = i; x < N-1-i; x++) tmp[ind++] = G[y][x];
+        x = N-1-i;
+        for(y = i; y < N-1-i; y++) tmp[ind++] = G[y][x];
+        y = N-1-i;
+        for(x = N-1-i; x>i; x--) tmp[ind++] = G[y][x];
+        x = i;
+        for(y = N-1-i; y>i; y--) tmp[ind++] = G[y][x];                
+
         ind = 0;
-        for(int j = i; j < N-i; j++) for(int k = i; k < N-i; k++) {
-            G[k][N-1-j] = tmp[ind++];
+        if(i%4 == 3){       
+          // nothing to do                
+        } else if (i%4 == 0) {
+            y = i;
+            for(x = i; x < N-1-i; x++) G[N-1-x][y] = tmp[ind++];
+            x = N-1-i;
+            for(y = i; y < N-1-i; y++) G[N-1-x][y] = tmp[ind++];
+            y = N-1-i;
+            for(x = N-1-i; x>i; x--) G[N-1-x][y] = tmp[ind++];
+            x = i;
+            for(y = N-1-i; y>i; y--) G[N-1-x][y] = tmp[ind++];
+        } else if (i%4 == 1){
+            y = i;
+            for(x = i; x < N-1-i; x++) G[N-1-y][N-1-x] = tmp[ind++];
+            x = N-1-i;
+            for(y = i; y < N-1-i; y++) G[N-1-y][N-1-x] = tmp[ind++];
+            y = N-1-i;
+            for(x = N-1-i; x>i; x--) G[N-1-y][N-1-x] = tmp[ind++];
+            x = i;
+            for(y = N-1-i; y>i; y--) G[N-1-y][N-1-x] = tmp[ind++];
+        } else if (i%4 == 2){
+            y = i;
+            for(x = i; x < N-1-i; x++) G[x][N-1-y] = tmp[ind++];
+            x = N-1-i;
+            for(y = i; y < N-1-i; y++) G[x][N-1-y] = tmp[ind++];
+            y = N-1-i;
+            for(x = N-1-i; x>i; x--) G[x][N-1-y] = tmp[ind++];
+            x = i;
+            for(y = N-1-i; y>i; y--) G[x][N-1-y] = tmp[ind++];
         }
+
+
     }
 
     rep(i,N) cout<<G[i]<<endl;
     return 0;
 }
+
+
