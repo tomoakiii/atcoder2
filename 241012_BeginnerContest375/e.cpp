@@ -13,7 +13,6 @@ int main(){
     ll N;
     cin >> N;
     vector<int> grp(N);
-    vector<int> pw(3);
     vector<int> B(N);
     int sm = 0;
     rep(i,N){
@@ -21,66 +20,36 @@ int main(){
         cin >> a >> b;
         a--;
         grp[i] = a;
-        pw[a] += b;
         B[i] = b;
+        sm += B[i];
     }
-    int dp[N+1][501][501];
-    dp[0][pw[0]][pw[1]] = 0;
-    rep(i, N) {
-        rep(j,2) {
-            int oj = grp[i];
-            int nj = oj+j+1;
-            if (nj >= 3) nj-=3;
-            vector tpw = pw;
-            tpw[nj] += B[i];
-            tpw[oj] -= B[i];
-            dp[i+1][tpw[0]][tpw[]]
-        }
-        
-    }
-
-
-
-    sm = pw[0] + pw[1] + pw[2];
     if (sm%3 != 0) {
         cout << -1 << endl;
         return 0;
     }
     int tgt = sm/3;
-    
-    map<vector<int>, int> mp;
-    mp[pw] = 0;
-    
-    queue<pair<pair<vector<int>, vector<int>>,int>> que;
-    que.push({{grp, pw}, 0});
-    int ans = INFi;
-    while(!que.empty()){
-        auto [p, cnt] = que.front();        
-        auto tgp = p.first;
-        auto tpw = p.second;
-        que.pop();
-        if(tpw[0] == tgt && tpw[1] == tgt && tpw[2] == tgt) {
-            chmin(ans, cnt);
-            break;
-        }
-        rep(i,N){
-            rep(j,2) {
-                int oj = tgp[i];
-                int nj = oj+j+1;
-                if (nj >= 3) nj-=3;                
-                if(tpw[oj] < B[i]) continue;
-                tpw[nj] += B[i];
-                tpw[oj] -= B[i];
-                if (mp.count(tpw)) continue;
-                tgp[i] = nj;
-                mp[tpw] = cnt;              
-                que.push({{tgp, tpw}, cnt+1});
-                tgp[i] = oj;
-                tpw[nj] -= B[i];
-                tpw[oj] += B[i];
+    vector dp(N+1, vector(tgt+1, vector<int>(tgt+1, INFi)));
+    dp[0][0][0] = 0;
+    rep(i, N) {
+        rep(j, tgt+1) {
+            rep(k, tgt+1) {
+                    if(j+B[i] <= tgt){
+                        if(grp[i] != 0) chmin(dp[i+1][j+B[i]][k], dp[i][j][k] + 1);
+                        else chmin(dp[i+1][j+B[i]][k], dp[i][j][k]);
+                    }
+                    if(k+B[i] <= tgt) {
+                        if(grp[i] != 1) chmin(dp[i+1][j][k+B[i]], dp[i][j][k] + 1);
+                        else chmin(dp[i+1][j][k+B[i]], dp[i][j][k]);
+                    }
+                    if(grp[i] != 2) chmin(dp[i+1][j][k], dp[i][j][k] + 1);
+                    else chmin(dp[i+1][j][k], dp[i][j][k]);                    
             }
         }
     }
-    cout << ans << endl;
+    if (dp[N][tgt][tgt] >= INFi) {
+        cout << -1 << endl;
+        return 0;
+    }
+    cout << dp[N][tgt][tgt] << endl;
     return 0;
 }
