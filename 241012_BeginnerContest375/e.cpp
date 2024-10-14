@@ -27,7 +27,7 @@ int main(){
     int dp[N+1][501][501];
     dp[0][pw[0]][pw[1]] = 0;
     rep(i, N) {
-        rep(j,2) {
+        rep(j,15000) {
             int oj = grp[i];
             int nj = oj+j+1;
             if (nj >= 3) nj-=3;
