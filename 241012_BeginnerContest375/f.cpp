@@ -11,14 +11,29 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
+    ll N, M, Q;
+    cin >> N >> M >> Q;
+    vector ab(N, vector<pair<ll, int>>{});
     rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+        int a, b;
+        ll c;
+        cin >> a >> b >> c;
+        a--, b--;
+        vector[a].emplace_back({c, b});
+        vector[b].emplace_back({c, a});        
+    }
+
+    while(Q--){
+        int q;
+        cin >> q;
+        if (q==1){
+            priority_queue<ll, vector<ll>, greater<ll>>
+        } else {
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            vector[x].
+        }
     }
     
     cout << sm << endl;
