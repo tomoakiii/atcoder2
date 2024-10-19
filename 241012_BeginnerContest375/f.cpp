@@ -32,7 +32,7 @@ int main(){
             int x, y;
             cin >> x >> y;
             x--, y--;
-            vector[x].
+            vector[x].em
         }
     }
     
