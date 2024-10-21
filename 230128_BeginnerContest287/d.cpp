@@ -14,21 +14,27 @@ int main(){
     string S, T;
     cin >> S >> T;
 
-    vector<bool> jdg(T.size()+1);
+    vector<bool> jdg(T.size()+1, true);
     bool flg= true;
     rep(i, T.size()) {
         if (S[i] != T[i] && S[i] !='?' && T[i] != '?') flg = false;
         jdg[i+1] = flg;
     }
-    reverse(S.begin(), S.end());
-    reverse(T.begin(), T.end());
-    reverse(jdg.begin(), jdg.end());
+    
+    int Slen = (int)S.size();
+    int Tlen = (int)T.size();
     flg = true;
-    rep(i, T.size()) {
-        if (S[i] != T[i] && S[i] !='?' && T[i] != '?') flg = false;
-        jdg[i] = flg;
+    rep(i, Tlen) { 
+        int si = Slen - 1 - i;
+        int ti = Tlen - 1 - i;       
+        if (S[si] != T[ti] && S[si] !='?' && T[ti] != '?') {
+            rep(j, Tlen-i) {
+                jdg[j] = false;
+            }
+            break;
+        }
     }
-    reverse(jdg.begin(), jdg.end());
+    
     for(auto j: jdg) {
         if (!j) cout<<"No"<<endl;
         else cout<<"Yes"<<endl;
