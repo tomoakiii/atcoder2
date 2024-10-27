@@ -31,58 +31,37 @@ int main(){
         cin >> p >> d;
         p--;
         P[i] = p, D[i] = d;
-        vector<int> dst(N, INFi);
+    }
+    vector dst(K, vector<int>(N, INFi));
+    rep(i,K){
         queue<int> que;
-        vector<bool> visit(N);
-        que.push(p);
-        dst[p] = 0;
+        que.push(P[i]);
+        dst[i][P[i]] = 0;
         while(!que.empty()){
             int q = que.front();
             que.pop();
-            visit[q] = true;
-            if (dst[q] < d) bw[q] = false;            
-            if (dst[q] >= d) continue;
+            if (dst[i][q] < D[i]) bw[q] = false;            
+            if (dst[i][q] >= D[i]) continue;
             for(auto nx: uv[q]){
-                chmin(dst[nx], dst[q]+1);
-                if (visit[nx]) continue;
+                if (dst[i][nx] < INFi) continue;
+                dst[i][nx] = dst[i][q]+1;
                 que.push(nx);
             }
         }
     }
     rep(i, K) {
-        vector<bool> visit(N);
         bool flg = false;
-        bool ng = false;
-        auto f2=[&](auto f2, int cur, int dist)->void {
-            visit[cur] = true;
-            if (dist == D[i]) {
-                if (bw[cur]) flg = true;
-                return;
-            }
-            if (bw[cur]) {
-                ng = true;
-                return;
-            }
-            for(auto nx: uv[cur]){
-                if (visit[nx]) continue;
-                f2(f2, nx, dist+1);
-            }
-        };
-        f2(f2, P[i], 0);
-        if(!flg || ng) {
+        rep(j,N) {
+            if (dst[i][j] == D[i] && bw[j]) flg = true;
+        }
+        if (!flg) {
             cout << "No" << endl;
             return 0;
         }
     }
-    bool flg = false;
-    rep(i, N) if(bw[i]) flg = true;
-    if(!flg) {
-        cout << "No" << endl;
-    } else {
-        cout << "Yes" << endl;
-        rep(i,N) cout<<((bw[i])?'1':'0');
-        cout<<endl;
-    }
+    cout << "Yes" << endl;
+    rep(i,N) cout<<((bw[i])?'1':'0');
+    cout<<endl;
 
     return 0;
 }
