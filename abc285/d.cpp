@@ -13,14 +13,33 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    vector<string> S(N), T(N);
+    map<string, int> Sm, Tm;
+    rep(i,N) {
+        cin>>S[i]>>T[i];
+        Sm[S[i]] = i;
+        Tm[T[i]] = i;
     }
-    
-    cout << sm << endl;
+    queue<int> que;
+    vector<bool> visit(N,false);
+    rep(i,N) {
+        if(Sm.count(T[i]) == 0) {
+            que.push(i);
+            visit[i] = true;
+        }
+    }
+    while(!que.empty()) {
+        auto q = que.front();
+        que.pop();
+        if(Tm.count(S[q])) {
+            int x = Tm[S[q]];
+            que.push(x);
+            visit[x] = true;
+        }
+    }
+    bool ans = true;
+    rep(i,N) if(!visit[i]) ans=false;
+    if(ans) cout << "Yes" << endl;
+    else cout << "No" << endl;
     return 0;
 }

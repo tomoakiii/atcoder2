@@ -11,22 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N, 0);
-    rep(i,N) cin>>A[i];
-    vector<ll> B(N+1, 0);
-    rep(i, N) {
-        B[i+1] = B[i] + A[i/2];
+    ll N, M;    
+    cin >> N >> M;
+    dsu d(N);
+    rep(i, M) {
+        int u, v;
+        cin>>u>>v;
+        u--, v--;
+        d.merge(u,v);
     }
-
-    vector dp<N, vector<N>>;
-    for(int i=1; i<N; i++) {
-        rep (j, N) {
-            dp[i][j] = B[j]
-        }
+    set<int> s;
+    rep(i,N) {
+        s.insert(d.leader(i));
     }
+    cout << s.size() << endl;
 
-    cout << sm << endl;
     return 0;
 }

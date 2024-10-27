@@ -88,7 +88,8 @@
         "variant": "cpp",
         "all": "cpp",
         "fenwicktree": "cpp",
-        "internal_type_traits": "cpp"
+        "internal_type_traits": "cpp",
+        "stacktrace": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

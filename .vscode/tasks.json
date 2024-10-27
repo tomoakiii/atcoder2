@@ -36,6 +36,41 @@
             ]
         },
         {
+            "label": "build",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "${file}",
+                "-std=c++17",
+                "-g",
+                "-gdwarf-4",
+                "-fdiagnostics-color=always",
+                "-o",
+                "${fileDirname}/build/${fileBasenameNoExtension}"
+            ],
+            "dependsOn": [
+                "mkdir build"
+            ]
+        },
+        {
+            "label": "debug build",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "${file}",
+                "-std=c++17",
+                "-g",
+                "-gdwarf-4",
+                "-fdiagnostics-color=always",
+                "-o",
+                "${fileDirname}/build/${fileBasenameNoExtension}",
+                "-DDEBUG"
+            ],
+            "dependsOn": [
+                "mkdir build"
+            ]
+        },
+        {
             "label": "mkdir build",
             "type": "shell",
             "command": "mkdir -p ${fileDirname}/build"

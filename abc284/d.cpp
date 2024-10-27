@@ -11,22 +11,28 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N, 0);
-    rep(i,N) cin>>A[i];
-    vector<ll> B(N+1, 0);
-    rep(i, N) {
-        B[i+1] = B[i] + A[i/2];
-    }
-
-    vector dp<N, vector<N>>;
-    for(int i=1; i<N; i++) {
-        rep (j, N) {
-            dp[i][j] = B[j]
+    ll T;
+    cin >> T;
+    while(T--){
+        ll N;
+        cin>>N;
+        ll p;
+        for(int i=2; i<N; i++) {
+            if ( (N%i) == 0) {
+                p = i;
+                break;
+            }
         }
+        N = N/p;
+        ll q;
+        if ( (N%p) == 0) {
+            q = N/p;
+        } else {
+            q = sqrt(N);
+            swap(p, q);
+        }
+        cout << p << " " << q << endl;
     }
-
-    cout << sm << endl;
+    
     return 0;
 }

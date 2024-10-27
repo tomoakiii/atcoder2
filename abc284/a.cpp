@@ -13,20 +13,11 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N, 0);
-    rep(i,N) cin>>A[i];
-    vector<ll> B(N+1, 0);
-    rep(i, N) {
-        B[i+1] = B[i] + A[i/2];
-    }
+    vector<string> S(N);
+    rep(i,N) cin >> S[i];
+    reverse(S.begin(), S.end());
+    rep(i,N) cout<<S[i]<<endl;
+    
 
-    vector dp<N, vector<N>>;
-    for(int i=1; i<N; i++) {
-        rep (j, N) {
-            dp[i][j] = B[j]
-        }
-    }
-
-    cout << sm << endl;
     return 0;
 }
