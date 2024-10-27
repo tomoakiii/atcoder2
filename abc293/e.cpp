@@ -11,16 +11,22 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
+    ll A, X, M;
+    cin >> A >> X >> M;
+    ll S=0, K = 1;
+    while(X) {
+        if (X%2) {
+            
+        }
+    }
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+
+    rep(i, X) {
+        S += K;
+        S %= M;
+        K*=A;
     }
     
-    cout << sm << endl;
+    cout << S << endl;
     return 0;
 }

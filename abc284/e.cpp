@@ -23,9 +23,11 @@ int main(){
     }
     vector<bool> visit(N);
     ll ans = 0;
+    
     auto f = [&](auto f, int cur, int pre) {
         ans++;
-        if (ans >= 10E6) {
+        if (ans >= 1E6) {
+            ans = 1E6;
             return;
         }
         visit[cur] = true;
