@@ -2,6 +2,61 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "run",
+            "type": "shell",
+            "command": "${fileDirname}/build/${fileBasenameNoExtension}",
+            "dependsOn": [
+                "build"
+            ],
+            "presentation": {
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "run test case",
+            "type": "shell",
+            "command": "${workspaceFolder}/.script/run_test_case.sh",
+            "args": [
+                "${relativeFile}"
+            ],
+            "dependsOn": [
+                "build"
+            ],
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "add test case",
+            "type": "shell",
+            "command": "${workspaceFolder}/.script/add_test_case.sh",
+            "args": [
+                "${relativeFile}"
+            ]
+        },
+        {
+            "label": "mkdir build",
+            "type": "shell",
+            "command": "mkdir -p ${fileDirname}/build"
+        },
+        {
+            "label": "clean build",
+            "type": "shell",
+            "command": "find . -name build | xargs rm -rf"
+        },
+        {
+            "label": "add cpp file",
+            "type": "shell",
+            "command": "${workspaceFolder}/.script/add_cpp_file.sh",
+            "args": [
+                "${workspaceFolder}"
+            ],
+            "presentation": {
+                "focus": true
+            }
+        },
+        {
             "type": "shell",
             "label": "g++ build active file",
             "command": "/usr/bin/g++",
