@@ -9,16 +9,29 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
-    }
+    ll N, M;
+    cin >> N >> M;
+    vector A(N, vector<ll>(M));
     
-    cout << sm << endl;
+    rep(i,N)  {
+        rep(j,M) cin >> A[i][j];
+        sort(A[i].begin(), A[i].end());
+    }
+
+    set<ll> st;
+    ll ans = 0;
+    rep(j,M) st.insert(A[N-1][j]);
+    for(int i=N-2; i>=0; i--) {
+        rep(j, M) {
+            auto is = st.lower_bound(A[i][j]);
+            int rank = is - st.begin();
+            ans += (j+1) * (N-1-i);
+            ans += rank;
+        }
+        rep(j,M) {
+            st.insert(A[i][j]);
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
