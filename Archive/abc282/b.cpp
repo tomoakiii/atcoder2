@@ -11,16 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll N, M;
+    cin >> N >> M;
+    vector<string> S(N);
+    rep(i,N) cin>>S[i];
+    int cnt = 0;
+    rep(i, N-1) for(int j=i+1; j<N; j++) {
+        bool flg = true;
+        rep(k, M){
+            if (S[i][k] == 'x' && S[j][k] == 'x') flg = false;
+        }
+        if (flg) cnt++;
     }
-    
-    cout << sm << endl;
+    cout << cnt << endl;
     return 0;
 }

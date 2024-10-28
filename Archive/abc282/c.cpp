@@ -12,15 +12,13 @@ const int INFi = 0x0F0F0F0F;
 
 int main(){
     ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string S;
+    cin >> N >> S;
+    bool flg = false;
+    for(auto &c:S) {
+        if(!flg && c==',') c='.';
+        if(c=='"') flg = !flg;
     }
-    
-    cout << sm << endl;
+    cout << S << endl;
     return 0;
 }
