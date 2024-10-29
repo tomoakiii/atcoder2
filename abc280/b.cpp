@@ -13,14 +13,15 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
+    vector<ll> S(N, 0);
+    rep(i,N) cin>>S[i];
+    
+    ll lastS = 0;
     rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+        cout << S[i] - lastS << " ";
+        lastS = S[i];
     }
     
-    cout << sm << endl;
+    cout << endl;
     return 0;
 }

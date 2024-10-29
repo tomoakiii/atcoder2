@@ -11,16 +11,19 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
+    ll H, W;
+    cin >> H >> W;
+    ll ans = 0;
+    rep(i, H) {
+        string s;
+        cin >> s;
+        
+        rep(j, W) {
+            if (s[j] == '#') ans++;
+        }
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
     }
     
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }

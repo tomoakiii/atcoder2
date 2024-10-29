@@ -10,17 +10,31 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
+typedef modint998244353 mint;
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+int main(){
+    ll N, P;
+    cin >> N >> P;
+    mint hit1 = P;
+    hit1 = hit1 / 100;
+    mint hit2 = 1 - P;
+    mint ans = 0;
+    vector<mint> P1N(N+1), PN1(N+1);
+    P1N[1] = 1;
+    PN1[N] = N;
+    for(ll i=2; i<=N; i++) {
+        P1N[i] = P1N[i-1] * i;
     }
+    for(ll i=N-1; i>=1; i--) {
+        PN1[i] = PN1[i+1] * i;
+    }
+    mint p1 = 1, p2 = 1;
+    rep(i,N) p2 *= hit2;
     
-    cout << sm << endl;
+
+    for(ll i=0: i<=N; i++) {
+
+    }
+    cout << dp[N].val() << endl;
     return 0;
 }

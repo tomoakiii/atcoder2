@@ -10,17 +10,43 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
 
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+
+
+int main(){
+    ll K;
+    cin >> K;
+    // K = 1E12;
+    map<ll, int> mp;
+    ll k = K;
+    ll i=2;
+    while(true){
+        while(k%i == 0) {
+            mp[i]++;
+            k /= i;
+        }
+        if(i*i > K) break;
+        i++;
     }
-    
-    cout << sm << endl;
+    if (k!=1) mp[k]++;
+    if(mp.size() == 0) {
+        cout << K << endl;
+        return 0;
+    }
+    ll cnt = 0;
+    for(auto m:mp) {        
+        ll k = 0;
+        ll tcnt = 0;
+        while(k < m.second) {
+            tcnt += m.first;            
+            ll tt = tcnt;            
+            while(tt%m.first == 0) {
+                k++;                
+                tt /= m.first;
+            }            
+        }
+        chmax(cnt, tcnt);
+    }
+    cout << cnt << endl;
     return 0;
 }

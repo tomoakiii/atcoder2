@@ -11,16 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string S, T;
+    cin >> S >> T;
+    rep(i, S.size()) {
+        if(T[i] != S[i]) {
+            cout << i+1 << endl;
+            return 0;
+        }
     }
     
-    cout << sm << endl;
+    cout << T.size() << endl;
     return 0;
 }
