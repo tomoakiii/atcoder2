@@ -11,16 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    string S;
+    cin >> S;
+    ll ans = -1;
+    rep(i, S.size()) {
+        if (S[i] == 'a') {
+            ans = i+1;
+        }
     }
     
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }

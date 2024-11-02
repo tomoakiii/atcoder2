@@ -9,26 +9,17 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef modint998244353 mint;
 
 int main(){
-    int N, M;
-    cin >> N >> M;
-    vector uv(N, vector<int>{});    
-    rep(i, M) {
-        int u,v;
-        cin >> u >> v;
-        u--, v--;        
-        uv[u].push_back(v);
-        uv[v].push_back(u);
-    }
-    rep(i,N) {
-        sort(uv[i].begin(), uv[i].end());
-        cout << uv[i].size() << " ";
-        for(auto c: uv[i]) {
-            cout << c+1 << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
+    ll a,b,c,d,e,f;
+    cin>>a>>b>>c>>d>>e>>f;
+    mint ans = a, ans2 = d;
+    ans = ans * b;
+    ans = ans * c;
+    ans2 = ans2 * e;
+    ans2 = ans2 * f;
+    ans = ans - ans2;
+    cout << ans.val() << endl;
     return 0;
 }

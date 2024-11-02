@@ -11,24 +11,16 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int N, M;
-    cin >> N >> M;
-    vector uv(N, vector<int>{});    
-    rep(i, M) {
-        int u,v;
-        cin >> u >> v;
-        u--, v--;        
-        uv[u].push_back(v);
-        uv[v].push_back(u);
-    }
-    rep(i,N) {
-        sort(uv[i].begin(), uv[i].end());
-        cout << uv[i].size() << " ";
-        for(auto c: uv[i]) {
-            cout << c+1 << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
+    ll N;
+    cin >> N;
+    map<ll, ll> mp;
+    auto f = [&](auto f, ll a)->ll{
+        if (mp.count(a) != 0) return mp[a];
+        if (a == 0) return 1;
+        mp[a] = f(f, a/2) + f(f, a/3); 
+        return mp[a];
+    };
+    
+    cout << f(f, N) << endl;
     return 0;
 }
