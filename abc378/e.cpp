@@ -1,9 +1,15 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-#include <atcoder/all>
 using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
+
 
 template <class Type> class SegTree {
 private:
@@ -80,6 +86,17 @@ public:
         }
     }
 
+    void AddVal(int ind, Type delta){
+        int i = ind+n-1;
+        tr[i].val = tr[i].min = tr[i].max = tr[i].val + delta;
+        while(i>0){
+            int ii = (i-1)/2;
+            tr[ii].min = min(tr[ii*2+1].min, tr[ii*2+2].min);
+            tr[ii].max = max(tr[ii*2+1].max, tr[ii*2+2].max);
+            tr[ii].val = tr[ii*2+1].val + tr[ii*2+2].val;
+            i = ii;
+        }
+    }
 
     Type GetSum(int ind, int a, int b){
         if(tr[ind].l == a && tr[ind].r == b){
@@ -92,31 +109,53 @@ public:
         if (tr[ind].c >= b) return GetSum(2*ind+1, a, b);
         return GetSum(2*ind+2, a, b);
     }
+
+    void DispTree() {
+        int ind = 0;
+        int nx = 1;
+        while(ind < trsize) {
+            for(int i=0; i < nx; i++) {
+                cout << ind << "(" << tr[ind].l << "-" << tr[ind].r << "):" << tr[ind].val << ", ";
+                ind++;
+            }
+            cout << endl;
+            nx *= 2;
+        }
+        cout << endl;
+    }
 };
 
 
-// test case:
-// 10 5
-// 10 1 6 8 7 2 5 9 3 4
-
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<ll> P(N), OD(N);        
-    for(int i=0; i<N;i++) {
-        cin >> P[i];
-        P[i]--;
-        OD[P[i]] = i;        
+    ll N, M;
+    cin >> N >> M;
+    vector<ll> A(N+1, 0);
+    vector<ll> S(N+1);
+    rep(i, N) {
+        cin >> A[i+1];
+        A[i+1] %= M;
+        S[i+1] = (S[i] + A[i+1])%M;
     }
-    SegTree<ll> ST(OD);
-    ll sm = INF;
-    for(int i=0; i<N-K+1; i++){
-        ll end = i+K-1;
-        ll mn = ST.MinElement(0, i, end);
-        ll mx = ST.MaxElement(0, i, end);
-        sm = min(sm, mx - mn);
+    vector<ll> SS = S;
+    rep(i, N) {
+        SS[i+1] += SS[i];
     }
-    
-    cout << sm << endl;
+    ll ans = 0;
+
+    vector<ll> seg(M+1);
+    SegTree<ll> st(seg);
+    for(int r=1; r<=N; r++) {
+        ans += r * S[r];
+        ans -= SS[r-1];
+        // st.DispTree();
+        ll X = st.GetSum(0, min(M, S[r]+1), M);
+        // cout << "GetSum " << X << endl;
+        ans += X*M;
+        st.AddVal(S[r], 1);
+        // cout<<"in:"<< S[r]<<endl;
+        
+    }
+
+    cout << ans << endl;
     return 0;
 }
