@@ -15,22 +15,22 @@ int main(){
     cin >> N;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    map<int, int> mp;
+    for(int i=1; i<=N; i++) {
+        mp[2*i] = A[i-1];
+        mp[2*i + 1] = A[i-1];
+    }
+    map<int, int> ans;
+    ans[0] = 0; ans[1] = 0;
+    for(int k=1; k<=2*N+1; k++) {
+        
+        auto f = [&](auto f, int p, int cnt) -> ll {
+            if (p <= 1) return cnt;
+            if (ans.count(p) == 0) ans[p] = f(f, mp[p], cnt+1);
+            return cnt+ans[p];
+            
+        };
+        cout << f(f, k, 0) << endl;
     }
     return 0;
 }

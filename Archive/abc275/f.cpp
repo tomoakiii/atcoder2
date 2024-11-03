@@ -13,24 +13,14 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    vector A(N, 0);
 
-    string S;
-    cin >> S;
-
-    ll N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll sm = 0;
+    rep(i, N) {
+        cin >> A[i];
+        sm += A[i];
     }
+    
+    cout << sm << endl;
     return 0;
 }

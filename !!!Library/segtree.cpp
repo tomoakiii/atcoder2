@@ -1,9 +1,14 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-#include <atcoder/all>
 using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
 
 template <class Type> class SegTree {
 private:
@@ -80,6 +85,17 @@ public:
         }
     }
 
+    void AddVal(int ind, Type delta){
+        int i = ind+n-1;
+        tr[i].val = tr[i].min = tr[i].max = tr[i].val + delta;
+        while(i>0){
+            int ii = (i-1)/2;
+            tr[ii].min = min(tr[ii*2+1].min, tr[ii*2+2].min);
+            tr[ii].max = max(tr[ii*2+1].max, tr[ii*2+2].max);
+            tr[ii].val = tr[ii*2+1].val + tr[ii*2+2].val;
+            i = ii;
+        }
+    }
 
     Type GetSum(int ind, int a, int b){
         if(tr[ind].l == a && tr[ind].r == b){
@@ -92,8 +108,21 @@ public:
         if (tr[ind].c >= b) return GetSum(2*ind+1, a, b);
         return GetSum(2*ind+2, a, b);
     }
-};
 
+    void DispTree() {
+        int ind = 0;
+        int nx = 1;
+        while(ind < trsize) {
+            for(int i=0; i < nx; i++) {
+                cout << ind << "(" << tr[ind].l << "-" << tr[ind].r << "):" << tr[ind].val << ", ";
+                ind++;
+            }
+            cout << endl;
+            nx *= 2;
+        }
+        cout << endl;
+    }
+};
 
 // test case:
 // 10 5
