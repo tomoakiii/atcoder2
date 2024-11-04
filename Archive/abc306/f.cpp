@@ -11,16 +11,24 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll N, M;
+    cin >> N >> M;
+    vector A(N, vector<ll>(M));
+    map<ll, pair<int, int>> mp;
+    rep(i,N) rep(j,M) {
+        ll a;
+        cin >> a;
+        mp[a] = {i, j};
+    }
+    fenwick_tree<ll> fw(N+1);
+    ll ans = 0;
+    for(auto m : mp) {
+        auto [i, j] = m.second;
+        ans += (j+1) * (N-1-i);
+        ans += fw.sum(i+1, N);
+        fw.add(i, 1);
     }
     
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }
