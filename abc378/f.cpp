@@ -13,14 +13,37 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    vector uv(N, vector<ll>{});
+    rep(i,N-1) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
     }
     
-    cout << sm << endl;
+    ll ans = 0;
+    auto f = [&](auto f, int cur, int pre, ll cnt2) -> ll{
+        if (uv[cur].size() == 2) {
+            ans += cnt2;
+            cnt2 = 1;
+        } 
+        for(auto nx: uv[cur]) {
+            if (nx == pre) continue;
+            if (uv[cur].size() == 3) {
+                cnt2 += f(f, nx, cur, cnt2);
+            } else {
+                cnt2 = f(f, nx, cur, cnt2);
+            }
+        }
+        return cnt2;
+    };
+    rep(i, N-1) {
+        if (uv[i].size() == 1) {
+            ans = f(f, i, -1, 0);
+            break;
+        }
+    }
+    cout << ans << endl;    
     return 0;
 }

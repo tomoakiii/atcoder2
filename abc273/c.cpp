@@ -13,22 +13,22 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;    
-    map<ll, vector<int>> mp;
+    vector<ll> A(N);
     rep(i,N) {
         ll a;
         cin>>a;
-        mp[a].emplace_back(i);
+        A[i] = a;        
     }
+    vector B = A;
+    sort(B.begin(), B.end());
+    auto ip = unique(B.begin(), B.end());
+    B.resize(distance(B.begin(), ip));
+
     vector<ll> ans(N);
-    int k = 0;
-    for(auto m: mp) {
-        for(auto c: m.second) {
-            ans[c] = k;
-        }
-        k+=m.second.size();
-    }
     rep(i, N) {
-        cout << ans[i] << endl;
+        auto idb = lower_bound(B.begin(), B.end(), A[i]+1);
+        ans[(int)(B.end() - idb)]++;
     }
+    rep(i, N) cout<<ans[i]<<endl;
     return 0;
 }

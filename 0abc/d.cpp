@@ -20,10 +20,12 @@ int main(){
     cin >> S;
 
     ll N;
+    cin >> N;
     vector<string> S(N);
     rep(i,N) cin>>A[i];
 
     ll N, M;
+    cin >> N >> M;
     vector uv(N, vector<ll>{});
     rep(i,M) {
         int u,v;
