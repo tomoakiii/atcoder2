@@ -55,7 +55,7 @@ int main(){
             }
         } else if (d == 'U') {
             if (mpc[cs].empty()) {
-                cs = cs - l;
+                rs = rs - l;
             } else {
                 auto id = mpc[cs].lower_bound(rs);
                 id--;
@@ -64,7 +64,7 @@ int main(){
             }
         } else if (d == 'D') {
             if (mpc[cs].empty()) {
-                cs = cs + l;
+                rs = rs + l;
             } else {
                 auto id = mpc[cs].lower_bound(rs);
                 if ((*id) - 1 > rs + l) rs = rs + l;

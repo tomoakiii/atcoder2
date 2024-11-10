@@ -11,8 +11,8 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
+    unsigned int N;
     cin >> N;
-    printf("%.2h", N);
+    printf("%.2X\n", N);
     return 0;
 }
