@@ -2,10 +2,11 @@
 using namespace std;
 
 int main(){
-    string s = "Iida Tetsuto";
-    for (int i=s.size()-1; i>=0 ; i--){
-        cout << s[i];
+    int a = 2;
+    for(int i=1; i<=4; i++) {
+        cout << a*i << endl;
     }
-    cout << endl;
+
+    
     return 0;
 }

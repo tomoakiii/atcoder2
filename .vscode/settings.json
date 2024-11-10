@@ -89,7 +89,11 @@
         "all": "cpp",
         "fenwicktree": "cpp",
         "internal_type_traits": "cpp",
-        "stacktrace": "cpp"
+        "stacktrace": "cpp",
+        "expected": "cpp",
+        "format": "cpp",
+        "spanstream": "cpp",
+        "stdfloat": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -13,14 +13,6 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
-    }
-    
-    cout << sm << endl;
+    printf("%.2h", N);
     return 0;
 }
