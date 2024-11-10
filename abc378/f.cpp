@@ -23,27 +23,38 @@ int main(){
     }
     
     ll ans = 0;
-    auto f = [&](auto f, int cur, int pre, ll cnt2) -> ll{
-        if (uv[cur].size() == 2) {
-            ans += cnt2;
-            cnt2 = 1;
-        } 
-        for(auto nx: uv[cur]) {
-            if (nx == pre) continue;
-            if (uv[cur].size() == 3) {
-                cnt2 += f(f, nx, cur, cnt2);
-            } else {
-                cnt2 = f(f, nx, cur, cnt2);
-            }
+    auto f = [&](auto f, int cur, int pre) -> ll{
+        if (uv[cur].size() == 1) {
+            auto nx = uv[cur][0];
+            if(nx != pre) f(f, nx, cur);
+            return 0;
         }
-        return cnt2;
+        if (uv[cur].size() == 2) {
+            for(auto nx: uv[cur]){
+                if (nx == pre) continue;
+                ans += f(f, nx, cur);
+            }
+            return 1;
+        } else {
+            ll p[2] = {0,0};
+            int ind = 0;
+            for(auto nx: uv[cur]){
+                if (nx == pre) continue;
+                p[ind] = f(f, nx, cur);
+                ind++;
+            }
+            ans += p[0]*p[1];
+            return p[0] + p[1];
+        }
     };
+
     rep(i, N-1) {
         if (uv[i].size() == 1) {
-            ans = f(f, i, -1, 0);
+            f(f, i, -1);
             break;
         }
     }
+    
     cout << ans << endl;    
     return 0;
 }

@@ -33,14 +33,19 @@ int main(){
     int st[2] = {0, N-1};
 
     rep(i, 2) {    
-        for (auto j: uv[i][st[i]]) que.push({1, j});
+        for (auto j: uv[i][st[i]]) {
+            que.push({1, j});
+            dist[i][j] = 1;
+        }
         while(!que.empty()) {
             auto [d, j] = que.top();
             que.pop();
-            if(dist[i][j] < d) continue;
-            dist[i][j] = d;
+            if(dist[i][j] < d) continue;            
             for(auto k: uv[i][j]) {
-                if(dist[i][k] > d+1) que.push({d+1, k});
+                if(dist[i][k] > d+1) {
+                    dist[i][k] = d+1;
+                    que.push({d+1, k});
+                }                
             }
         }
     }
