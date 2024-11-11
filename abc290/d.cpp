@@ -11,29 +11,42 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 typedef modint998244353 mint;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N), B(N);
-    rep(i,N) cin >> A[i] >> B[i];
-    vector dp(N, vector<mint>(2, 0));
-    dp[0][0] = 1;
-    dp[0][1] = 1;
-    for (int i=1; i<N; i++) {
-        if (A[i] != A[i-1]) {
-            dp[i][0] += dp[i-1][0];
-        }
-        if (A[i] != B[i-1]) {
-            dp[i][0] += dp[i-1][1];
-        }
-        if (B[i] != A[i-1]) {
-            dp[i][1] += dp[i-1][0];
-        }
-        if (B[i] != B[i-1]) {
-            dp[i][1] += dp[i-1][1];
+
+
+template<typename T=int>
+vector<T> Eratosthenes(const T N)
+{
+    vector<bool> is_prime( N + 1 );
+    for( int i = 0; i <= N; i++ )
+    {
+        is_prime[ i ] = true;
+    }
+    vector<T> P;
+    for( T i = 2; i <= N; i++ )
+    {
+        if( is_prime[ i ] )
+        {
+            for( T j = 2 * i; j <= N; j += i )
+            {
+                is_prime[ j ] = false;
+            }
+            P.emplace_back( i );
         }
     }
-    mint ans = dp[N-1][0] + dp[N-1][1];
-    cout << ans.val() << endl;
+    return P;
+}
+
+int main(){
+    ll T;
+    cin >> T;
+    while(T--){
+        ll N, D, K;
+        cin >> N >> D >> K;
+        K--;
+        ll P = lcm(N, D);
+        ll F = D*K;
+        ll A = F/P;
+        cout << F%N + A << endl;
+    }
     return 0;
 }
