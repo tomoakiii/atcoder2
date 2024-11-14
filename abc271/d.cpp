@@ -23,6 +23,7 @@ int main(){
             if(!dp[i-1][j]) continue;
             rep(k, 2){
                 ll sm = j + A[i-1][k];
+                if (sm > S) continue;
                 dp[i][sm] = true;
             }
         }
@@ -41,9 +42,7 @@ int main(){
             
             }
         }
-        rep(i, N){
-            cout<<ans[i];
-        }
+        rep(i, N) cout<<ans[i];        
         cout<<endl;
     }
     else cout << "No" << endl;
