@@ -9,6 +9,7 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef pair<int, int> pii;
 
 template <class Type> class SegTree {
 private:
@@ -127,23 +128,28 @@ public:
 int main(){
     ll N, Q;
     cin >> N >> Q;    
-    vector<ll> H(N+1);
+    vector<ll> H(N);
     rep(i,N) cin>>H[i];
-    H[N] = 0;
-    SegTree<ll> ST(H);
-    vector<int> nx(N,INF);
-    bool dec = false;
-    ll cnt = 0;
-    for(int i=N-1; i>=0; i--) {
-        if (H[i+1] > H[i]) {
-            nx[i] = i+1;            
-        }
-    }
-    while(Q--){
+    vector<int> st;
+    vector<vector<pii>> query(N);
+    rep(i, Q) {
         int l, r;
-        cin << l << r;
+        cin >> l >> r;
         l--, r--;
-
+        query[r].push_back({l, i});
     }
+    SegTree<ll> ST(H);
+    vector<int> ans(Q);
+    for(int i=N-1; i>=0; i--){
+        for(auto [l, k]: query[i]) {
+            ll key = ST.MaxElement(0, l+1, i);
+            int id = lower_bound(st.begin(), st.end(), key, greater<ll>{}) - st.begin();
+            ans[k] = id;
+        }
+        while(st.size() > 0 && st.back() < H[i]) st.pop_back();
+        st.push_back(H[i]);
+    }
+    rep(i,Q) cout << ans[i] << endl;
+
     return 0;
 }
