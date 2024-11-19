@@ -1,3 +1,4 @@
+export PATH="/home/tetitubuta/.local/bin:$PATH"
 #!/bin/bash
 
 relative_file=$1
@@ -7,8 +8,9 @@ problem_id=$(basename "$relative_file" .cpp)
 url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_id}
 
 download_dir=${relative_path}/build/testcase/${problem_id}
+echo $download_dir
 mkdir -p "$download_dir"
-export PATH="/home/tetitubuta/.local/bin:$PATH"
+
 if [[ ! -e ${download_dir}/sample-1.in ]]; then
     if ! oj dl -d "$download_dir" "$url"; then
         oj login https://atcoder.jp/ || exit 1

@@ -14,25 +14,29 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    int R1=1, R2=N, C1=1, C2=N;
+    while(R2>R1){
+        int r = (R1+R2)/2;
+        cout << "? " << R1 << " " << r << " " << 1 << " " << N << endl;
+        int q;
+        cin >> q;
+        if (q == (r-R1+1)) {
+            R1 = r+1;
+        } else {
+            R2 = r;
+        }
     }
+    while(C2>C1){
+        int c = (C1+C2)/2;
+        cout << "? " << 1 << " " << N << " " << C1 << " " << c << endl;
+        int q;
+        cin >> q;
+        if (q == (c-C1+1)) {
+            C1 = c+1;
+        } else {
+            C2 = c;
+        }
+    }
+    cout << "! " << R1 << " " << C1 << endl;
     return 0;
 }
