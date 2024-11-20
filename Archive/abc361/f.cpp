@@ -11,14 +11,29 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector A(N, 0);
-
-    ll sm = 0;
-    rep(i, N) {
-        cin >> A[i];
-        sm += A[i];
+    ll k = 2;
+    auto pow = [&](ll c, ll k)->bool{
+        ll x = 1;
+        while(k--){
+            x *= c;
+        }
+        if (x <= N) return true;
+        else return false;
+    };
+    ll ans = 0;
+    while(true) {
+        ll ng = N+1;
+        ll ok = 1;
+        while(ng-ok>1) {
+            ll c = (ok+ng)/2;
+            bool isOK = pow(c, k);
+            if (isOK) ok = c;
+            else ng = c;
+        }
+        ans += (ok - 1);
+        k++;
+        if ((1<<k)>N) break;
     }
-    
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }
