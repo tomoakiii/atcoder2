@@ -11,19 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-    vector dp(N+1, vector<ll>(M, -INF));
+    ll N;
+    cin >> N;
+    string S;
+    cin >> S;
+    vector<int> si{};
     rep(i,N) {
-        dp[i+1][0] = max(dp[i][0], A[i]);        
-        for(int j=1; j<M; j++) {            
-            dp[i+1][j] = max(dp[i][j], dp[i][j-1] + (j+1)*A[i]);
+        if(S[i] == '/') si.emplace_back(i);
+    }
+    int mx = 0;
+    for(auto i: si) {
+        chmax(mx, 1);
+        int tmx = 1;
+        int n1=i-1, n2 = i+1;
+        while(n1 >= 0 &&  n2 < N && S[n1] == '1' && S[n2] == '2') {
+            n1--, n2++;
+            tmx += 2;
+            chmax(mx, tmx);
         }
     }
-    ll ans = -INF;
-    rep(i,M) chmax(ans, dp[N][M-1]);    
-    cout << ans << endl;
+    cout<<mx<<endl;
     return 0;
 }
