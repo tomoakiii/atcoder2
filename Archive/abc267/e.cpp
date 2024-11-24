@@ -139,28 +139,33 @@ public:
     }
 };
 
-// test case:
-// 10 5
-// 10 1 6 8 7 2 5 9 3 4
-
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<ll> P(N), OD(N);        
-    for(int i=0; i<N;i++) {
-        cin >> P[i];
-        P[i]--;
-        OD[P[i]] = i;        
+    ll N, M;
+    cin >> N >> M;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    vector uv(N, vector<ll>{});
+    vector<ll> cost(N);
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+        cost[u] += A[v];
+        cost[v] += A[u];
     }
-    SegTree<ll> ST(OD);
-    ll sm = INF;
-    for(int i=0; i<N-K+1; i++){
-        ll end = i+K-1;
-        ll mn = ST.MinElement(0, i, end);
-        ll mx = ST.MaxElement(0, i, end);
-        sm = min(sm, mx - mn);
+    SegTree<ll> ST(cost);
+    ll ans = 0;
+    rep(i, N) {
+        auto [v, ind] = ST.MinElement(0, 0, N-1);
+        chmax(ans, v);
+        rep(k, uv[ind].size()) {
+            ST.AddVal(uv[ind][k], -A[ind]);
+        }
+        ST.SetVal(ind, INF);
     }
-    
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }
