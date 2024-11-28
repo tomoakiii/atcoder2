@@ -13,33 +13,21 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     int N;
     cin >> N;
-    vector S(N+1, vector<pair<double, double>>(6));
-    double os = 1/6;
-    double ros = os;
-    rep(j,6) S[0][j].second = 1;
-
-    rep(j,6) {
-        double ss = 0;
-        for(int j2=j+1; j2<=6; j2++) {
-            ss += j2;
+    vector<double> S(N);
+    double os = (double)1/6;
+    double lastEx = 0;
+    rep(i, N) {
+        double sm = 0;
+        for(int j=1; j<=6; j++) {
+            if((double)j < lastEx) {
+                sm += lastEx;
+            } else {
+                sm += (double)j;
+            }            
         }
-        ss *= os;
-        rep(i,N-1) {
-            S[i+1][j].first = S[i][j].first + S[i][j].second * ss;
-            S[i+1][j].second = S[i][j].second * os;
-        }
-        S[N][j].first = S[N-1][j].first;
-        rep(j2, 6) {
-            S[N][j].first += S[N-1][j].second * os * (j2+1);
-        }
+        sm *= os;
+        lastEx = sm;
     }
-    vector<double> P(N+1);
-    rep(i,N) {
-        int rem = N - i;
-        
-        rep(j,N) {
-            S[rem][]
-        }
-    }
+    cout << setprecision(24) << lastEx << endl;
     return 0;
 }

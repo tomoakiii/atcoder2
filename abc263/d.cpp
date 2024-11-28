@@ -144,26 +144,24 @@ int main(){
     cin >> N >> L >> R;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-    vector<ll> S(N+1);
-    rep(i,N) S[i+1] = S[i] + A[i];
-    vector<ll> S2(N+1);
-    ll tL = 0;
+    vector rA = A;
+    vector dp(N+1, vector<ll>(2, INF));    
+    reverse(rA.begin(), rA.end());
+    dp[0][0] = 0;
+    dp[0][1] = 0;
+    vector dp2 = dp;
     rep(i,N) {
-        S2[i] = tL - S[i];
-        tL += L;
+        dp[i+1][0] = dp[i][0] + A[i];
+        dp[i+1][1] = dp[i][1] + L;
+        chmin(dp[i+1][0], dp[i][1] + A[i]);
+        dp2[i+1][0] = dp2[i][0] + rA[i];
+        dp2[i+1][1] = dp2[i][1] + R;
+        chmin(dp2[i+1][0], dp2[i][1] + rA[i]);
     }
-    SegTree<ll> ST(S2);
-    ll tS = 0;
-    ll k = 0;
-    auto lv = ST.MinElement(0, 0, N);
-    ll lh = lv.v + S[N];
-    ll ans = lh;
-    for(int i=N-1; i>=0; i--){
-        tS += A[i];
-        k++;
-        ll rh = min(tS, k*R);
-        auto lv = ST.MinElement(0, 0, i);
-        ll lh = lv.v + S[i];
+    ll ans = INF;    
+    for(int i=N, j=0; i>=0; i--, j++){                
+        ll rh = min(dp2[j][0], dp2[j][1]);
+        ll lh = min(dp[i][0], dp[i][1]);     
         chmin(ans, rh + lh);
     }
     cout << ans << endl;

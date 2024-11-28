@@ -13,26 +13,43 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector<ll> C(N), X(N);
+    rep(i,N) {
+        cin>>C[i];
+        C[i]--;
     }
+    rep(i,N) {
+        cin>>X[i];
+        X[i]--;
+    }
+    vector cs(N, vector<ll>{});
+    rep(i,N) {                
+        cs[C[i]].emplace_back(X[i]);
+    }    
+    
+    rep(i, N) {
+        sort(cs[i].begin(), cs[i].end());
+    }
+
+    vector<int> id(N, 0);
+    rep(i, N) {
+        int col = C[i];
+        X[i] = cs[col][id[col]];        
+        id[col]++;
+    }
+
+
+    vector<ll> q(2, 0);
+    q[1] = INF;
+
+    ll ans = 0;
+    reverse(X.begin(), X.end());
+    rep(i,N) {
+        int it = upper_bound(q.begin(), q.end(), X[i]-1) - q.begin();
+        ans += (ll)it;
+        q.emplace_back(X[i]);
+    }
+
+    cout << ans << endl;
     return 0;
 }
