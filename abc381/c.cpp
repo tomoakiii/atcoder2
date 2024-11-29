@@ -11,21 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K+1);
-    rep(i,K) cin>>A[i+1];
-    A.push_back(INFi);
-    bool flg = true;
-    ll ans = 0;
-    while(N) {
-        auto id = lower_bound(A.begin(), A.end(), N);
-        if(*id > N) id--;
-        if(*id == 0) break;
-        N -= *id;
-        if(flg) ans += *id;        
-        flg = !flg;
+    ll N;
+    cin >> N;
+    string S;
+    cin >> S;
+    vector<int> si{};
+    rep(i,N) {
+        if(S[i] == '/') si.emplace_back(i);
     }
-    cout << ans << endl;
+    int mx = 0;
+    for(auto i: si) {
+        chmax(mx, 1);
+        int tmx = 1;
+        int n1=i-1, n2 = i+1;
+        while(n1 >= 0 &&  n2 < N && S[n1] == '1' && S[n2] == '2') {
+            n1--, n2++;
+            tmx += 2;
+            chmax(mx, tmx);
+        }
+    }
+    cout<<mx<<endl;
     return 0;
 }

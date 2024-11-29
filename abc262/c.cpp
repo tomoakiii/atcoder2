@@ -11,21 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K+1);
-    rep(i,K) cin>>A[i+1];
-    A.push_back(INFi);
-    bool flg = true;
-    ll ans = 0;
-    while(N) {
-        auto id = lower_bound(A.begin(), A.end(), N);
-        if(*id > N) id--;
-        if(*id == 0) break;
-        N -= *id;
-        if(flg) ans += *id;        
-        flg = !flg;
+    int N;
+    cin >> N;
+    vector<int> A(N);
+    rep(i,N) {
+        cin>>A[i];
+        A[i]--;
     }
+    ll c1=0, c2=0;
+    rep(i,N) {
+        if(A[i] == i) c1++;
+        else if(A[A[i]] == i) c2++;
+    }
+    ll ans = c1 * (c1-1) / 2;
+    ans += (c2)/2;
     cout << ans << endl;
     return 0;
 }

@@ -11,21 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K+1);
-    rep(i,K) cin>>A[i+1];
-    A.push_back(INFi);
+    ll N;
+    cin >> N;
+    vector A(N, vector<char>(N));
+    rep(i,N) rep(j,N) cin>>A[i][j];
     bool flg = true;
-    ll ans = 0;
-    while(N) {
-        auto id = lower_bound(A.begin(), A.end(), N);
-        if(*id > N) id--;
-        if(*id == 0) break;
-        N -= *id;
-        if(flg) ans += *id;        
-        flg = !flg;
+    rep(i,N) rep(j,N) {
+        if(i==j) continue;
+        if(A[i][j] == 'W' && A[j][i] != 'L') flg = false;
+        if(A[i][j] == 'L' && A[j][i] != 'W') flg = false;
+        if(A[i][j] == 'D' && A[j][i] != 'D') flg = false;
     }
-    cout << ans << endl;
+    if(flg) cout << "correct" << endl;
+    else cout << "incorrect" << endl;
     return 0;
 }

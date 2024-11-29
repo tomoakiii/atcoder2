@@ -11,20 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K+1);
-    rep(i,K) cin>>A[i+1];
-    A.push_back(INFi);
-    bool flg = true;
+    string S;
+    cin >> S;
+    string T = "atcoder";
     ll ans = 0;
-    while(N) {
-        auto id = lower_bound(A.begin(), A.end(), N);
-        if(*id > N) id--;
-        if(*id == 0) break;
-        N -= *id;
-        if(flg) ans += *id;        
-        flg = !flg;
+    rep(i, 6) {
+        while(S[i] != T[i]){
+            rep(j, T.size()) {
+                if(S[j] == T[i]) {
+                    swap(S[j], S[j-1]);
+                    ans++;
+                    break;
+                }
+            }
+        }
     }
     cout << ans << endl;
     return 0;

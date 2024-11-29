@@ -139,28 +139,31 @@ public:
     }
 };
 
-// test case:
-// 10 5
-// 10 1 6 8 7 2 5 9 3 4
-
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<ll> P(N), OD(N);        
-    for(int i=0; i<N;i++) {
-        cin >> P[i];
-        P[i]--;
-        OD[P[i]] = i;        
+    ll N, L, R;
+    cin >> N >> L >> R;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    vector rA = A;
+    vector dp(N+1, vector<ll>(2, INF));    
+    reverse(rA.begin(), rA.end());
+    dp[0][0] = 0;
+    dp[0][1] = 0;
+    vector dp2 = dp;
+    rep(i,N) {
+        dp[i+1][0] = dp[i][0] + A[i];
+        dp[i+1][1] = dp[i][1] + L;
+        chmin(dp[i+1][0], dp[i][1] + A[i]);
+        dp2[i+1][0] = dp2[i][0] + rA[i];
+        dp2[i+1][1] = dp2[i][1] + R;
+        chmin(dp2[i+1][0], dp2[i][1] + rA[i]);
     }
-    SegTree<ll> ST(OD);
-    ll sm = INF;
-    for(int i=0; i<N-K+1; i++){
-        ll end = i+K-1;
-        ll mn = ST.MinElement(0, i, end);
-        ll mx = ST.MaxElement(0, i, end);
-        sm = min(sm, mx - mn);
+    ll ans = INF;    
+    for(int i=N, j=0; i>=0; i--, j++){                
+        ll rh = min(dp2[j][0], dp2[j][1]);
+        ll lh = min(dp[i][0], dp[i][1]);     
+        chmin(ans, rh + lh);
     }
-    
-    cout << sm << endl;
+    cout << ans << endl;
     return 0;
 }
