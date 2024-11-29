@@ -16,16 +16,10 @@ int main(){
     vector<ll> A(N-1);
     rep(i,N-1) cin>>A[i];
     vector<mint> dp(N);
-    vector<mint> S(N);
-    dp[N-2] = 2;
-    S[N-2] = 2;
-    for(int i=N-3; i>=0; i--) {
-        mint ba = 1;
-        ba = ba / A[i];
-        dp[i] = S[i+A[i]] - S[i];
-        dp[i] = dp[i] * ba;
-        dp[i] = dp[i] * (A[i] + 1) * ba;
-        S[i] = dp[i];
+    vector<mint> S(N+1);
+    for(int i=N-2; i>=0; i--) {
+        dp[i] = 1 + (1 + S[i+1] - S[i+A[i]+1])/A[i];
+        S[i] = dp[i] + S[i+1];
     }
     cout << dp[0].val() << endl;
     
