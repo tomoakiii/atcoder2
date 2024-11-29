@@ -14,9 +14,12 @@ int main(){
     ll A, X, M;
     cin >> A >> X >> M;
     ll S=0, K = 1;
+    map<ll, ll> Ap;
+    ll AA = A;
     while(X) {
+        Ap[K] = AA;
         if (X%2) {
-            
+            AA
         }
     }
 

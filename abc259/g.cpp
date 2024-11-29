@@ -11,33 +11,28 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    string S;
+    cin >> S;
+
+    ll N;
+    cin >> N;
+    vector<string> S(N);
+    rep(i,N) cin>>A[i];
+
     ll N, M;
     cin >> N >> M;
-    vector uv(N, vector<int>{});
-    rep(i, M) {
-        int u, v;
-        cin >> u >> v;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
         u--, v--;
         uv[u].emplace_back(v);
         uv[v].emplace_back(u);
     }
-    vector<bool> visit(N);
-    ll ans = 0;
-    
-    auto f = [&](auto f, int cur, int pre) {
-        ans++;
-        if (ans >= 1E6) {
-            ans = 1E6;
-            return;
-        }
-        visit[cur] = true;
-        for(auto d: uv[cur]) {
-            if(visit[d]) continue;
-            f(f, d, cur);
-        }
-        visit[cur] = false;
-    };
-    f(f, 0, -1);
-    cout << ans << endl;
     return 0;
 }

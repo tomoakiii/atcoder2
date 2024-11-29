@@ -11,22 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll A, X, M;
-    cin >> A >> X >> M;
-    ll S=0, K = 1;
-    while(X) {
-        if (X%2) {
-            
-        }
+    ll N,M,X,T,D;
+    cin >> N >> M >> X >> T >> D;
+    vector<int> l(N+1);
+    l[X] = T;
+    for(int i=X-1; i>=0; i--) {
+        l[i] = l[i+1] - D;
     }
-
-
-    rep(i, X) {
-        S += K;
-        S %= M;
-        K*=A;
-    }
-    
-    cout << S << endl;
+    if(M >= X) cout << T << endl;
+    else cout << l[M] << endl;
     return 0;
 }
