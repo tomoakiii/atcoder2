@@ -11,7 +11,7 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int N, X;
+    ll N, X;
     cin >> N >> X;
     vector<double> P(N);
     rep(i,N) {
@@ -26,24 +26,19 @@ int main(){
             dp[i+1][j+1] += dp[i][j] * P[i];
         }
     }
-    vector<double> E(X+1, -1);
-    double y = 1/(1-dp[N][0]);
-    E[0] = 0;
-    E[1] = y; 
-    auto f = [&](auto f, int x)->double{
-        if(E[x] > -0.1) {
-            return E[x];
+
+    auto f = [&](auto f, int cnt, int x, double p)->double{
+        if(x >= X) {
+            return p*cnt;
         }
-        double sm = 0;
-        for(int i=1; i<=min(N, x); i++) {
-            int r = x-i;
-            if(E[r] < 0) E[r] = f(f, r);
-            sm += dp[N][i] * E[r];
+        cnt += dp[N][0] / (1 - dp[N][0]);
+        double ans = 0;
+        rep(i, N) {
+            dp[N][]
+            ans += f(f, cnt+1, x+i+1, p * dp[N][i+1]);
         }
-        sm = y * (1 + sm);
-        E[x] = sm;
-        return sm;
+        return ans;
     };
-    printf("%.12f\n", f(f, X));
+    printf("%.12f\n", f(f, 0, 0, 1));
     return 0;
 }
