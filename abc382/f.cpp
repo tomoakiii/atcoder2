@@ -27,20 +27,10 @@ private:
         int r;
         int c;
         val_ind min, max;
-        Type sum, val;
+        Type sum, lazy_app = INF, lazy_sum = INF;
     };
 
     vector<nd> tr;
-
-    // 呼ぶときはgetval(0, index);
-    Type getval_main(int ind, int tgt) {
-        if (tgt == tr[ind].l && tgt == tr[ind].r) return tr[ind].val;
-        tr[2*ind+1].val += tr[ind].val;
-        tr[2*ind+2].val += tr[ind].val;
-        tr[ind].val = 0;    
-        if (tgt <= tr[ind].c) return getval_main(2*ind+1, tgt);
-        else                  return getval_main(2*ind+2, tgt);
-    }
 
 public:
     // tr[n-1] ~ tr[n-1+sz-1] = original vector v
@@ -77,7 +67,9 @@ public:
              return;
         }
         if(tr[ind].l == a && tr[ind].r == b){
-            tr[ind].val += val;
+            if(tr[ind].lazy_sum == INF) tr[ind].lazy_sum = val;
+            else tr[ind].lazy_sum += val;
+            tr[ind].sum += (b-a+1)*val;
             chmax(tr[ind].max.v, tr[ind].max.v + val);
             chmin(tr[ind].min.v, tr[ind].min.v + val);
             int i = ind;
@@ -96,18 +88,6 @@ public:
         } else if (tr[ind].c < b) {
             add(2*ind+2, a, b, val);
         }
-    }
-
-    void update() {
-        for(int i = 0; i < n-1; i++){
-            tr[2*i+1].val += tr[i].val;
-            tr[2*i+2].val += tr[i].val;
-            tr[i].val = 0;
-        }
-    }
-
-    Type getval(int tgt) {
-        return getval_main(0, tgt);
     }
 
     // MaxElement(0, start, end);
