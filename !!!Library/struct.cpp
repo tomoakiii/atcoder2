@@ -15,7 +15,7 @@ struct Train{
     ll dpt;
     ll arv;
     int idx;
-    bool operator<(const Train &x){
+    const bool operator<(const Train &x) const{
         return dpt < x.dpt;
     };
 };

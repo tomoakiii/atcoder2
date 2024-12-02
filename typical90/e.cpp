@@ -9,30 +9,20 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+typedef modint1000000007 mint;
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll N, B, K;
+    cin >> N >> B >> K;
+    vector<ll> C(K);
+    rep(i,K) cin>>C[i];
+    vector<mint> dp(B);
+    rep(i,N) {
+        vector<mint> ndp(B);
+        rep(j, B) {
+            ndp[][]
+        }
     }
     return 0;
 }
+
+c * 10^p = B*A + r
