@@ -9,28 +9,19 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
-struct dcs{
-    int D, C;
-    ll S;
-    const bool operator<(const dcs *x) const {
-        return (D < x.D);
-    };
-}
-
+typedef pair<ll, int> pli;
 int main(){
     int N;
     cin >> N;
-    vector<dcs> vt(N);
+    vector<ll> A(N), B(N);
+    rep(i, N) cin >> A[i];
+    rep(i, N) cin >> B[i];
+    sort(A.begin(), A.end());
+    sort(B.begin(), B.end());
+    ll ans = 0;
     rep(i,N) {
-        cin >> vt[i].D >> vt[i].C >> vt[i].S;
+        ans += abs(A[i] - B[i]);
     }
-    sort(vt.begin(), vt.end());
-    vector dp(5001, vector<ll>(5001));
-    rep(i, N) {
-        rep(j, D-C) {
-            if()
-        }
-    }
+    cout << ans << endl;
     return 0;
 }
