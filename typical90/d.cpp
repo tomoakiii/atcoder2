@@ -11,20 +11,23 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int H,W;
-    cin >> H >> W;
-    vector G(H, vector<int>(W));
-    vector<int> Sr(W), Sc(H);
-    rep(i,H) rep(j,W) {
-        cin>>G[i][j];
-        Sr[j] += G[i][j];
-        Sc[i] += G[i][j];
-    }
-    rep(i,H) {
-        rep(j,W) {
-            printf("%d ", Sr[j] + Sc[i] - G[i][j]);
+    int N;    
+    cin >> N;
+    ll sx, sy, tx, ty;
+    cin >> sx >> sy >> tx >> ty;
+    int si, ti;
+    dsu UF(N);
+    vector<ll> x(N), y(N), r(N);
+    rep(i,N) cin>>x[i]>>y[i]>>r[i];        
+    rep(i,N) {
+        rep(j,N) {
+            if((x[i]-x[j])*(x[i]-x[j]) + (y[i]-y[j])*(y[i]-y[j]) <= (r[i]+r[j])*(r[i]+r[j])) UF.merge(i,j);        
         }
-        printf("\n");
+        if((x[i]-sx)*(x[i]-sx) + (y[i]-sy)*(y[i]-sy) == r[i]*r[i]) si = i;
+        if((x[i]-tx)*(x[i]-tx) + (y[i]-ty)*(y[i]-ty) == r[i]*r[i]) ti = i;
     }
+    if(UF.same(si, ti)) cout<<"Yes"<<endl;
+    else  cout<<"No"<<endl;
+    
     return 0;
 }

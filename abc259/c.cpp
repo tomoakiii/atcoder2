@@ -13,6 +13,10 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     string S, T;
     cin >> S >> T;
+    if(S.size() > T.size()) {
+        cout << "No" << endl;
+        return 0;
+    }
     vector<pair<char,int>> Sa{}, Ta{};
     char last = 0;
     for(char c: S){
@@ -23,6 +27,7 @@ int main(){
         }
         last = c;
     }
+    last = 0;
     for(char c: T){
         if(c == last) {
             Ta.back().second++;

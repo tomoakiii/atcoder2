@@ -1,38 +1,37 @@
-#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-using namespace atcoder;
-#define rep(i,n) for (ll i = 0; i < (n); ++i)
-template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
-template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
-typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
+int main() {
+    // 入力
+    long long N, L, K;
+    cin >> N >> L >> K;
+    vector<long long> A(N);
+    for (int i = 0; i < N; ++i) cin >> A[i];
 
-int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    // 判定問題
+    // すべての長さを x 以上にすることが可能か？
+    auto check = [&](long long x) -> bool {
+        long long num = 0; // 何個に切れたか
+        long long pre = 0; // 前回の切れ目
+        for (int i = 0; i < N; ++i) {
+            // x を超えたら切断
+            if (A[i] - pre >= x) {
+                ++num;
+                pre = A[i];
+            }
+        }
+        // 最後のピースが x 以上なら加算
+        if (L - pre >= x) ++num;
 
-    string S;
-    cin >> S;
+        return (num >= K + 1);
+    };
 
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    // 二分探索
+    long long left = 0, right = L;
+    while (right - left > 1) {
+        long long mid = (left + right) / 2;
+        if (check(mid)) left = mid;
+        else right = mid;
     }
-    return 0;
+    cout << left << endl;
 }
