@@ -11,19 +11,13 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 typedef pair<ll, int> pli;
 int main(){
-    double T, L, X, Y;
-    cin >> T >> L >> X >> Y;
-    ll Q;
-    cin >> Q;
-    double omega = 2 * M_PI / T;
-    while(Q--){
-        double E;
-        cin >> E;
-        double x = 0, y = -L / 2 * sin(omega * E);
-        double z = L/2 * (1 - cos(omega * E));
-        double l = sqrt((x-X)*(x-X) + (y-Y)*(y-Y));
-        double ans = abs(180/M_PI * atan(z/l));
-        printf("%.12f\n", ans);
+    ll a,b,c;
+    cin >> a >> b >> c;
+    ll pb = 1;
+    while(b--) {
+        pb *= c;
     }
-   return 0;
+    if(a < pb) cout << "Yes" << endl;
+    else cout << "No" << endl;
+    return 0;
 }
