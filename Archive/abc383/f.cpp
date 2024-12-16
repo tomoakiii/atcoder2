@@ -22,31 +22,34 @@ int main(){
         CPU[i] = t;
     }
     sort(CPU.begin(), CPU.end());
-    vector dp(N+1, vector(X+1, vector<ll>(2, -INF)));
-    dp[0][0][0] = 0;
+    vector dp(X+1, vector<ll>(2, -INF));
+    dp[0][0] = 0;
     ll lscm = 0;
     ll lsc = -1;
     rep(i,N){
+        vector nw(X+1, vector<ll>(2, -INF));
         auto [c, p, u] = CPU[i];
         if(c != lsc) {
-            rep(j, X) {
+            rep(j, X+1) {
+                chmax(nw[j][0], max(dp[j][0], dp[j][1]));
                 if(p + j > X) continue;
-                dp[i+1][j][0] = max(dp[i][j][0], dp[i][j][1]);
-                dp[i+1][j+p][1] = dp[i+1][j][0] + K + u;
+                chmax(nw[j+p][1], nw[j][0] + K + u);
             }
         } else {
-            rep(j, X) {
+            rep(j, X+1) {
+                chmax(nw[j][1], dp[j][1]);
+                chmax(nw[j][0], dp[j][0]);
                 if(p + j > X) continue;
-                dp[i+1][j+p][1] = max(dp[i][j][0] + K + u, dp[i][j][1] + u);
-                dp[i+1][j][0] = dp[i][j][0];
+                chmax(nw[j+p][1], max(dp[j][0] + K + u, dp[j][1] + u));
             }
         }
+        swap(dp, nw);
         lsc = c;
     }
     ll ans=0;
     rep(j, X+1){
         rep(k,2) {
-            chmax(ans, dp[N][j][k]);
+            chmax(ans, dp[j][k]);
         }
     }
     cout << ans << endl;

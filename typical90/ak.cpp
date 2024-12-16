@@ -8,25 +8,25 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint1000000007 mint;
-
+typedef pair<ll,ll> pll;
 int main(){
-    ll K;
-    cin >> K;
-    vector dp(K+1, vector<mint>(9, 0));
-    mint ans = 0;
-    dp[0][0] = 1;
-    mint k = 1;
-    rep(i, K) {
-        for(int j=1; j<=9; j++) {
-            if (i + j > K) continue;
-            rep(k, 9) {
-                int p = (j + k) % 9;
-                dp[i + j][p] += dp[i][k];
-            }
-        }
-        k *= 10;
+    ll W, N;
+    cin >> W >> N;
+    vector<ll> L(N), R(N), V(N);
+    rep(i,N) {
+        cin>>L[i]>>R[i]>>V[i];
     }
-    cout << dp[K][0].val() << endl;
+    vector<pll> dp(W+1, {-INF,-INF});
+    dp[0] = {0, 0};
+    rep(i,N) {
+        vector old = dp;
+        pll j = {L[i], R[i]};
+        rep(k, W+1) {
+            if (k + L[i] > W) break;
+            chmax(dp[k + j], old[k] + j);
+        }
+    }
+    if(dp[W] < 0) cout << -1 << endl;
+    else cout << dp[W] << endl;
     return 0;
 }

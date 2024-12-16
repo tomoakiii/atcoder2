@@ -9,24 +9,23 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 typedef modint1000000007 mint;
+typedef pair<int, int> pii;
+typedef tuple<int, int, int, int> tiii;
 
 int main(){
-    ll K;
-    cin >> K;
-    vector dp(K+1, vector<mint>(9, 0));
-    mint ans = 0;
-    dp[0][0] = 1;
-    mint k = 1;
-    rep(i, K) {
-        for(int j=1; j<=9; j++) {
-            if (i + j > K) continue;
-            rep(k, 9) {
-                int p = (j + k) % 9;
-                dp[i + j][p] += dp[i][k];
-            }
-        }
-        k *= 10;
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> pq(2*N);
+    rep(i,N) {
+        ll a, b;
+        cin >> a >> b;
+        pq[2*i] = b;
+        pq[2*i+1] = (a-b);
     }
-    cout << dp[K][0].val() << endl;
+    sort(pq.rbegin(), pq.rend());
+    ll ans = 0;
+    rep(i,K) ans += pq[i];
+    
+    cout << ans << endl;
     return 0;
 }
