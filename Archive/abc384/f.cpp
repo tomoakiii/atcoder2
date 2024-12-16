@@ -15,27 +15,28 @@ int main(){
     cin >> N;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-    ll sm = 0;
-
-    vector<ll> g2{}, g1{};
-    rep(i,N) {
-        ll a = A[i];
-        if(a%2==0) g2.push_back(i);
-        else g1.push_back(i);
-        while(a) {
-            a/=2;
+    int m = 25;
+    vector<ll> d(m);
+    rep(k, m){
+        ll mod = 1<<k;
+        vector<ll> sum(mod), cnt(mod);
+        rep(i,N) {
+            ll p = (mod - A[i]%mod)%mod;
+            ll am = A[i] % mod;
+            sum[am]+=A[i];
+            cnt[am]++;
+            d[k] += cnt[p] * A[i] + sum[p];
         }
-        sm += a;
     }
-    ll sm1 = 0;
-    for(auto g:g1) {
-        sm1 += g;
+    rep(k, m-1) {
+        d[k] -= d[k+1];
     }
-    for(auto g:g2) {
-        sm += (g + sm1);
+    ll ans = 0;
+    rep(k, m) {
+        d[k] >>= k;
+        ans += d[k];
     }
-    
-    cout << sm << endl;
+    cout << ans << endl;
 
 
     return 0;
