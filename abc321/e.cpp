@@ -2,38 +2,52 @@
 using namespace std;
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
+
 int main(){
-    int T;
+    ll T;
     cin >> T;
     ll N, X, K;
     while(T--){
         cin >> N >> X >> K;
-        N--;
-        X--;
-        ll ans = 0;
-        ll p = 0, x0 = X, x1 + X;
-        while(p < K) {
-            x0 = 2*x0 + 1;
-            x1 = 2*x1 + 1;
-            p++;
-            if(x0 > N) break;
+        if(K == 0) {
+            cout << 1 << endl;
+            continue;
         }
-        if (p == K) {
-            x1 = min(x1, N);
-            if (x1 > x0) {
-                ans += x1 - x0;
+
+        ll k = K;
+        ll x = X;
+        auto f = [&N](ll x, ll k)->ll{
+            ll p = 1;
+            ll s = x;
+            while(k--) {
+                p *= 2;
+                s *= 2;
+                if(s > N) return 0;
+            }
+            ll m = min(s + p - 1, N);
+            return m - s + 1;
+        };
+
+        ll ans = f(x, K);
+        while(x > 1) {
+            ll pre = x;
+            x /= 2;
+            k--;
+            if(k > 0) {
+                ll y;
+                if(2*x == pre) {
+                    y = 2*x + 1;
+                } else {
+                    y = 2*x;
+                }
+                ans += f(y, k-1);
+            } else if (k == 0) {
+                ans++;
+                break;
             }
         }
-        p = 0; x0 = X;
-        while(p < K && x0 > 0) {
-            x0 /= 2;
-            p++;
-        }
-        if(p == K) {
-            
-        }
         
-        cout << sm << endl;
+        cout << ans << endl;
     }
     return 0;
 }

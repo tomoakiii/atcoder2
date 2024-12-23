@@ -23,26 +23,24 @@ int main(){
             chmax(m, A[i][j]);
         }  
     }
-    int dy[] = {0, 0, 1, 1, 1, -1, -1 -1};
-    int dx[] = {1, -1, 1, 0, -1, 1, 0 -1};
+    int dy[] = {0, 0, 1, 1, 1, -1, -1, -1};
+    int dx[] = {1, -1, 1, 0, -1, 1, 0, -1};
     ll ans = 0;
-    auto f=[&](auto f, int i, int j, int k, int d)->ll{
+    auto f=[&](auto f, int i, int j, int y, int x, int d)->ll{
         if(d == 0) return A[i][j];
         else  {
             ll p = 1;
             rep(x, d) p *= 10;
-            int ny = i+dy[k];
-            int nx = j+dx[k];
+            int ny = i+y;
+            int nx = j+x;
             ny += N; nx += N;
             ny %= N; nx %= N;
-
-            return (p*A[i][j] + f(f, ny, nx, k, d-1));
+            return (p*A[i][j] + f(f, ny, nx, y, x, d-1));
         }
     };
-    rep(i,N) rep(j,N) {
-        if(A[i][j] == m) {
-            rep(k, 8) chmax(ans, f(f, i, j, k, N-1));
-        }
+    rep(i,N) rep(j,N) rep(k, 8) {
+        ll p = f(f, i, j, dy[k], dx[k], N-1);
+        chmax(ans, p);
     }
     cout << ans << endl;
     return 0;

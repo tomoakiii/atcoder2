@@ -35,8 +35,8 @@ int main(){
     
     for(auto m: vp){
         int p = m.second;
-        int k = LS.prod(C[p], C[p]+L[p]);
-        LS.apply(C[p], C[p]+L[p], k+1);
+        int k = LS.prod(C[p], C[p]+L[p]); // max(Cp ~ Cp+Lp)
+        LS.apply(C[p], C[p]+L[p], k+1); // Cp~Cp+Lp = k+1
         ans[p] = H - k;        
     }
     rep(i, N) cout << ans[i] << endl;

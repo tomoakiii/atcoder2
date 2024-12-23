@@ -5,30 +5,27 @@ using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef modint1000000007 mint;
+typedef pair<int, int> pii;
+typedef tuple<int, int, int, int> tiii;
+typedef modint1000000007 mint;
 
 int main(){
-    ll N, Q;
-    cin >> N >> Q;
-    string S;
-    cin >> S;
-    int ofs = 0;
-    while(Q--) {
-        int t, x;
-        cin >> t >> x;        
-        if(t == 1) {
-            ofs += N-x;
-            ofs %= N;
-        } else {
-            x--;
-            x += ofs;
-            x %= N;
-            cout << S[x] << endl;
+    ll N;
+    cin >> N;
+    mint S = 1;
+    rep(i,N) {
+        mint t = 0;
+        rep(j, 6) {
+            ll a;
+            cin >> a;
+            t += a;
         }
-    }
-
+        S *= t;
+    }    
+    cout << S.val() << endl;
     return 0;
 }

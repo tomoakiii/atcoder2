@@ -11,22 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, Q;
-    cin >> N >> Q;
-    string S;
-    cin >> S;
-    int ofs = 0;
-    while(Q--) {
+    int Q;
+    cin >> Q;
+    deque<int> dq;
+    while(Q--){
         int t, x;
-        cin >> t >> x;        
+        cin >> t >> x;
         if(t == 1) {
-            ofs += N-x;
-            ofs %= N;
+            dq.emplace_front(x);
+        } else if (t == 2) {
+            dq.emplace_back(x);
         } else {
-            x--;
-            x += ofs;
-            x %= N;
-            cout << S[x] << endl;
+            cout << dq[x-1] << endl;
         }
     }
 

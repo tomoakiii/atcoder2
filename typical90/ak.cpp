@@ -3,30 +3,44 @@
 using namespace std;
 using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
+#define repab(i, a, b) for (int i = a; i <= b; i++)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef pair<ll,ll> pll;
+
+using S = ll;
+using F = ll;
+S op(S l, S r) {return max(l, r);}
+S e() {return -INF;}
+S mapping (F l, S r) {return max(l, r);}
+F composition (F l, F r) {return max(l, r);}
+F id() {return -INF;}
+
+
 int main(){
-    ll W, N;
+    int W, N;
     cin >> W >> N;
-    vector<ll> L(N), R(N), V(N);
+    vector<int> R(N), V(N), L(N);
+    
     rep(i,N) {
-        cin>>L[i]>>R[i]>>V[i];
-    }
-    vector<pll> dp(W+1, {-INF,-INF});
-    dp[0] = {0, 0};
-    rep(i,N) {
-        vector old = dp;
-        pll j = {L[i], R[i]};
-        rep(k, W+1) {
-            if (k + L[i] > W) break;
-            chmax(dp[k + j], old[k] + j);
+        cin >> L[i] >> R[i] >> V[i];
+        R[i]--, C[i]--;        
+    }    
+    
+    lazy_segtree<S, op, e, F, mapping, composition, id> LS(vector<ll>(W+1, 0));
+    vector<int> ans(N);
+    
+    rep(i,N){
+        rep(j, W){
+
+            ll k = LS.prod(j, j+R[i]); // max(Cp ~ Cp+Lp)    
         }
+        
+        LS.apply(C[p], C[p]+L[p], k+1); // Cp~Cp+Lp = k+1
+        ans[p] = H - k;        
     }
-    if(dp[W] < 0) cout << -1 << endl;
-    else cout << dp[W] << endl;
+    rep(i, N) cout << ans[i] << endl;
     return 0;
 }

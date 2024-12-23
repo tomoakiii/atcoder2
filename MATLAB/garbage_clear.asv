@@ -1,0 +1,7 @@
+function garbage_clear
+dname = cdhome;
+d = dir(dname);
+for n=1:lengh(d)
+    fpath = fullfile(dname, d(n).name);
+    if(is)
+end

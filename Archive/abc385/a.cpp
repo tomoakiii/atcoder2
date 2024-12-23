@@ -11,24 +11,10 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, Q;
-    cin >> N >> Q;
-    string S;
-    cin >> S;
-    int ofs = 0;
-    while(Q--) {
-        int t, x;
-        cin >> t >> x;        
-        if(t == 1) {
-            ofs += N-x;
-            ofs %= N;
-        } else {
-            x--;
-            x += ofs;
-            x %= N;
-            cout << S[x] << endl;
-        }
-    }
+    ll A, B, C;
+    cin >> A >> B >> C;
+    if(A==B+C || B==A+C || C==A+B || (A==B && B==C)) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
 
     return 0;
 }

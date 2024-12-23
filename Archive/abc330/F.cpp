@@ -1,154 +1,179 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
+using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
+typedef long long ll;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
 
 int main(){
     int N;
-    long long K;
+    ll K;
     cin >> N >> K;
-    map<long long, long long> mpX;
-    map<long long, long long> mpY;
+    map<ll, int> mpX;
+    map<ll, int> mpY;
     for (int i = 0; i < N; i++) {
-        long long x, y;
+        ll x, y;
         cin >> x >> y;
         mpX[x]++;
         mpY[y]++;
     }
-
-    struct numcnt{
-        long long num;
-        long long cnt=0;
-    };
-    vector<numcnt> vX, vY;
-    for (auto mX: mpX){
-        vX.push_back({mX.first, mX.second});
-    }
-    for (auto mX: mpY){
-        vY.push_back({mX.first, mX.second});
-    }
-
-    int indYl=0, indYr=vY.size()-1, indXl=0, indXr=vX.size()-1;    
-    long long cstK = K;
-    long long yNext, xNext;
-    long long yLen;
-    long long xLen;
-    while (cstK > 0){
-        yLen = vY[indYr].num - vY[indYl].num;
-        xLen = vX[indXr].num - vX[indXl].num;
-        if (yLen==0 && xLen==0){
-            break;
+    while(true) {
+        if(mpX.size() == 1 && mpY.size() == 1) {
+            cout << 0 << endl;
+            return 0;
         }
+        auto f = [](map<ll, int> &m)-> pair<pair<ll, int>,pair<ll, int>>{
+            pair<ll,int> n1, n2;
+            auto it = m.begin();
+            n1 = {it->first, it->second};
+            it++;
+            if(it != m.end()) n2 = {it->first, it->second};
+            else n2 = n1;
+            return {n1,n2};
+        };
 
-        bool ySmaller=false, xSmaller=false;
-        numcnt yg, xg;
-        if (vY[indYr].cnt > vY[indYl].cnt) {
-            // move left
-            ySmaller = true;
-            yNext = vY[indYl+1].num - vY[indYl].num;
-            yg = vY[indYl];
-        } else { // move right
-            yNext = vY[indYr].num - vY[indYr-1].num;
-            yg = vY[indYr];
-        }
-
-        if (vX[indXr].cnt > vX[indXl].cnt) {
-            // move left
-            xSmaller = true;
-            xNext = vX[indXl+1].num - vX[indXl].num;
-            xg = vY[indXl];
-        } else { // move right
-            xNext = vX[indXr].num - vX[indXr-1].num;
-            xg = vY[indXr];
-        }
-
-        if (yLen > xLen){
-            // shorten Y
-            long long dist = min({yNext, yLen-xLen, cstK/yg.cnt, yLen});
-            if (dist == yNext){
-                if (ySmaller){
-                    vY[indYl+1].cnt += vY[indYl].cnt;
-                    indYl++;
-                }
-                else {
-                    vY[indYr-1].cnt += vY[indYr].cnt;
-                    indYr--;
-                }
+        auto f2 = [](map<ll, int> &m)-> pair<pair<ll, int>,pair<ll, int>>{
+            pair<ll,int> n1, n2;
+            auto it = m.end();
+            it--;
+            n1 = {it->first, it->second};
+            if(m.size()>1) {
+                it--;
+                n2 = {it->first, it->second};
             } else {
-                if (ySmaller){
-                    vY[indYl].num += dist;
-                } else {
-                    vY[indYr].num -= dist;
-                }
+                n2 = n1;
             }
-            cstK -= yg.cnt * dist;
-        } else if (yLen < xLen) {
-            // shorten X
-            long long dist = min({xNext, yLen-xLen, cstK/xg.cnt, xLen});
-            if (dist == xNext){
-                if (xSmaller){
-                    vX[indXl+1].cnt += vX[indXl].cnt;
-                    indXl++;
-                }
-                else {
-                    vX[indXr-1].cnt += vX[indXr].cnt;
-                    indXr--;
-                }
+            return {n1,n2};
+        };
+        auto [n1x, n2x] = f(mpX);
+        auto [n1y, n2y] = f(mpY);
+        auto [m1x, m2x] = f2(mpX);
+        auto [m1y, m2y] = f2(mpY);
+        ll ans = max(m1x.first - n1x.first, m1y.first - n1y.first);
+        ll tgt = ans - min(m1x.first - n1x.first, m1y.first - n1y.first);
+        int flg = -1; // -1: same x-y, 0:nx, 1:mx, 2:ny, 3:my;
+        if (tgt == 0) {
+            
+        } else if(m1x.first - n1x.first > m1y.first - n1y.first) {
+            if(m1x.second > n1x.second) {
+                flg = 0;
             } else {
-                if (xSmaller){
-                    vX[indXl].num += dist;
-                } else {
-                    vX[indXr].num -= dist;
-                }
+                flg = 1;
             }
-            cstK -= xg.cnt * dist;
-        } else { // shorten both X and Y
-            long long dist = min({xNext, yNext, cstK/(yg.cnt+xg.cnt), xLen});
-            if (dist == xNext){
-                if (xSmaller){
-                    vX[indXl+1].cnt += vX[indXl].cnt;
-                    indXl++;
-                }
-                else {
-                    vX[indXr-1].cnt += vX[indXr].cnt;
-                    indXr--;
-                }
+        } else if(m1x.first - n1x.first < m1y.first - n1y.first){
+            if(m1y.second > n1y.second) {
+                flg = 2;
             } else {
-                if (xSmaller){
-                    vX[indXl].num += dist;
-                } else {
-                    vX[indXr].num -= dist;
-                }
+                flg = 3;
             }
-            if (dist == yNext){
-                if (ySmaller){
-                    vY[indYl+1].cnt += vY[indYl].cnt;
-                    indYl++;
-                }
-                else {
-                    vY[indYr-1].cnt += vY[indYr].cnt;
-                    indYr--;
-                }
-            } else {
-                if (ySmaller){
-                    vY[indYl].num += dist;
-                } else {
-                    vY[indYr].num -= dist;
-                }
-            }
-            cstK -= xg.cnt * dist;
-            cstK -= yg.cnt * dist;
-        }
-        long long yLen2 = vY[indYr].num - vY[indYl].num;
-        long long xLen2 = vX[indXr].num - vX[indXl].num;
-        if (xLen2 == xLen && yLen2 == yLen){
-            break;
         } else {
-            xLen = xLen2;
-            yLen = yLen2;
+            if (n1x.second < m1x.second) {
+                if (n1y.second < m1y.second) {
+                    if (n1x.second < n1y.second) flg = 0;
+                    else flg = 2;
+                } else {
+                    if (n1x.second < m1y.second) flg = 0;
+                    else flg = 3;
+                }
+            } else {
+                if (n1y.second < m1y.second) {
+                    if (m1x.second < n1y.second) flg = 1;
+                    else flg = 2;
+                } else {
+                    if (m1x.second < m1y.second) flg = 1;
+                    else flg = 3;
+                }
+            }
         }
+        if (flg == -1) {
+            ll dst;
+            ll pop = 0;
+            if (n1x.second < m1x.second) {
+                dst = n2x.first - n1x.first;
+                pop += n1x.second;
+            } else {
+                dst = m1x.first - m2x.first;
+                pop += m1x.second;
+            }
+            if (n1y.second < m1y.second) {
+                chmin(dst, n2y.first - n1y.first);
+                pop += n1y.second;
+            } else {
+                chmin(dst, m1y.first - m2y.first);
+                pop += m1y.second;
+            }
+            ll cnt = dst * pop;
+            if(cnt > K) {
+                cout << ans - (K/pop) << endl;
+                return 0;
+            } else {
+                K -= cnt;
+                if (n1x.second < m1x.second) {
+                    mpX.erase(n1x.first);
+                    mpX[n1x.first + dst] += n1x.second;
+                } else {
+                    mpX.erase(m1x.first);
+                    mpX[m1x.first - dst] += m1x.second;
+                }
+                if (n1y.second < m1y.second) {
+                    mpY.erase(n1y.first);
+                    mpY[n1y.first + dst] += n1y.second;
+                } else {
+                    mpY.erase(m1y.first);
+                    mpY[m1y.first - dst] += m1y.second;
+                }
 
+            }
+        } if (flg==0) {
+            tgt = min(tgt, n2x. first - n1x.first);
+            if (K < n1x.second * tgt) {
+                ll k = K / n1x.second;
+                cout << ans - k << endl;
+                return 0;
+            } else {
+                K -= n1x.second * tgt;
+                mpX.erase(n1x.first);
+                mpX[n1x.first + tgt] += n1x.second;
+            }
+        } else if (flg == 1) {
+            tgt = min(tgt, m1x.first - m2x.first);
+            if (K < m1x.second * tgt) {
+                ll k = K / m1x.second;
+                cout << ans - k << endl;
+                return 0;
+            } else {
+                K -= m1x.second * tgt;
+                mpX.erase(m1x.first);
+                mpX[m1x.first - tgt] += m1x.second;
+            }
+        } else if (flg==2) {
+            tgt = min(tgt, n2y.first - n1y.first);
+            if (K < n1y.second * tgt) {
+                ll k = K / n1y.second;
+                cout << ans - k << endl;
+                return 0;
+            } else {
+                K -= n1y.second * tgt;
+                mpY.erase(n1y.first);
+                mpY[n1y.first + tgt] += n1y.second;
+            }
+        } else if (flg == 3) {
+            tgt = min(tgt, m1y.first - m2y.first);
+            if (K < m1y.second * tgt) {
+                ll k = K / m1y.second;
+                cout << ans - k << endl;
+                return 0;
+            } else {
+                K -= m1y.second * tgt;
+                mpY.erase(m1y.first);
+                mpY[m1y.first - tgt] += m1y.second;
+            }
+        }
     }
-
-    cout << max(xLen, yLen) << endl;
     return 0;
 }

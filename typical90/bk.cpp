@@ -11,24 +11,16 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, Q;
-    cin >> N >> Q;
-    string S;
-    cin >> S;
-    int ofs = 0;
-    while(Q--) {
-        int t, x;
-        cin >> t >> x;        
-        if(t == 1) {
-            ofs += N-x;
-            ofs %= N;
-        } else {
-            x--;
-            x += ofs;
-            x %= N;
-            cout << S[x] << endl;
+    int H, W;
+    cin >> H >> W;
+    vector P(H, vector<int>(W, 0));
+    rep(i,H) rep(j,W) cin>>P[i][j];
+    
+    vector<int> Dc(W);
+    rep(j,W) {
+        rep(i, H) {
+            Dc[j] += P[][]1<<i;
         }
     }
-
     return 0;
 }
