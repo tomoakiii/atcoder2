@@ -3,12 +3,12 @@ using namespace std;
 
 int main(){
     int a;
+
+    cout << "please typein a number " << endl;
+
     cin>> a;
-    int b,c;
-    cin>>b>>c;
-    string s;
-    cin>>s;
-    cout<<(a+b+c)<<" "<<s<<endl;
+    
+    cout << "You input a = " << a + 3 << endl;
 
     return 0;
 }
