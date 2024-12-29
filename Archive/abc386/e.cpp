@@ -11,37 +11,31 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, S;
-    cin >> N >> S;
-
+    ll N, K;
+    cin >> N >> K;
     vector<ll> A(N);
-    
-    int l = 0;
-    ll sm = 0;
+    ll alxor = 0;
     rep(i,N) {
         cin>>A[i];
-        sm += A[i];
+        alxor ^= A[i];
     }
-    ll d = S/sm;
-    
-    sm *= (d+1);
 
-    rep(r, N) {
-        sm += A[r];
-        if(sm == S) {
-            cout << "Yes" << endl;
-            return 0;
+    bool flg = (K < N/2);
+    if(!flg) K = N - K;
+    ll ans = 0;
+    auto f = [&](auto f, int cnt, int i, ll t)->void {
+        if (cnt == K) {
+            if(flg) chmax(ans, t);
+            else chmax(ans, alxor^t);
+            return;
         }
-        while(sm > S) {
-            sm -= A[l];
-            l++;
-            l%=N;
+        if(i < N) {
+            f(f, cnt+1, i+1, t^A[i]);
+            f(f, cnt, i+1, t);
         }
-        if(sm == S) {
-            cout << "Yes" << endl;
-            return 0;
-        }
-    }
-    cout << "No" << endl;
+    };
+    
+    f(f, 0, 0, 0);
+    cout << ans << endl;
     return 0;
 }
