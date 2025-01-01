@@ -1,5 +1,5 @@
-#include <atcoder/all>
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
 using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
@@ -31,26 +31,24 @@ int main(){
         return s;
     };
 
+
     function fmain = [&](vector<ll> &xy, vector<ll> &sm)->ll {
+        map<ll, ll> mp;
         int l=xy[0], r=xy[N-1];
         while(r-l > 1) {
-            int cr = 2*(r+l)/3;
-            int cl = 1*(r+l)/3;
-            ll fl = f(xy, sm, l);
-            ll fr = f(xy, sm, r);
-            ll fcl = f(xy, sm, cl);
-            ll fcr = f(xy, sm, cr);
-            if(fl > fcl && fcr < fr) {
-                l = cl;
-                r = cr;
-            } else if (fcl < fcr) {
+            int cr = (2*r+l)/3;
+            int cl = (r+2*l)/3;
+            if(!mp.contains(cl)) mp[cl] = f(xy, sm, cl);
+            if(!mp.contains(cr)) mp[cr] = f(xy, sm, cr);
+            if (mp[cl] < mp[cr]) {
+                if(r == cr) return mp[cl];
                 r = cr;
             } else {
+                if(l == cl) return mp[cr];
                 l = cl;
             }
         }
-        ll fl = f(xy, sm, l), fr = f(xy, sm, r);
-        return min(fl, fr);
+        return min(mp[l], mp[r]);
     };
 
     ll p1 = fmain(X, sX);
