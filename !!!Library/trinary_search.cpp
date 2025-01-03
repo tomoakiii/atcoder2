@@ -21,7 +21,7 @@ int main(){
     vector sY = Y;
     rep(i,N-1) sY[i+1] += sY[i];
 
-    auto f = [&N](vector<ll> &v, vector<ll> &sm, int k) -> ll {
+    function f = [&N](vector<ll> &v, vector<ll> &sm, int k) -> ll {
         int p = lower_bound(v.begin(), v.end(), k) - v.begin();
         if(p == 0) {
             return sm[N-1] - N * v[0];
@@ -32,7 +32,7 @@ int main(){
     };
 
 
-    auto fmain = [&](vector<ll> &xy, vector<ll> &sm)->ll {
+    function fmain = [&](vector<ll> &xy, vector<ll> &sm)->ll {
         map<ll, ll> mp;
         ll l=xy[0], r=xy[N-1];
         while(r-l > 1) {
