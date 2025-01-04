@@ -18,29 +18,32 @@ int main(){
         cin>>P[i][j];
         P[i][j]--;
     }
-    map<int, set<int>> lst;
-    vector D(H*W, vector<int>(1<<8));
-    rep(j, W) {
-        map<int, int> mp;
-        rep(i, H) {
-            mp[P[i][j]] |= 1<<i;
-        }
-        for(auto m: mp) {
-            D[m.first][m.second]++;
-            lst[m.first].insert(m.second);
-        }
+    vector R(H, vector<int>(8)), C(W, vector<int>(8));
+    rep(i,H) rep(j,W) {
+        R[i][P[i][j]] = 1;
+        C[j][P[i][j]] = 1;
     }
+    
     ll ans = 0;
-    for(auto m: lst) {
-        int i = m.first;
-        rep(k, 1<<8) {
-            ll a = 0;
-            for(auto j: lst[i]){
-                if((k&j) != k) continue;
-                a += D[i][j];
-            }
-            chmax(ans, a * popcount((uint)k));
+    rep(p, 8) {
+        ll r = H, c = W;
+        rep(i,H) {
+            rep(j,W) {
+                if(P[i][j] != p) {
+                    r--;
+                    break;
+                }
+            }            
         }
+        rep(j,W) {
+            rep(i,H) {
+                if(P[i][j] != p) {
+                    c--;
+                    break;
+                }
+            }            
+        }
+        chmax(ans, r*c);
     }
     cout << ans << endl;
     return 0;
