@@ -15,27 +15,15 @@ int main(){
     cin >> N >> X;
     vector<ll> A(N), B(N);    
     rep(i,N) cin>>A[i]>>B[i];
-    priority_queue<pair<ll, int>> pq;
-    pq.push({-A[0]-B[0], 0});
-    vector<bool> visit(N, false);
-    ll ans = 0;
-    bool flg = false;
-    while(X-- && !flg){
-        auto [t, id] = pq.top();
-        pq.pop();
-        visit[id] = true;
-        ans -= t;
-        pq.push({-1*B[id], id});
-        
-        if(id < N-1 && !visit[id+1]) {                
-            pq.push({- A[id+1] - B[id+1], id});
-        } else {
-            flg = true;
-        }    
-    }
-    if(X > 0) {
-        auto [t, id] = pq.top();
-        ans -= X * t;
+    ll ans = INF;
+    ll sm = 0;
+    ll x = 0;
+
+    for(ll i=0; i<N; i++) {
+        sm += A[i] + B[i];
+        x++;
+        if(X - x < 0) break;
+        chmin(ans, sm + (X-x) * B[i]);
     }
     cout << ans << endl;
     return 0;
