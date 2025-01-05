@@ -13,10 +13,41 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll L, R;
     cin >> L >> R;
+    auto f = [&](ll x) -> ll{
+        string in = to_string(x);
+        int lm = 0;
+        int sz = in.size();        
+        vector<int> v(sz);
+        vector dp(sz+1, vector(10, vector(2, vector<ll>(2))));
+        for(int i = 0; i < sz; i++) {
+            int v = in[i] - '0';
+            rep(j, 10) {
+                if(j < v){
+                    rep(p, 10) {
+                        dp[i+1][j][1] += dp[i+1][p][0];
+                        dp[i+1][j][1] += dp[i+1][p][1];
+                    }
+                }
+                if(j != 0) {
+                    rep(p, 10) {
+                        dp[i+1][j][0][1] += dp[i+1][p][0][0];
+                    }
+                }
+            }
+            v[i] = (int)(in[i] - '0');
+            if(i != 0) chmax(lm, v[i]);
+        }
+        
+        for(int i = 1; i < sz-1; i++) {
+            ans += v[i] * pow(lm, sz-i-1);
+        }
+        ans += 1 + min(lm, v[sz-1]);
+        return ans;
+    };
+
     // reverse(L.begin(), L.end());    
     auto f = [&](ll x) -> ll{
         string in = to_string(x);
-        ll out = 0;
         int lm = 0;
         int sz = in.size();        
         vector<int> v(sz);
@@ -24,36 +55,24 @@ int main(){
             v[i] = (int)(in[i] - '0');
             if(i != 0) chmax(lm, v[i]);
         }
-        vector dp(2, vector(sz+1, vector<ll>(lm+1)));
-        dp[0][0][lm] = 1;
-        rep(l, lm) {
-            dp[1][0][l] = 1;
+        ll ans = 0;
+        for(ll vs = 1; vs < v[0]; vs++) {
+            ans += pow((vs - 1), sz-1);
         }
-        for(int i = 1; i < sz; i++){
-            rep(l, lm+1) {
-                if(l < v[i]) {
-                    rep(k, lm+1) {
-                        dp[1][i][l] += dp[0][i-1][k];
-                    }
-                } else if (l == v[i]) {
-                    rep(k, lm+1) {
-                        dp[1][i][l] += dp[0][i-1][k];
-                    }                    
-                }
-
-                rep(k, lm+1) {
-                    dp[1][i][l] += dp[1][i-1][k];
-                }
-            }
+        for(int i = 1; i < sz-1; i++) {
+            ans += v[i] * pow(lm, sz-i-1);
         }
-        rep(k, lm+1) {
-            out += dp[0][sz-1][k];
-            out += dp[1][sz-1][k];
-        }
-        return out;
+        ans += 1 + min(lm, v[sz-1]);
+        return ans;
     };
 
-    cout << f(R) - f(L-1) << endl;
+    rep(i, 100) {
+        cout << i << " " << f(i) << endl;
+    }
+
+    ll fr = f(R);
+    ll fl = f(L-1);
+    cout << fr - fl << endl;
 
     return 0;
 }
