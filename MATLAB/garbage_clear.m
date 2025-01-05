@@ -17,5 +17,8 @@ for n=1:length(d)
        if(isempty(e))
            delete(fpath);
        end
+       if(strcmp(e, '.Identifier'))
+           delete(fpath);
+       end
     end
 end
