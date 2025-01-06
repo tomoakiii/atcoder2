@@ -1,3 +1,8 @@
+// Typical90-021, Count pairs of Each-reachable-nodes
+// https://atcoder.jp/contests/typical90/tasks/typical90_u
+// https://x.com/e869120/status/1385363292739104775/photo/1
+
+
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
