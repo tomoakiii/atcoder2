@@ -21,42 +21,18 @@ int main(){
     vector sY = Y;
     rep(i,N-1) sY[i+1] += sY[i];
 
-    auto f = [&N](vector<ll> &v, vector<ll> &sm, int k) -> ll {
-        int p = lower_bound(v.begin(), v.end(), k) - v.begin();
-        if(p == 0) {
-            return sm[N-1] - N * v[0];
+    auto f = [&N](vector<ll> &v, vector<ll> &sm, int kit) -> ll {
+        ll s = 0;
+        rep(i, N) {
+            s += abs(v[i] - v[kit]);
         }
-        ll s = p*k - sm[p-1];
-        s += sm[N-1] - sm[p-1] - k * (N-p);
         return s;
     };
 
-
-    auto fmain = [&](vector<ll> &xy, vector<ll> &sm)->ll {
-        map<ll, ll> mp;
-        ll l=xy[0], r=xy[N-1];
-        while(r-l > 1) {
-            // cout << r - l << endl;
-            ll cr = (2*r+l)/3;
-            ll cl = (r+2*l)/3;
-            if(!mp.contains(cl)) mp[cl] = f(xy, sm, cl);
-            if(!mp.contains(cr)) mp[cr] = f(xy, sm, cr);
-            if (mp[cl] < mp[cr]) {
-                if(r == cr) return mp[cl];
-                r = cr;
-            } else {
-                if(l == cl) return mp[cr];
-                l = cl;
-            }
-        }
-        if(!mp.contains(l)) mp[l] = f(xy, sm, l);
-        if(!mp.contains(r)) mp[r] = f(xy, sm, r);
-        return min(mp[l], mp[r]);
-    };
-
-    ll p1 = fmain(X, sX);
-    ll p2 = fmain(Y, sY);
-    
+    ll p1 = min(f(X, sX, N/2), f(X, sX, N/2 + 1));
+    chmin(p1, f(X, sX, N/2-1));
+    ll p2 = min(f(Y, sY, N/2), f(Y, sY, N/2 + 1));    
+    chmin(p2, f(Y, sY, N/2-1));
     cout << p1 + p2 << endl;
     return 0;
 }
