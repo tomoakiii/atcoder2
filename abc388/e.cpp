@@ -14,25 +14,20 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    rep(i,N) {
+        cin>>A[i];
     }
+    ll ans = 0;
+    ll lc = 0;
+    ll rc = N/2;
+    while(rc < N) {
+        if(A[lc]*2 <= A[rc]) {
+            ans++;
+            lc++, rc++;
+        } else {
+            rc++;
+        }
+    }
+    cout << ans << endl;
     return 0;
 }

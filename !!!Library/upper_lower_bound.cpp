@@ -4,24 +4,19 @@
 using namespace std;
 
 int main() {
-    vector<int> vec = {1, 1, 2, 2, 4, 5, 5, 6, 8, 8, 8, 10, 15};
-    vector<int>::iterator iter_lower, iter_upper;
-    long idx_lower, idx_upper;
-    for (int key = 0; key <= 16; ++key) {
-        // lower_bound
-        iter_lower = lower_bound(vec.begin(), vec.end(), key);
-        idx_lower = distance(vec.begin(), iter_lower);
-
-        // upper_bound
-        iter_upper = upper_bound(vec.begin(), vec.end(), key);
-        idx_upper = distance(vec.begin(), iter_upper);
-
-        // output
-        cout << "----- key = " << key << " -----" << "\n";
-        cout << "lower_bound: vec[" << idx_lower << "] = " << *iter_lower << "\n";
-        cout << "upper_bound: vec[" << idx_upper << "] = " << *iter_upper << "\n";
-        cout << "\n";
+    vector<int> vec = {1, 1, 3, 3, 5, 5};
+    for(int i=0; i<=6; i++) {
+        auto it = lower_bound(vec.begin(), vec.end(), i) - vec.begin();
+        cout << it << endl;
     }
+    cout << endl;
+    for(int i=0; i<=6; i++) {
+        auto it = upper_bound(vec.begin(), vec.end(), i) - vec.begin();
+        cout << it << endl;
+    }
+    cout << endl;
+    vector<int> vec2 = {1, 1, 2, 2, 4, 5, 5, 6, 8, 8, 8, 10, 15};
+    cout << (upper_bound(vec2.begin(), vec2.end(), 8) - vec2.begin()) << endl;
     return 0;
 }
 
