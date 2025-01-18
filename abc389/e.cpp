@@ -15,53 +15,55 @@ int main(){
     cin >> N >> M;
     vector<ll> P(N);
     rep(i,N) cin>>P[i];
-    sort(P.begin(), P.end());        
+    // sort(P.begin(), P.end());
 
-    auto judge = [&](ll q)-> bool {        
-        ll sm = q;
-        rep(i,N) {
-            ll t = (ll)sqrt((double)q/(double)P[i]);
-            sm += t * t * P[i];
+    vector<ll> Num(N, 0);
+    auto judge = [&](ll c)-> pair<bool, ll> {
+        ll sm = 0;
+        ll total = 0;
+        rep(i,N) {            
+            ll n = (c+P[i])/(2*P[i]);
+            // if( (2*(n+1)-1)*P[i] <= c ) n++;
+            if(n > 0 && M / P[i] / n / n == 0) return {false, total};
+            sm += n * n * P[i];
+            total += n;
+            Num[i] = n;
+            if(sm > M) return {false, total};
         }
-        if(sm <= M) return true;
-        else return false;
+        return {true, total};
     };
 
     ll l = 0, r = M+1;
     while(r - l > 1){
         ll c = (r + l)/2;
-        if(judge(c)) {
+        auto [j, t] = judge(c);
+        if(j) {
             l = c;
         } else {
             r = c;
         }
     }
 
-    vector<ll> Num(N, 0);
-    ll ans = 0;    
+    auto [j, t] = judge(l);
+    priority_queue<pli, vector<pli>, greater<pli>> que;
     ll sm = 0;
     rep(i,N) {
-        ll t = (ll)sqrt((double)l/(double)P[i]);
-        sm += t * t * P[i];
-        Num[i] = t;
-        ans += t;
+        sm += Num[i] * Num[i] * P[i];
+        que.push({(2*Num[i]+1)*P[i], i});
     }
 
-    vector<ll> lst(N);
-    rep(i, N) {
-        lst[i] = ((Num[i]+1)*(Num[i]+1) - Num[i]*Num[i]) * P[i];        
-    }
-
-    sort(lst.begin(), lst.end());
-    for(ll t: lst) {
-        if(sm + t > M) {
-            cout <<  ans << endl;
-            return 0;
+    while(!que.empty()) {
+        auto [q, i] = que.top();
+        if(sm + q > M) {
+            break;
         } else {
-            sm += t;
-            ans++;
+            t++;
+            sm += q;
+            Num[i]++;
+            que.push({(2*Num[i]+1)*P[i], i});
         }
     }
+    cout << t << endl;
 
     return 0;
 }
