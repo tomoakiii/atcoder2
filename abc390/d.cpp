@@ -15,7 +15,7 @@ int main(){
     cin >> N;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-    set<vector<ll>> st;
+    unordered_set<vector<ll>> st;
     sort(A.rbegin(), A.rend());
     st.insert(A);
     queue<vector<ll>> que;
