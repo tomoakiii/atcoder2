@@ -11,20 +11,28 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K);
-    rep(i,K) cin>>A[i];
-    sort(A.begin(), A.end());
-    vector dp(N+1, vector<int>(2));
-    dp[1][0] = 1; dp[1][1] = 1;
-    for(int i=2; i<=N; i++) {
-        for(int j=0; j<K; j++){
-            dp[i][0] = 
-        }
-        
-    }
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
 
-    
+    string S;
+    cin >> S;
+
+    ll N;
+    cin >> N;
+    vector<string> S(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
     return 0;
 }

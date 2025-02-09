@@ -11,20 +11,19 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K);
-    rep(i,K) cin>>A[i];
-    sort(A.begin(), A.end());
-    vector dp(N+1, vector<int>(2));
-    dp[1][0] = 1; dp[1][1] = 1;
-    for(int i=2; i<=N; i++) {
-        for(int j=0; j<K; j++){
-            dp[i][0] = 
+    ll N, M;
+    cin >> N >> M;
+    vector<string> S(N), T(M);
+    rep(i,N) cin>>S[i];
+    rep(i,M) cin>>T[i];
+    rep(i,N-M+1) rep(j,N-M+1) {
+        bool flg = true;
+        rep(i2, M) rep(j2, M) {
+            if(T[i2][j2] != S[i+i2][j+j2]) flg = false;
         }
-        
+        if (flg) {
+            cout << i+1 << " " << j+1 << endl;
+        }
     }
-
-    
     return 0;
 }

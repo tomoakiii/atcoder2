@@ -11,20 +11,8 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<int> A(K);
-    rep(i,K) cin>>A[i];
-    sort(A.begin(), A.end());
-    vector dp(N+1, vector<int>(2));
-    dp[1][0] = 1; dp[1][1] = 1;
-    for(int i=2; i<=N; i++) {
-        for(int j=0; j<K; j++){
-            dp[i][0] = 
-        }
-        
-    }
-
-    
+    string S;
+    cin >> S;
+    printf("0%c%c%c\n", S[0], S[1], S[2]);
     return 0;
 }
