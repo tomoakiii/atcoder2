@@ -13,26 +13,24 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector G(N, vector<char>(N, '#'));
+    for(int i = 1; i <= N/2; i+=2) {
+        for(int j = i; j < N-i; j++) {
+            G[i][j] = '.';
+        }
+        for(int j = i; j < N-i; j++) {
+            G[N-i-1][j] = '.';
+        }
+        for(int j = i; j < N-i; j++) {
+            G[j][i] = '.';
+        }
+        for(int j = i; j < N-i; j++) {
+            G[j][N-i-1] = '.';
+        }
+    }
+    rep(i,N) {
+        rep(j,N) printf("%c", G[i][j]);
+        printf("\n");
     }
     return 0;
 }

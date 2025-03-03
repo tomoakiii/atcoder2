@@ -14,25 +14,22 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    map<int, vector<int>> mp;
+    rep(i,N) {
+        cin>>A[i];
+        mp[A[i]].push_back(i);
     }
+    int MN = INFi;
+    for(auto m:mp) {
+        if(m.second.size() == 1) continue;
+        rep(i, m.second.size()-1) {
+            int d = m.second[i+1] - m.second[i];
+            chmin(MN, d);
+        }
+    }
+    if(MN == INFi) {
+        MN = -2;
+    }
+    cout << MN+1 << endl;
     return 0;
 }
