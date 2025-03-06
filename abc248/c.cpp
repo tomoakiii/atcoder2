@@ -9,40 +9,26 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-using modint998244353 mint;
+typedef modint998244353 mint;
 int main(){
     ll N, M, K;
     cin >> N >> M >> K;
-    vector<ll> A(N, 1);
-    vector<ll> nm(M+1);
-    mint ans = 0;
-    vector<mint> ta(M+1, 1);
-    vector<mint> revta(M+1);
-    for(int i=1; i<=M; i++) {
-        ta[i] = ta[i-1];
-        ta[i] *= i;
-        revta[i] = 1 / ta[i];
-    }
-    
-    auto func = [&](auto func, int cur, vector<ll> t, vector<ll> num, ll total) -> void {
-        mint tans = ta[M];
-        for(auto n: nm) {
-            tans *= revta[i];
-        }
-        ans += tans;
-        if(cur == 0) {
-            if(total < K){
-                num[t[cur]]--;
-                t[cur]++;
-                num[t[cur]]++;
-                func(func, cur, )
+    vector<mint> dp(K+1);
+    dp[0] = 1;
+    rep(i,N){
+        vector<mint> ndp(K+1);
+        for(int j=1; j<=M; j++) {
+            for(int k=0; k<=K; k++)  {
+                if(j+k > K) continue;
+                ndp[k+j] += dp[k];
             }
-        } else {
-
         }
-    };
-    nm[1] = N;
-    func(func, 0, A, nm, N);
+        swap(ndp, dp);
+    }
+    mint ans = 0;
+    rep(i,K+1) {
+        ans += dp[i];
+    }
     cout << ans.val() << endl;
     return 0;
 }

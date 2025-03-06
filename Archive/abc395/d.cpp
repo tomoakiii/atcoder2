@@ -13,35 +13,37 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N, Q;
     cin >> N >> Q;
-    vector<ll> nest(N);
-    vector<ll> label(N);
-    vector<ll> lpos(N);
+    vector<ll> p2b(N);
+    vector<ll> b2n(N);
+    vector<ll> n2b(N);
     rep(i,N) {
-        nest[i] = i;
-        label[i] = i;
-        lpos[i] = i;
+        p2b[i] = i;
+        b2n[i] = i;
+        n2b[i] = i;
     }
     vector<ll> lpos(N);
     while(Q--) {
         int p;
         cin >> p;
         if(p == 1) {
-            int a, b;
-            cin >> a >> b;
-            a--, b--;
-            nest[a] = b;
+            int x, y;
+            cin >> x >> y;
+            x--, y--;            
+            int to_b = n2b[y];
+            p2b[x] = to_b;
         } else if(p == 2) {
-            int a, b;
-            cin >> a >> b;
-            a--, b--;
-            swap(label[a], label[b]);
-            
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            int xo = n2b[x];
+            int yo = n2b[y];
+            swap(n2b[x], n2b[y]);
+            swap(b2n[xo], b2n[yo]);
         } else {
             int a;
             cin >> a;
-            a--;
-            int n = nest[a];
-            cout << nind[n] + 1 << endl;
+            a--;            
+            cout << b2n[p2b[a]] + 1 << endl;
         }
     }
     return 0;

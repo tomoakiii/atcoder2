@@ -20,12 +20,22 @@ int main(){
         cnt[S[i]]++;
         cnt[T[i]]++;
     }
+    
+    
     rep(i,N) {
-        if(cnt[S[i]] > 1 && cnt[T[i]] > 1) {
-            cout << "No" << endl;
-            return 0;
-        }
+        if(cnt[S[i]] == 1 || cnt[T[i]] == 1) {
+            // ok
+        } else {        
+            if (S[i] == T[i] && cnt[S[i]] == 2) {
+                // ok
+            } else {
+                cout << "No" << endl;
+                return 0;
+            }            
+        }                
     }
+
     cout << "Yes" << endl;
+    
     return 0;
 }

@@ -14,29 +14,30 @@ int main(){
     ll N, X;
     cin >> N >> X;
     vector<ll> U(N), D(N);
-    ll mx = 0;
+    ll mn = 0;
     ll sm = 0;
     rep(i,N) {
         cin >> U[i] >> D[i];
-        chmax(mx, U[i] + D[i]);
+        chmax(mn, U[i] + D[i]);
         sm += U[i] + D[i];
     }
-    auto judge = [&] (ll c) -> bool {
-        ll L = U[0] - (U[0] + D[0] - c), R = U[0];
-        for(int i = 1; i < N; i++) {
-            L -= X;
-            R += X;
-            ll d = U[i] - (U[i] + D[i] - c);
-            if(d < L || U[i] > R) {
+    auto judge = [&] (ll c) -> bool {        
+        ll L = 0, R = INF;
+        rep(i,N) {
+            if(D[i] + U[i] < c) {
                 return false;
             }
-            L = max(L, d);
-            R = min(R, U[i]);
+            L = max(L-X, (ll)0);
+            L = max(L, c-D[i]);
+            R = min(U[i], R+X);
+            if(R < L){
+                return false;
+            }
         }
         return true;
     };
 
-    ll ok = 0, ng = mx + 1;
+    ll ok = 0, ng = mn + 1;
     while(ng - ok > 1) {
         ll c = (ok + ng) / 2;
         if(judge(c)) {
