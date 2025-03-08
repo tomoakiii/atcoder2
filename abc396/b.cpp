@@ -11,20 +11,21 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector S(N, vector<int>{});
-    S[0].push_back(1);
-    rep(i, N-1) {
-        int c = 2;
-        c += i;
-        S[i+1] = S[i];
-        S[i+1].push_back(c);
-        copy(S[i].begin(),S[i].end(),back_inserter(S[i+1]));
+    ll Q;
+    cin >> Q;
+    deque<int> que;
+    while(Q--) {
+        int k;
+        cin >> k;
+        if(k==1) {
+            int x;
+            cin >> x;
+            que.push_front(x);
+        } else {
+            int x = que.front();
+            cout << x << endl;
+            que.pop_front();
+        }
     }
-    for(auto c: S[N-1]) {
-        cout << c << " ";
-    }
-    cout << endl;
     return 0;
 }
