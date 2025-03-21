@@ -24,12 +24,26 @@ int main(){
     rep(i,N) cin>>A[i];
     ll M = 3e5+10;
     vector<ll> cl(M, INF), cr(M, 0);
+    vector<ll> ctL(N), ctR(N);
     vector<bool> visit(M, false);
     rep(i,N) {
         chmin(cl[A[i]], i);
         chmax(cr[A[i]], i);
         visit[A[i]] = true;
     }
+    {
+        unordered_set<ll> st;
+        rep(i,N) {
+            st.insert(A[i]);
+            ctL[i] = st.size();
+        }
+    }
+    unordered_set<ll> st;
+    for(int i=N-1; i>=0; i--) {
+        st.insert(A[i]);
+        ctR[i] = st.size();
+    }
+    
 
     ll ans = 0;
     vector<int> col(N);

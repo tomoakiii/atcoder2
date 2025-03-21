@@ -31,7 +31,7 @@ int main(){
         return 0;
     }
 
-    for(ll j=0 ; j < (ll)1<<(1+N+M) ; j==2) {
+    for(ll j=0 ; j < (ll)1<<(1+N+M) ; j+=2) {
         if((j&1) == 0) continue;
         double sp = 1;        
         for(int p=1; p<=M; p++) if(((j >> (N+p)) & 1)>0) sp *= 2;
