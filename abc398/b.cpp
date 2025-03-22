@@ -11,28 +11,21 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    const int N = 7;
+    map<int, int> mp;
+    rep(i,N) {
+        int a;
+        cin >> a;
+        mp[a]++;
     }
+    int c3 = 0, c2 = 0;
+    for(auto m: mp) {
+        if(m.second >= 3) c3++;
+        else if(m.second >= 2) c2++;
+    }
+    if(c3 >= 2 || (c3>=1 && c2>=1)) cout << "Yes" << endl;
+    else cout << "No" << endl;
+
+
     return 0;
 }
