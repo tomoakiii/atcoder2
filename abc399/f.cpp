@@ -5,32 +5,34 @@ using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-using S = int;
-using F = int;
-S op(S l, S r) {return max(l, r);}
-S e() {return 0;}
-S mapping (F l, S r) {return r+=l;}
-F composition (F l, F r) {return l+r;}
-F id() {return 0;}
-
-
 int main(){
     ll N;
-    vector<ll> A(N);    
-    unordered_map<ll,int> last;
-    rep(i,N) {
-        cin>>A[i];
-        last[A[i]] = i;
-    }
-    
-    lazy_segtree<S, op, e, F, mapping, composition, id> LS(vector<int>(M, 0));
-    
-    LS.apply(0, x+W, 1);  
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
 
-    cout << ans << endl;
+    string S;
+    cin >> S;
+
+    ll N;
+    cin >> N;
+    vector<string> S(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
     return 0;
 }
