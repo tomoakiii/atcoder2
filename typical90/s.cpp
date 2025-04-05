@@ -16,22 +16,21 @@ int main(){
     N*=2;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
+    vector dp(N, vector<ll>(N, INF));
     ll ans = 0;
-    while(A.size() > 0) {
-        ll mn = INF;
-        ll mind = -1;
-        rep(i, A.size()-1) {
-            ll d = abs(A[i] - A[i+1]);
-            if(mn > d) {
-                mn = d;
-                mind = i;
+
+    rep(i,N-1) {
+        dp[i][i+1] = abs(A[i+1] - A[i]);
+    }
+    for(int k=3; k<N; k+=2) {
+        rep(i,N) {
+            if(i+k >= N) break;
+            chmin(dp[i][i+k], dp[i+1][i+k-1]+abs(A[i]-A[i+k]));            
+            for(int j=i+1; j<i+k; j+=2) {
+                chmin(dp[i][i+k], dp[i][j]+dp[j+1][i+k]);
             }
         }
-        ans += mn;
-        int i = mind;
-        A.erase(A.begin() + i+1);
-        A.erase(A.begin() + i);
     }
-    cout << ans << endl;
+    cout << dp[0][N-1] << endl;
     return 0;
 }
