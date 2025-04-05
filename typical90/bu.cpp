@@ -30,29 +30,31 @@ int main(){
         uv[b].emplace_back(a);
     }
     
+    vector dp(N, vector<mint>(3, 0)); // only a, only b, a&b
+    
     vector<bool> visit(N, false);
-    vector<mint> ans(N);
-    auto func = [&](auto func, int cur) -> mint{
-        visit[cur] = true;        
-        vector<mint> branch{};
+    
+    auto func = [&](auto func, int cur)->void{
+        visit[cur] = true;
+        int me = c[cur];
+        int you = (c[cur]==1)?0:1;
+        mint sm = 1;
+        mint smb = 1;
         for(auto nx: uv[cur]) {
             if(visit[nx]) continue;
-            if(c[nx] != c[cur]) continue;
-            branch.push_back(1);
-            int id = branch.size() - 1;
-            branch[id] += func(func, nx);
+            func(func, nx);
+            sm *= (dp[nx][me] + 1);
+            smb *= (dp[nx][you] + dp[nx][2] + 1);
         }
-        mint t = 1;
-        if(branch.size() > 0) {            
-            for(auto b: branch) t*=b;
-            ans[cur] = t;
-        } else {
-            t = 0;
-        }
-        return t;
+        smb--;
+        dp[cur][me] = sm;
+        dp[cur][2] = smb;        
     };
-    mint sm = 0;
-    for(auto a: ans) sm += a;
-    cout << sm.val() << endl;
+    mint ans = 0;
+    func(func, 0);
+    /* rep(i,N) {
+        ans += dp[i][2];
+    } */   
+    cout << dp[0][2].val() << endl;
     return 0;
 }
