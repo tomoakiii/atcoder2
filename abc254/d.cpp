@@ -13,10 +13,18 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    rep(i,N) {
-        rep(j,N) {
-            if(i*j > N)
-        }
+    vector<int> f(N+1);
+    rep(i,N+1) f[i] = i;
+    for(int i=2; i<=N; i++) {
+        int x = i*i;
+        if(x>N) break;
+        for(int j=i; j<=N; j+=i) while(f[j]%x == 0) f[j]/=x;
     }
+    vector<ll> ans(N+1);
+    ll out = 0;
+    for(int i=1; i<=N; i++) ans[f[i]]++;
+    for(int i=1; i<=N; i++) out += ans[i] * ans[i];
+    cout << out << endl;
+
     return 0;
 }
