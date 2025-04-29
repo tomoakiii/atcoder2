@@ -88,6 +88,11 @@ public:
         return MinElement(2*ind+2, a, b);
     }
 
+    Type GetVal(int ind){
+        int i = ind+n-1;
+        return tr[i].val;        
+    }
+    
     void SetVal(int ind, Type val){
         int i = ind+n-1;
         tr[i].val = tr[i].min.v = tr[i].max.v = val;

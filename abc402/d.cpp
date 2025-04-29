@@ -5,30 +5,27 @@ using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
-using S = mint;
-using F = mint;
-S op(S l, S r) {return max(l, r);}
-S e() {return 0;}
-S mapping (F l, S r) {return r+=l;}
-F composition (F l, F r) {return l+r;}
-F id() {return 0;}
-typedef modint1000000007 mint;
-
-
-
+typedef pair<ll, ll> pll;
 
 int main(){
-    ll N;
-    cin >> N;
-    rep(k,N) {
-        for(ll a=1; a<=N; a++) {
-            ans += Comb(N-(k)*(a-1), a);
-        }
+    ll N, M;
+    cin >> N >> M;
+    vector<pll> A(M);    
+    map<int, ll> mp;
+    rep(i,M) {
+        cin>>A[i].first>>A[i].second;        
+        mp[(A[i].first + A[i].second)%N]++;
+        
     }
+    ll cnt = 0;
+    for(auto m:mp){
+        cnt += m.second * (m.second-1) / 2;
+    }
+    ll ans = M*(M-1)/2 - cnt;
     cout << ans << endl;
     return 0;
 }

@@ -5,30 +5,25 @@ using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-using S = mint;
-using F = mint;
-S op(S l, S r) {return max(l, r);}
-S e() {return 0;}
-S mapping (F l, S r) {return r+=l;}
-F composition (F l, F r) {return l+r;}
-F id() {return 0;}
-typedef modint1000000007 mint;
-
-
-
-
 int main(){
-    ll N;
-    cin >> N;
-    rep(k,N) {
-        for(ll a=1; a<=N; a++) {
-            ans += Comb(N-(k)*(a-1), a);
+    char S[3];
+    char T[3];
+    rep(i,3) cin>>S[i];
+    rep(i,3) cin>>T[i];
+    vector<vector<int>> sw = {{0,1}, {0,2}, {1,2}};
+    rep(i,3){
+        swap(S[sw[i][0]], S[sw[i][1]]);
+        if(S[0]==T[0] && S[1]==T[1]){
+            cout<<"No"<<endl;
+            return 0;
         }
+        swap(S[sw[i][0]], S[sw[i][1]]);
     }
-    cout << ans << endl;
+    cout<<"Yes"<<endl;
     return 0;
 }

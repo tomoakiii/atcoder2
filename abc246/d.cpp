@@ -13,26 +13,30 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    if(N==0) {
+        cout<<0<<endl;
+        return 0;
     }
+    
+    ll ng = 0, ok = 1e6+1;
+    while(ok-ng>1) {
+        ll c = (ok+ng)/2;
+        if(c*c*c >= N) ok = c;
+        else ng = c;
+    }
+    ll mn = ok*ok*ok;
+    rep(p, ok) {
+        if(4*p*p*p<N) continue;        
+        ll a = p;
+        ll r = p, l = 0;
+        while(r-l > 1) {
+            ll c = (r + l)/ 2;
+            ll X = c*c*c + c*c*a + c*a*a + a*a*a;
+            if(X >= N) r = c;
+            else l = c;
+        }
+        chmin(mn, r*r*r + r*r*a + r*a*a + a*a*a);
+    }    
+    cout << mn << endl;
     return 0;
 }
