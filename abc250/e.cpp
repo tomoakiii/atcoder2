@@ -11,69 +11,55 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
+    ll N,a;
+    cin >> N;    
     vector<ll> A(N), B(N);
-    
     int ind = 0;
-    map<ll, int> mp_id;    
-    vector<int> mp_b(2*N, INFi);
-    rep(i,N) {
-        cin>>A[i];
-        if(!mp_id.contains(A[i])) {
-            mp_id[A[i]] = ind;
-            ind++;
-        }        
-    }
-    set<int> st;
-    vector<int> to_b(N);
-    
-    rep(i,N) {
-        cin>>B[i];
-        if(!mp_id.contains(B[i])) {
-            mp_id[B[i]] = ind;
-            ind++;
-        }
-        if(!st.contains(B[i])) {
-            st.insert(B[i]);            
-            to_b[i] = 1;
-        }
-        chmin(mp_b[mp_id[B[i]]], i);
-    }
-
-    int last = N-1;
-    vector<int> to(N);
-    for(int i=N-1; i>=0; i--) {
-        if(to_b[i] == 1) {
-            to[i] = last;
-            last = i-1;
-        } else {
-            to[i] = last;
-        }
-    }
-
-
-    int mx = 0;
-    vector<int> from(N);
-    rep(i,N) {
-        int id = mp_id[A[i]];
-        int j = mp_b[id];
-        chmax(mx, j);
-        if(i>=mx) from[i] = mx;
-    }
-    for(int i=N-1; i>0; i--) {
-        from[i]
-    }
-    int Q;
+    rep(i,N) cin>>A[i];
+    rep(i,N) cin>>B[i];
+    int Q, indQ = 0;
     cin >> Q;
-    while(Q--) {
+    unordered_set<ll> visitA, visitB;
+    vector<int> sA(N), sB(N);
+    vector<bool> ans(N+1);
+    deque<ll> AA, BB;
+    rep(i,N) {
+        if(!visitA.contains(A[i])) {
+            visitA.insert(A[i]);
+            AA.push_back(A[i]);
+        }
+        sA[i] = visitA.size();  
+    }
+    rep(i,N) {
+        if(!visitB.contains(B[i])) {
+            visitB.insert(B[i]);
+            BB.push_back(B[i]);
+        }
+        sB[i] = visitB.size();
+    }
+    unordered_set<ll> stA, stB;
+    visitA.clear();
+    for(auto sa: AA) {
+        visitA.insert(sa);
+        if(stB.contains(sa)) stB.erase(sa);
+        else stA.insert(sa);
+        while(stA.size() > stB.size()) {
+            if(BB.empty()) break;
+            ll sb = BB.front();
+            BB.pop_front();
+            if(stA.contains(sb)) stA.erase(sb);
+            else stB.insert(sb);
+        }
+        ans[visitA.size()] = (stA.size() == 0 && stB.size() == 0);
+    }
+
+    rep(i,Q) {
         int x, y;
         cin >> x >> y;
         x--, y--;
-        if(y >= from[x] && y <= to[from[x]]) cout << "Yes" << endl;
-        else cout << "No" << endl;
+        if(sA[x] != sB[y])  cout<<"No"<<endl;
+        else if(ans[sA[x]]) cout<<"Yes"<<endl;
+        else cout<<"No"<<endl;
     }
-
-    
     return 0;
-}
+} 
