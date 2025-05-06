@@ -11,20 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N >> M;    
-    vector<ll> A(N+1), C(N+M+1), B(M+1);
-    rep(i,N+1) cin>>A[i];
-    rep(i,N+M+1) cin>>C[i];
-    int bst = 0;
-    for(int i = M; i>=0; i--) {
-        ll c = C[N+i];
-        for(int j = N-1, st = i+1; j>=0 && st <= M ; j--, st++) {
-            c -= A[j] * B[st];
-        }
-        B[i] = c / A[N];
+    int n , m;
+    cin >>n >> m;
+    map<ll, int> mp;
+    rep(i,n) {
+      ll a;
+      cin >> a;
+      mp[a]++;
     }
-    for(auto b:B) cout<<b<<" ";
-    cout<<endl;
+    rep(i,m) {
+      ll b;
+      cin >> b;
+      if(mp.contains(b)) {
+        mp[b]--;
+        if(mp[b] == 0) mp.erase(b);
+      } else {
+        cout<<"No"<<endl;
+        return 0;
+      }
+    }
+    cout<<"Yes"<<endl;
     return 0;
 }

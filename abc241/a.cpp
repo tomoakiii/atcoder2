@@ -11,20 +11,10 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N >> M;    
-    vector<ll> A(N+1), C(N+M+1), B(M+1);
-    rep(i,N+1) cin>>A[i];
-    rep(i,N+M+1) cin>>C[i];
-    int bst = 0;
-    for(int i = M; i>=0; i--) {
-        ll c = C[N+i];
-        for(int j = N-1, st = i+1; j>=0 && st <= M ; j--, st++) {
-            c -= A[j] * B[st];
-        }
-        B[i] = c / A[N];
-    }
-    for(auto b:B) cout<<b<<" ";
-    cout<<endl;
+    int n = 10;
+    vector<int> a(n);
+    rep(i,n) cin>>a[i];
+    int nx = a[0]; nx = a[nx]; nx = a[nx];
+    cout<<nx<<endl;
     return 0;
 }

@@ -11,20 +11,24 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N >> M;    
-    vector<ll> A(N+1), C(N+M+1), B(M+1);
-    rep(i,N+1) cin>>A[i];
-    rep(i,N+M+1) cin>>C[i];
-    int bst = 0;
-    for(int i = M; i>=0; i--) {
-        ll c = C[N+i];
-        for(int j = N-1, st = i+1; j>=0 && st <= M ; j--, st++) {
-            c -= A[j] * B[st];
-        }
-        B[i] = c / A[N];
+    string S;
+    int Q;
+    cin >> S >> Q;
+    map<char, vector<char>> mp;
+    vector<char> v(2);
+    v[0] = 'B'; v[1] = 'C'; mp['A'] = v;
+    v[0] = 'C'; v[1] = 'A'; mp['B'] = v;
+    v[0] = 'A'; v[1] = 'B'; mp['C'] = v;
+    
+    
+    while(Q--) {
+        ll t, k;
+        cin >> t >> k;
+        k--;        
+        ll q = popcount(t);
+        q += S[k]-'a';
+        int v = S[k]
+        cout << v << endl;
     }
-    for(auto b:B) cout<<b<<" ";
-    cout<<endl;
     return 0;
 }
