@@ -27,32 +27,38 @@ int main(){
                 break;
             }
         }
-        vector dp(dg+1, vector<vector<mint>>(K+1, vector<mint>(2)));
-        dp[dg][1][0] = 1; // 1 is matching
-        dp[dg][0][1] = 1; // not 1 is smaller
-        mint ans = 0;
-        mint q = 1<<dg;
-        if(K==1) {
-            ans += q;
-        }
+        vector dp(dg+1, vector<vector<pair<mint, ll>>>(K+1, vector<pair<mint, ll>>(2)));
+        dp[dg][1][0] = {1, 1}; // 1 is matching
         for(int p=dg-1; p>=0; p--) {
-            q = 1<<dg;
-            rep(k, K) {                
+            if(lmt[p] > 0) {
+                dp[p][K][1].first = 2*(dp[p+1][K][1].first+dp[p+1][K][0].first);
+                dp[p][K][1].second = dp[p+1][K][1].second+dp[p+1][K][0].second;
+            } else {
+                dp[p][K][0].first = 2*dp[p+1][K][0].first;
+                dp[p][K][0].second = dp[p+1][K][0].second;
+                dp[p][K][1].first = 2*dp[p+1][K][1].first;
+                dp[p][K][1].second = dp[p+1][K][1].second;
+            }
+            rep(k, K) {
                 if(lmt[p] > 0) {
-                    dp[p][k+1][1] += dp[p+1][k][1]; // smaller is going smaller
-                    ans += dp[p+1][k][1] * q;
-                    dp[p][k+1][0] += dp[p+1][k][0]; // match is going match
-                    ans += dp[p+1][k][0] * q;
-                    dp[p][k][1] += dp[p+1][k][1] + dp[p+1][k][0]; // not 1 lower
+                    dp[p][k+1][1].first += 2*dp[p+1][k][1].first + dp[p+1][k][1].second; // smaller is going smaller
+                    dp[p][k+1][1].second += dp[p+1][k][1].second; // smaller is going smaller
+                    dp[p][k+1][0].first += 2*dp[p+1][k][0].first + dp[p+1][k][0].second; // match is going match
+                    dp[p][k+1][0].second += dp[p+1][k][0].second; // 
+                    dp[p][k][1].first += 2*(dp[p+1][k][1].first + dp[p+1][k][0].first); // not 1 lower
+                    dp[p][k][1].second += dp[p+1][k][1].second + dp[p+1][k][0].second;
                 } else {
-                    dp[p][k+1][1] += dp[p+1][k][1]; // match goes over
-                    ans += dp[p+1][k][1] * q;
-                    dp[p][k][1] += dp[p+1][k][1];
-                    dp[p][k][0] += dp[p+1][k][0]; // not 1 keep
+                    dp[p][k+1][1].first += 2*dp[p+1][k][1].first + dp[p+1][k][1].second; // match goes over
+                    dp[p][k+1][1].second += dp[p+1][k][1].second; // smaller is going smaller
+                    dp[p][k][1].first += 2*dp[p+1][k][1].first;
+                    dp[p][k][1].second += dp[p+1][k][1].second; // smaller is going smaller
+                    dp[p][k][0].first += 2*dp[p+1][k][0].first; // not 1 keep
+                    dp[p][k][0].second += dp[p+1][k][0].second; // smaller is going smaller
                 }
             }
+            
         }
-        ans += dp[0][K][0];
+        mint ans = dp[0][K][0].first + dp[0][K][1].first;
         cout << ans.val() << endl;
     }
     return 0;
