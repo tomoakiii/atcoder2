@@ -6,24 +6,30 @@ using namespace atcoder;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
-typedef long long ll;
+typedef unsigned long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S;
-    int Q;
-    cin >> S >> Q;
-    while(Q--) {
-        ll t, k;
-        cin >> t >> k;
-        k--;
-        
-        int st = t + popcount(k);
-        st %= 3;
-        char ans = S[k] + st;
-        if(ans > 'C') ans -= 3;
-        cout << ans << endl;
+    ll N,K;
+    cin >> N >> K;
+    ll s = 1;
+    ll lmt = 1;
+    
+    rep(i,K) {
+        lmt *= 10;
     }
+    rep(i,N) {
+        ll a;
+        cin>>a;
+        if(lmt/a < s) {
+            s = 1;
+        } else {
+            s *= a;
+            if(s>=lmt) s=1;
+        }        
+    }
+
+    cout<<s<<endl;
     return 0;
 }

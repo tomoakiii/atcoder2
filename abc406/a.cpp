@@ -1,4 +1,4 @@
-#include <atcoder/all>
+//#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
 using namespace atcoder;
@@ -11,19 +11,9 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S;
-    int Q;
-    cin >> S >> Q;
-    while(Q--) {
-        ll t, k;
-        cin >> t >> k;
-        k--;
-        
-        int st = t + popcount(k);
-        st %= 3;
-        char ans = S[k] + st;
-        if(ans > 'C') ans -= 3;
-        cout << ans << endl;
-    }
+    ll a,b,c,d;
+    cin>>a>>b>>c>>d;
+    if(a*60+b > c*60+d) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
     return 0;
 }
