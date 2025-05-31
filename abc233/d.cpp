@@ -6,29 +6,24 @@ using namespace atcoder;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
-typedef unsigned long long ll;
+typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint998244353 mint;
+
 int main(){
-    ll N;
-    cin >> N;
-    mint d2 = 1;
-    d2 /= 2;
-    auto func = [&](mint st) -> mint {
-        return (st) * (st+1) * d2;
-    };
-    ll k = 1;
-    mint ans = 0;
-    while(N) {        
-        if(N/10 >= k) {
-            ans += func(9*k);
-        } else {
-            ans += func(N-k+1);
-            break;
-        }
-        k *= 10;
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    rep(i,N-1) A[i+1] += A[i];
+    map<ll, int> mp;
+    // mp[0]++;
+    ll ans = 0;
+    rep(i,N) {
+        if(A[i] == K) ans++;
+        ans += mp[A[i]-K];
+        mp[A[i]]++;        
     }
-    cout << ans.val() << endl;
+    cout << ans << endl;
     return 0;
 }
