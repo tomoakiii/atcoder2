@@ -24,9 +24,13 @@ int main(){
     auto itr = st.begin();       // 最初の要素へのイテレータを取得
     
     for(itr = st.begin(); itr != st.end(); ++itr) {
-    
+        // cout<<*itr<<endl;
     }
-    
+    cout<<*(st.end())<<endl;
+    cout<<*(st.begin())<<endl;
+    cout<<*(st.lower_bound(9))<<endl;
+    cout<<*(st.lower_bound(10))<<endl;
+    /*
     multiset<ll> st;
     ll sm = 0;
     sm += A[0];
@@ -36,6 +40,7 @@ int main(){
         sm += *st.rbegin();
         st.erase(st.find(*st.rbegin())); // multisetから要素を1つだけ削除するには、findで指定する必要がある
         st.insert(A[i+1]);
-    }        
+    } 
+    */       
     return 0;
 }
