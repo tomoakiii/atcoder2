@@ -11,16 +11,7 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int s,t,x; cin>>s>>t>>x;
-    rep(i,50){       
-        if(s == t) break;
-        if(s == x) {
-            cout<<"Yes"<<endl;
-            return 0;
-        }        
-        s++;
-        if(s>=24) s==0;
-    }
-    cout<<"No"<<endl;
+    double X; cin>>X;
+    cout<<round(X)<<endl;
     return 0;
 }

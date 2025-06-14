@@ -104,7 +104,7 @@ int main(){
         vu[v].emplace_back(u);
         G.add_edge(u, v);
     }
-
+    
     for(auto gv: G.scc()) {
         if(gv.empty()) continue;
         ll s = gv.size();
