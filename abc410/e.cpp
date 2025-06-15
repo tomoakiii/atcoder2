@@ -9,30 +9,33 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+typedef pair<ll,ll> pll;
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll N,H,M;
+    cin >> N>>H>>M;
+    vector<ll> A(N), B(N);
+    rep(i,N) cin>>A[i]>>B[i];
+    vector dp(N+1, vector<ll>(H+1, INF));
+    dp[0][0] = 0;
+    rep(i,N) {
+        bool flg = false;
+        rep(a,H+1) {
+            ll na = a + A[i];
+            ll nb = dp[i][a] + B[i];
+            if(na <= H && dp[i][a] <= M) {
+                chmin(dp[i+1][na], dp[i][a]);
+                flg = true;
+            }
+            if(nb <= M) {
+                chmin(dp[i+1][a], nb);
+                flg = true;
+            }
+        }
+        if(!flg) {
+            cout<<i<<endl;
+            return 0;
+        }
     }
+    cout<<N<<endl;
     return 0;
 }
