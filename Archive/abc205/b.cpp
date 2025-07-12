@@ -13,14 +13,17 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    vector<ll> A(N);
+    rep(i,N) {
+        int a; cin>>a; a--;
+        A[a]++;
     }
-    cout<<st.size()<<endl;
-
+    rep(i,N) {
+        if(A[i] != 1) {
+            cout<<"No"<<endl;
+            return 0;
+        }
+    }
+    cout<<"Yes"<<endl;
     return 0;
 }

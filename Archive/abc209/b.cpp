@@ -11,16 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    ll N,X;
+    cin >> N >> X;
+    rep(i,N){
+        ll a;
+        cin>>a;
+        if(i%2==0) X-=a;
+        else X-=a-1;
     }
-    cout<<st.size()<<endl;
-
+    if(X>=0)cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
     return 0;
 }

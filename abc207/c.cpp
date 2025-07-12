@@ -13,14 +13,19 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    vector<pair<ll,ll>> v(N);
+    rep(i,N) {
+        int t; cin>>t;
+        ll l,r; cin>>l>>r;
+        if(t==1) v[i] = {10*l,10*r};
+        if(t==2) v[i] = {10*l,10*r-1};
+        if(t==3) v[i] = {10*l+1,10*r};
+        if(t==4) v[i] = {10*l+1,10*r-1};
     }
-    cout<<st.size()<<endl;
-
+    ll cnt=0;
+    rep(i,N) for(int j=i+1; j<N; j++) {
+        if (!(v[i].second < v[j].first || v[j].second < v[i].first))cnt++;
+    }
+    cout<<cnt<<endl;
     return 0;
 }

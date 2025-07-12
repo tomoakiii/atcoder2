@@ -11,16 +11,16 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    ll a,b,c,d; cin>>a>>b>>c>>d;
+    ll bl = a, rd = 0;
+    rep(i,2E5) {
+        bl += b;
+        rd += c;
+        if(bl <= d*rd) {
+            cout<<i+1<<endl;
+            return 0;
+        }
     }
-    cout<<st.size()<<endl;
-
+    cout<<-1<<endl;
     return 0;
 }

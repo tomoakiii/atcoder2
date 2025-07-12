@@ -11,16 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    ll N,K;
+    cin >> N >> K;
+    vector<pair<ll,ll>> A(N);
+    rep(i,N) {
+        cin>>A[i].first>>A[i].second;
     }
-    cout<<st.size()<<endl;
 
+    sort(A.begin(), A.end());
+    ll st = 0;
+    rep(i,N) {        
+        if(A[i].first - st <= K) {
+            K -= A[i].first - st;
+            st = A[i].first;
+            K += A[i].second;
+        } else {
+            cout << st+K << endl;
+            return 0;
+        }
+    }    
+    cout<<st+K<<endl;
     return 0;
 }

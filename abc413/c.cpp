@@ -11,28 +11,33 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    int Q;
+    cin>>Q;
+    deque<pair<ll,ll>> deq;
+    while(Q--){
+        int t; cin>>t;
+        if(t==1) {
+            ll c,x; cin>>c>>x;
+            deq.push_back({c,x});
+        } else {
+            ll k; cin>>k;
+            ll sm = 0;
+            while(k){            
+                auto [c,x] = deq.front();
+                deq.pop_front();
+                if(c<=k) {
+                    k -= c;
+                    sm += c*x;
+                } else {
+                    c -= k;
+                    sm += k*x;
+                    k = 0;
+                    deq.push_front({c,x});
+                }
+            }
+            cout<<sm<<endl;
 
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+        }
     }
     return 0;
 }

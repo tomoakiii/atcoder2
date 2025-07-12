@@ -10,17 +10,25 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+int main(){    
+    ll N, M;
+    cin >> N >> M;
+    vector dist(N, vector<ll>(N, INF));    
+    rep(i,M) {
+        int u,v;
+        ll c;
+        cin>>u>>v>>c;
+        u--, v--;
+        dist[u][v] = c;
     }
-    cout<<st.size()<<endl;
-
+    
+    ll sm = 0;
+    rep(k,N) rep(i,N) rep(j,N) {
+        if(i==j)continue;
+        chmin(dist[i][j], dist[i][k] + dist[k][j]);
+        if(dist[i][j] < INF) sm += dist[i][j];
+    }
+    cout<<sm<<endl;
+    
     return 0;
 }

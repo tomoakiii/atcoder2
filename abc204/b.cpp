@@ -11,16 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
+    ll N,a;
     cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>S[i];
-    set<string> st;
-    rep(i,N)rep(j,N) {
-        if(i==j) continue;
-        st.insert(S[i] + S[j]);
+    ll ans = 0;
+    
+    rep(i,N) {
+        cin>>a;
+        if(a>10) ans += a-10;
     }
-    cout<<st.size()<<endl;
-
+    cout<<ans<<endl;
     return 0;
 }
