@@ -11,17 +11,26 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    map<ll,ll> mp;
+    ll N,M;
+    cin >> N >> M;    
+    set<ll> st;
     rep(i,N) {
-        ll a; cin>>a;        
-        mp[a%200]++;
+        ll a;
+        cin>>a;
+        st.insert(a);
+    }
+    ll last = 0;
+    vector<ll> G;
+    for(auto s: st) {
+        if(s != *st.begin()) G.push_back(s - last);
+        last = s;
     }
     ll ans = 0;
-    for(auto [x,y]:mp) {
-        ans += y*(y-1)/2;
+    sort(G.begin(), G.end());
+    rep(i,M-1) {
+        if(G.size() > 0) G.pop_back();
     }
+    for(auto g: G) ans += g;
     cout<<ans<<endl;
     return 0;
 }

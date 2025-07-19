@@ -13,15 +13,30 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    map<ll,ll> mp;
+    map<ll, int> A;
+    vector<ll> C(N);
+    vector B(N+1, vector<ll>{});
     rep(i,N) {
-        ll a; cin>>a;        
-        mp[a%200]++;
+        ll a; cin >> a;
+        A[a]++;
     }
+    rep(i,N) {
+        ll b; cin>>b;
+        B[b].push_back(i);
+    }
+    rep(i,N) {
+        ll c;
+        cin>>c;
+        c--;
+        C[c]++;
+    }    
     ll ans = 0;
-    for(auto [x,y]:mp) {
-        ans += y*(y-1)/2;
+    for(auto a: A) {
+        for(auto k: B[a.first]){
+            ans+=C[k] * a.second;
+        }
     }
+
     cout<<ans<<endl;
     return 0;
 }

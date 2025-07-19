@@ -11,17 +11,13 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    map<ll,ll> mp;
-    rep(i,N) {
-        ll a; cin>>a;        
-        mp[a%200]++;
+    string S;
+    cin>>S;
+    rep(i, S.size()) {
+        if(S[i] == '6') S[i] = '9';
+        else if(S[i] == '9') S[i] = '6';
     }
-    ll ans = 0;
-    for(auto [x,y]:mp) {
-        ans += y*(y-1)/2;
-    }
-    cout<<ans<<endl;
+    reverse(S.begin(), S.end());
+    cout<<S<<endl;
     return 0;
 }

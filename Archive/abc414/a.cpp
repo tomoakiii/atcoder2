@@ -11,17 +11,16 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    map<ll,ll> mp;
+    ll N, L, R; cin >> N >> L >> R;    
+    int cnt = 0;
     rep(i,N) {
-        ll a; cin>>a;        
-        mp[a%200]++;
+        ll x,y;
+        cin>>x>>y;
+        if(x<=L && R<=y) {
+            cnt ++;
+        }
+
     }
-    ll ans = 0;
-    for(auto [x,y]:mp) {
-        ans += y*(y-1)/2;
-    }
-    cout<<ans<<endl;
+    cout << cnt << endl;
     return 0;
 }
