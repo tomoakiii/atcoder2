@@ -11,11 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll A,B,K; cin>>A>>B>>K;
-    string S = "";
-    rep(i,A) S.push_back('a');
-    rep(i,B) S.push_back('b');
-    int cnt = 0;
-    
+    string S; cin>>S;
+    bool flg = true;
+    rep(i,S.size()){
+        if(S[i]=='#') {
+            cout<<(i+1);
+            flg = !flg;
+            if(flg) cout<<endl;
+            else cout<<',';        
+        }
+    }
     return 0;
 }

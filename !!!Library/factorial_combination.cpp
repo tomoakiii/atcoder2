@@ -37,6 +37,20 @@ public:
 
 };
 
+// nCk = nC(n+n-k)
+ll cmb(ll n, ll k){
+    if(n-k < k)  k = n-k;
+    ll u = 1, l = 1;
+    ll st = n, st2 = 1; 
+    rep(i,k) {
+        u *= st;
+        st--;
+        l *= st2;
+        st2++;
+    }    
+    return u/l;
+}
+
 int main(){
     ll A, B, C, D;
     cin>>A>>B>>C>>D;
