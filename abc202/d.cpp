@@ -17,5 +17,6 @@ int main(){
     rep(i,B) S.push_back('b');
     int cnt = 0;
     
+    
     return 0;
 }

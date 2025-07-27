@@ -33,22 +33,19 @@ int main(){
                     ans(dp[nx]);
                     return 0;
                 } else {
-                    dp_new[nx] = dp[j];
-                    dp_new[nx].push_back(i+1);
+                    dp[nx].push_back(i+1);
                 }
-                dp_new[j] = dp[j];
             }
         }
         ll a2 = A[i]%200;
-        if(dp_new[a2].empty()) {
-            dp_new[a2].push_back(i+1);
+        if(dp[a2].empty()) {
+            dp[a2].push_back(i+1);
         } else {
             cout<<"Yes"<<endl;
-            ans(dp_new[a2]);
+            ans(dp[a2]);
             cout<<1<<" "<<i+1<<endl;
             return 0;
         }
-        swap(dp, dp_new);
     }
     cout<<"No"<<endl;
     return 0;
