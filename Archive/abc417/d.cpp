@@ -15,40 +15,32 @@ int main(){
     cin >> N;
     vector<ll> P(N), A(N), B(N);    
     rep(i,N) cin>>P[i] >> A[i] >> B[i];
-    ll M = 1000;
+    ll M = 2000;
     ll last = P[N-1];    
-    ll sm = 0;
-    rep(i,N) sm+= B[i];
-    vector<ll> dp(M*10000,-1);
+    vector<ll> sm(N+1);
+    rep(i,N) sm[i+1] = B[i] + sm[i];
+    vector dp(N+1, vector<ll>(M));
     
-    rep(i,P[N-1]+1) dp[i] = i + A[N-1];            
-    for(int i = P[N-1] + 1; i < M*10000; i++) dp[i] = max((ll)0, i-B[N-1]);
-    
-    for(int i=N-2; i>=0; i--) {
-        vector<ll> dp_new(M*10000,-1);
+    rep(i,M) dp[N][i] = i;    
+    for(int i=N-1; i>=0; i--) {
         rep(j, P[i]+1) {   
             int id = j+A[i];
-            dp_new[j] = dp[id];            
+            dp[i][j] = dp[i+1][id];         
         }
-        ll last2;
-        for(int j = P[i] + 1; j < M*10000; j++) {
+        for(int j = P[i]+1; j<M; j++) {
             int id = max((ll)0, j - B[i]);
-            dp_new[j] = dp[id];
-            if(id > last) {
-                last2 = j;
-                break;
-            }
+            dp[i][j] = dp[i+1][id];
         }
-        last = last2;
-        swap(dp, dp_new);
     }
     ll Q; cin>>Q;
     while(Q--){
         ll x; cin >> x;
-        if(x > last) {
-            cout<<x-sm<<endl;
+        if(x >= M) {
+            auto id = upper_bound(sm.begin(), sm.end(), x-M) - sm.begin();            
+            if(id < N) cout<<dp[id][x-sm[id]]<<endl;
+            else cout<<x-sm[N]<<endl;
         }else {
-            cout<<dp[x]<<endl;
+            cout<<dp[0][x]<<endl;
         }
     }
 

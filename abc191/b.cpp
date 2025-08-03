@@ -11,16 +11,12 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-    vector<ll> B(N);
-    rep(i,N) B[i] = (i+1) - A[i];
-    map<ll,ll> mp;
-    rep(i,N) mp[A[i]+i+1]++;
-    ll ans = 0;
-    for(auto b:B) ans += mp[b];
-    cout << ans << endl;
+    ll N, X;
+    cin >> N >> X;
+    rep(i,N) {
+        ll a; cin>>a;
+        if(a != X) cout<<a<<" ";
+    }
+    cout<<endl;
     return 0;
 }

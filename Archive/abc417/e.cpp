@@ -24,21 +24,19 @@ int main(){
             uv[u].emplace_back(v);
             uv[v].emplace_back(u);
         }
-        priority_queue<int, vector<int>, greater<int>> pq;
-        pq.push(X);
+        for(auto &u: uv) sort(u.begin(), u.end());
         vector<int> pre(N,INFi);
         vector<bool> visit(N);
-        while(!pq.empty()){
-            auto p = pq.top();
-            pq.pop();
-            if(visit[p]) continue;
-            visit[p] = true;
-            for(auto nx: uv[p]) {
-                if(visit[nx]) continue;                
-                pre[nx] = p;
-                pq.push(nx);
+        auto f = [&](auto f, int cur)->void{
+            visit[cur] = true;
+            set<int> st;
+            for(auto nx: uv[cur]){
+                if(visit[nx]) continue;
+                pre[nx] = cur;
+                f(f, nx);
             }
-        }
+        };
+        f(f, X);
         int id = Y;
         vector<int> ans;
         ans.push_back(Y);
