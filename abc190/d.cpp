@@ -11,15 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    double x, y, r;
-    cin >> x >> y >> r;
-    auto jdg = [&](double a, double b)->bool{
-        double dr = (a-x)*(a-x) + (b-y)*(b-y);
-        return dr*dr <= r*r;
-    };
-    for(ll xs = ceil(x-r); xs <= floor(x+r); xs++) {
-        ll ys = floor(y);
-        if(jdg(xs,ys))
+    ll N;
+    cin >> N;
+    ll ans = 0;
+    for(ll i=1; i*i<=2*N; i++) {
+        if((2*N)%i != 0) continue;
+        ll x = 2*N/i;
+        if(x%2 != i%2) ans+=2;
     }
+    cout<<ans<<endl;
     return 0;
 }
