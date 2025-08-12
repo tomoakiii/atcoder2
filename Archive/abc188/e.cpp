@@ -11,10 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    vector<ll> A(3);
-    rep(i,3) cin>>A[i];
-    sort(A.begin(),A.end());
-    if(A[2]-A[1] == A[1]-A[0])cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    ll N, M;
+    cin >> N >> M;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+    }
+    ll mx = -INF;
+    vector<ll> mn(N, INF);
+    rep(i,N){
+        if(mn[i]) chmax(mx, A[i] - mn[i]);
+        for(auto nx: uv[i]) {
+            chmin(mn[nx], min(mn[i], A[i]));
+        }
+    }
+    cout<<mx<<endl;
     return 0;
 }
