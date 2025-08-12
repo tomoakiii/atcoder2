@@ -11,18 +11,21 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll H,W,C;
-    cin>>H>>W>>C;
-    vector A(H, vector<ll>(W));
-    rep(i,H) rep(j,W) cin>>A[i][j];
-    ll ans = INF;
-    vector dp(H, vector<ll>(W, INF));    
-    rep(i,H)rep(j,W) {
-        chmin(ans, dp[i][j] + A[i][j]);
-        if(i==H-1 && j==W-1) continue;
-        else if(j < W-1) chmin(dp[i][j+1], min(dp[i][j] + C, A[i][j]+C));
-        else if(i < H-1) chmin(dp[i+1][j], min(dp[i][j] + C, A[i][j]+C));
+    string S;
+    cin >> S;
+    int m = S.size();
+    double ans = 0;
+    rep(i,m) {
+        if(S[i]!='t') continue;
+        ll tl = 1, x = 1;
+        for(int j=i+1; j<m; j++) {            
+            tl+=1;
+            if(S[j] == 't') {
+                x+=1;
+                if(tl >= 3) chmax(ans, ((double)x-2)/((double)tl-2));
+            }            
+        }
     }
-    cout<<ans<<endl;
+    printf("%.11f\n", ans);
     return 0;
 }

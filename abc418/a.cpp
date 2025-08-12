@@ -11,18 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll H,W,C;
-    cin>>H>>W>>C;
-    vector A(H, vector<ll>(W));
-    rep(i,H) rep(j,W) cin>>A[i][j];
-    ll ans = INF;
-    vector dp(H, vector<ll>(W, INF));    
-    rep(i,H)rep(j,W) {
-        chmin(ans, dp[i][j] + A[i][j]);
-        if(i==H-1 && j==W-1) continue;
-        else if(j < W-1) chmin(dp[i][j+1], min(dp[i][j] + C, A[i][j]+C));
-        else if(i < H-1) chmin(dp[i+1][j], min(dp[i][j] + C, A[i][j]+C));
+    int m;
+    string S;
+    cin >> m >> S;
+    if(m < 3) {
+        cout<<"No"<<endl;
+        return 0;
     }
-    cout<<ans<<endl;
+    if(S[m-1] == 'a' && S[m-2] == 'e' && S[m-3] == 't') cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
     return 0;
 }
