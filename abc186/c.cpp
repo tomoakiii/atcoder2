@@ -13,26 +13,19 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    ll cnt = 0;
+    auto jdg = [](ll x, ll p)->bool{
+        while(x) {
+            if (x % p == 7) return false;
+            x /= p;
+        }
+        return true;
+    };
 
-    string S;
-    cin >> S;
 
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    for(ll i=1; i<=N; i++){
+        if (jdg(i, 10) & jdg(i, 8)) cnt++;
     }
+    cout << cnt << endl;
     return 0;
 }

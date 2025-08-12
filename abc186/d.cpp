@@ -15,24 +15,13 @@ int main(){
     cin >> N;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    sort(A.begin(), A.end());
+    ll sm = A[0]; 
+    ll ans = 0;
+    rep(i,N-1) {
+        ans += (i+1) * A[i+1] - sm;
+        sm += A[i+1];
     }
+    cout << ans << endl;
     return 0;
 }
