@@ -11,28 +11,27 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll Top;
+    cin >> Top;
+    while(Top--){
+        ll N,S,K;
+        cin>>N>>S>>K;
+        ll a = K%N;
+        vector<ll> ret;
+        for (ll i = 1; i * i <= S; i++) {
+            if (S % i == 0) {
+                ret.push_back(i);
+                if (i * i != S) ret.push_back(S/i);
+            }
+        }
+        ll ans = INF;
+        for(auto v: ret) {
+            ll g = gcd(v, N);
+            ll NN = N/g;
+            ll p = NN - S/v;
+            chmin(ans, p);
+        }
+        cout << ans << endl;
     }
     return 0;
 }
