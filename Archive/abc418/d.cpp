@@ -15,17 +15,18 @@ int main(){
     cin >> N;
     string S;
     cin >> S;
-    ll cnt0=0, cnt1=0;
-    ll ans = 0;
+    ll cnt0=0;
+    ll od = 0, ev = 1;
     for(auto c: S) {        
         if(c == '0') {
-            ans += 
             cnt0++;
-        }else {
-            cnt1++;
         }
+        if(cnt0 % 2 == 0) ev++;
+        else od++;
     }
-    
+    ll ans = 0;
+    ans += ev * (ev-1) / 2;
+    ans += od * (od-1) / 2;
     cout<<ans<<endl;
     return 0;
 }
