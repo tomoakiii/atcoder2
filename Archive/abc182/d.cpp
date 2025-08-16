@@ -15,24 +15,16 @@ int main(){
     cin >> N;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll sm = 0;
+    ll mx = max(0ll,A[0]);
+    ll ans = -INF;
+    rep(i,N-1) {
+        A[i+1] += A[i];
+        chmax(mx, A[i+1]);
+        chmax(ans, sm + mx);
+        sm += A[i];
     }
+    chmax(ans, sm + mx);
+    cout << ans << endl;
     return 0;
 }
