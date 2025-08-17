@@ -11,20 +11,19 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
-    vector<ll> A(N), B(M);
-    rep(i,N) cin>>A[i];
-    rep(i,M) cin>>B[i];
-    vector dp(N+1, vector<ll>(M+1));
-
-    for(int i=1; i<N; i++) for(int j=1; j<N; j++) {
-        if(A[i] == B[j]) {
-            chmax(dp[i][j], dp[i-1][j-1]+1);
+    int Q; cin>>Q;
+    multiset<ll> st;
+    while(Q--){
+        int top; cin>>top;
+        if(top == 1) {
+            ll x; cin >> x;
+            st.insert(x);
         } else {
-            chmax(dp[i][j], max(dp[i-1][j],dp[i][j-1]));
+            auto s = st.begin();
+            cout << *s << endl;
+            st.erase(s);
         }
     }
-    cout << N+M-dp[N][M]*2 << endl;
+    
     return 0;
 }

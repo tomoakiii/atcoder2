@@ -11,20 +11,11 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
-    vector<ll> A(N), B(M);
-    rep(i,N) cin>>A[i];
-    rep(i,M) cin>>B[i];
-    vector dp(N+1, vector<ll>(M+1));
-
-    for(int i=1; i<N; i++) for(int j=1; j<N; j++) {
-        if(A[i] == B[j]) {
-            chmax(dp[i][j], dp[i-1][j-1]+1);
-        } else {
-            chmax(dp[i][j], max(dp[i-1][j],dp[i][j-1]));
-        }
-    }
-    cout << N+M-dp[N][M]*2 << endl;
+    string S;
+    cin>>S;
+    if(S=="red") cout<<"SSS"<<endl;
+    else if(S=="blue") cout<<"FFF"<<endl;
+    else if(S=="green") cout<<"MMM"<<endl;
+    else cout<<"Unknown"<<endl;
     return 0;
 }

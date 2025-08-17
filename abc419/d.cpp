@@ -13,18 +13,23 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N, M;
     cin >> N >> M;
-    vector<ll> A(N), B(M);
-    rep(i,N) cin>>A[i];
-    rep(i,M) cin>>B[i];
-    vector dp(N+1, vector<ll>(M+1));
-
-    for(int i=1; i<N; i++) for(int j=1; j<N; j++) {
-        if(A[i] == B[j]) {
-            chmax(dp[i][j], dp[i-1][j-1]+1);
+    string S,T; cin>>S>>T;
+    vector<int> sm(N+1);
+    while(M--){
+        int l, r; cin >> l >> r;
+        l--, r--;
+        sm[l]++;
+        sm[r+1]++;
+    }
+    rep(i,N) sm[i+1] += sm[i];
+    string ans;
+    rep(i,N) {
+        if(sm[i] % 2 == 0) {
+            ans.push_back(S[i]);
         } else {
-            chmax(dp[i][j], max(dp[i-1][j],dp[i][j-1]));
+            ans.push_back(T[i]);
         }
     }
-    cout << N+M-dp[N][M]*2 << endl;
+    cout << ans << endl;
     return 0;
 }
