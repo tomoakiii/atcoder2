@@ -35,8 +35,13 @@ int main(){
         }
     }
     for(auto v: vh) {
-        
+        for(auto v2: vw) {
+            if(!vH[v].contains(v2)) {
+                cout << mxh + mxw << endl;
+                return 0;
+            }
+        }
     }
-    cout << p1 + p2 - 1 << endl;
+    cout << mxh + mxw - 1 << endl;
     return 0;
 }
