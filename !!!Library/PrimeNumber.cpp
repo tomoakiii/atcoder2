@@ -10,7 +10,6 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 vector<ll> Eratosthenes(const ll N )
 {
     vector<bool> is_prime( N + 1 );
@@ -32,6 +31,52 @@ vector<ll> Eratosthenes(const ll N )
     }
     return P;
 }
+
+/*
+    行列の要素を全部高速に素因数分解する方法
+    https://atcoder.jp/contests/abc177/editorial/82
+    fast prime factorization applied for all members in vector:
+    if A = {4, 6, 10}, call prime_factorization_vector(A, 10).
+    then, the return is 
+    X = {
+        {2},
+        {2, 3},
+        {2, 5}
+    }
+    the compute time is O(A log log A + M log A)
+*/
+vector<unordered_set<ll>> prime_factorization_vector(vector<ll> &vec, ll M) {
+    vector<bool> is_prime(M + 1, true );
+    vector<ll> pre(M+1);
+    vector<ll> P;
+    rep(j,M+1) pre[j] = j;
+    for( ll i = 2; i <= M; i++ )
+    {
+        if( is_prime[ i ] )
+        {
+            for( ll j = 2 * i; j <= M; j += i )
+            {
+                is_prime[ j ] = false;
+                pre[ j ] = i;
+            }
+        }
+    }
+    int sz = vec.size();
+    vector<unordered_set<ll>> ret(sz);
+    rep(i, sz) {
+        ll v = vec[i];
+        while(v != 1) {
+            ll p = pre[v];
+            ret[i].insert(p);
+            // cerr<<i<<" "<<p<<endl;
+            v /= p;
+        }
+    }
+    return ret;
+}
+
+
+
 
 
 /* 
