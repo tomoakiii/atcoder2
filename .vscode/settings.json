@@ -93,7 +93,8 @@
         "expected": "cpp",
         "format": "cpp",
         "spanstream": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "segtree": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
