@@ -11,28 +11,22 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
+    ll N,M;
     cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+
+    vector<string> S(N);    
+    rep(i,N) cin>>S[i];
+    vector<int> get1(M);
+    rep(i,N) rep(j,M) {
+        if(S[i][j] == '1') get1[j]++;
     }
+    vector<ll> P(N);
+    rep(i,N) rep(j,M) {
+        if(S[i][j] == '1' && get1[j] <= N/2 ) P[i]++;
+        else if (S[i][j] == '0' && get1[j] > N/2) P[i]++;
+    }
+    ll mx = 0;
+    rep(i,N) chmax(mx, P[i]);
+    rep(i,N) if(mx == P[i]) cout<<i+1<<endl;
     return 0;
 }
