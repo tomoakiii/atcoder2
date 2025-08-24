@@ -11,22 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    int H,W,K; cin>>H>>W>>K;
-    vector<string> G(H);
-    rep(i,H) cin>>G[i];
-    ll sm = 0;
-    rep(y, H) rep(x, W) if(G[y][x] == '#') sm++;
+    ll N,M,K;
+    cin >> N >> M >> K;
+    vector<ll> A(N+1), B(M+1);
+    rep(i,N) cin>>A[i+1];
+    rep(i,M) cin>>B[i+1];
+    rep(i,N) A[i+1] += A[i];
+    rep(i,M) B[i+1] += B[i];
+    ll j = M;
     ll ans = 0;
-    rep(i, 1<<H) {
-        rep(j, 1<<W) {
-            ll sm2 = sm;
-            rep(y, H) rep(x, W) {
-                if((i >> y & 1) && (j >> x & 1)) {
-                    if(G[y][x] == '#') sm2--;
-                }
-            }
-            if(sm2 == K) ans++;
-        }
+    rep(i, N+1) {
+        while(j>=0 && A[i] + B[j] > K) j--;
+        if(j>=0)chmax(ans, i + j);    
     }
     cout << ans << endl;
     return 0;
