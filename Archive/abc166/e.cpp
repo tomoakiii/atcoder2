@@ -11,14 +11,19 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    double a,b,h,m;
-    cin>>a>>b>>h>>m;
-    double ah = h / 12 * 2 * M_PI;
-    double am = m / 60 * 2 * M_PI;
-    double xh = a * cos(ah), yh = a * sin(ah);
-    double xm = b * cos(am), ym = b * sin(am);
-    double dx = xh - xm, dy = yh - ym;
-    printf("%.10f", sqrt(dx*dx + dy*dy) );
-
+    int N;
+    cin >> N;
+    vector<int> A(N);
+    map<int,ll> mp;
+    rep(i,N) {
+        int a; cin >> a;
+        mp[i-a]++;
+        A[i] = a;
+    }
+    ll ans = 0;
+    rep(i,N) {
+        ans += mp[i + A[i]];
+    }
+    cout << ans << endl;
     return 0;
 }
