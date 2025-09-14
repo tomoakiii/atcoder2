@@ -27,7 +27,12 @@ int main(){
         A[i] = {a,b,c,d};
     }
     sort(A.begin(), A.end());
-    ll dp[11][11];
-    
+    vector<ll> dp(11,-1);
+    dp[0] = 0;
+    rep(i,Q) {
+        int a = A[i].a;
+        int b = A[i].b;
+        dp[i]
+    }
     return 0;
 }
