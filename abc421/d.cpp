@@ -14,44 +14,79 @@ int main(){
     ll Rt,Ct,Ra,Ca; cin>>Rt>>Ct>>Ra>>Ca;
     ll N,M,L; cin >> N >> M >> L;
     vector<char> Dt(M), Da(L);
-    vector<ll> Nt(M), Na(L);    
+    vector<ll> Nt(M), Na(L);
+    map<char,int> dmp;
+    dmp['U'] = 0;
+    dmp['R'] = 1;
+    dmp['D'] = 2;
+    dmp['L'] = 3;
+    
     rep(i,M) {        
         cin >> Dt[i] >> Nt[i];        
     }
     rep(i,L) {
         cin >> Da[i] >> Na[i];
     }
-    ll ans = 0;
-    ll cnt = 0;
     int l = 0, r = 0;
     ll Rt2, Ct2, Ra2, Ca2;
-    ll cl=0, cr=0;
-    while(l<N && r<N) {
-        if(cl < cr) {
-            if(Dt[l] == 'D') Rt2 = Rt + Nt[l];
-            if(Dt[l] == 'U') Rt2 = Rt - Nt[l];
-            if(Dt[l] == 'R') Ct2 = Ct + Nt[l];
-            if(Dt[l] == 'L') Ct2 = Ct - Nt[l];
-            
-            if(Dt[l] == 'D' && (Rt < Ra && Ra <= Rt2)) ans++;
-            if(Dt[l] == 'U' && (Rt2 <= Ra && Ra < Rt)) ans++;
-            if(Dt[l] == 'R' && (Ct < Ca && Ca <= Ct2)) ans++;
-            if(Dt[l] == 'L' && (Ct2 <= Ca && Ca < Ct)) ans++;
-            swap(Rt, Rt2); swap(Ct, Ct2);
-            cl += Nt[l]; l++;
+    ll ans = 0;
+    while(l<M || r<L) {
+        auto mov = [](char d, ll y, ll x, ll nm) -> pair<ll,ll> {
+            if(d == 'D') y += nm;
+            if(d == 'U') y -= nm;
+            if(d == 'R') x += nm;
+            if(d == 'L') x -= nm;
+            return {y,x};
+        };
+        
+        auto step = [&](ll nm)->void{
+            Na[r] -= nm;
+            Nt[l] -= nm;
+            auto mret = mov(Dt[l], Rt, Ct, nm);
+            Rt2 = mret.first, Ct2 = mret.second;
+            mret = mov(Da[r], Ra, Ca, nm);
+            Ra2 = mret.first, Ca2 = mret.second;
+            if(Na[r] == 0) {
+                r++;
+            }
+            if(Nt[l] == 0) {
+                l++;
+            }
+        };
+        
+        char dt = Dt[l], da = Da[r];
+        bool issame = (Rt==Ra && Ct==Ca);
+        bool issamed = (Dt[l]==Da[r]);
+        bool isopd = ( (dmp[Dt[l]] + 2)%4 == dmp[Da[r]] ); 
+        ll nm;
+        if(l == N) {
+            nm = Na[r];
+        } else if (r == N) {
+            nm = Nt[l];
         } else {
-            if(Da[l] == 'D') Ra2 = Ra + Na[r];
-            if(Da[l] == 'U') Rt2 = Rt - Na[r];
-            if(Da[l] == 'R') Ca2 = Ca + Na[r];
-            if(Da[l] == 'L') Ca2 = Ca - Na[r];
-            
-            if(Da[l] == 'D' && (Ra < Rt && Rt <= Ra2)) ans++;
-            if(Da[l] == 'U' && (Ra2 <= Rt && Rt < Ra)) ans++;
-            if(Da[l] == 'R' && (Ca < Ct && Ct <= Ca2)) ans++;
-            if(Da[l] == 'L' && (Ca2 <= Ct && Ct < Ca)) ans++;
-            swap(Ra, Ra2); swap(Ca, Ca2);
-            cr += Na[r]; r++;
+            nm = min(Nt[l], Na[r]);
         }
+        step(nm);
+        if(issamed) {
+            if(issame) ans += nm;
+        } else if (isopd) {
+            if ( (Ra == Rt && Ct > Ca && Ct2 <= Ca2 && (Ct-Ca)%2 == 0) || 
+                (Ra == Rt && Ct < Ca && Ct2 >= Ca2 && (Ca-Ct)%2 == 0) || 
+                (Ca == Ct && Rt > Ra && Rt2 <= Ra2 && (Rt-Ra)%2 == 0) || 
+                (Ca == Ct && Rt < Ra && Rt2 >= Ra2 && (Ra-Rt)%2 == 0) ) {
+                ans++;
+            }
+        } else if (!issame) {
+            ll mv = (dt == 'U' || dt == 'D') ? abs(Rt - Ra) : abs(Ct - Ca);
+            chmin(mv, nm);
+            auto [Rxt, Cxt] = mov(dt, Rt, Ct, mv);
+            auto [Rxa, Cxa] = mov(da, Ra, Ca, mv);
+            if(Rxt == Rxa && Cxt == Cxa) {
+                ans++;
+            }
+        }
+        swap(Ra, Ra2); swap(Ca, Ca2);
+        swap(Rt, Rt2); swap(Ct, Ct2);
     }
     cout << ans << endl;
     return 0;

@@ -13,26 +13,20 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    vector<ll> X(N),Y(N),Z(N);
+    rep(i,N) cin>>X[i]>>Y[i]>>Z[i];
+    vector<ll> cst(1<<N); 
+    ll ans = INF;
+    auto cost(int a, int b) -> ll {
+        return abs(X[a]-X[b]) + abs(Y[a]-Y[b]) + max(0, Z[b]-Z[a]);
+    };
+    auto func = [](int cur, ll hist, ll cst) {
+        if(hist == (1<<N) - 1) {
+            chmin(ans, cst + cost(cur, 0));
+        }
+        for(int k=1; k<N; k++) {
 
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
-    }
+        }
+    };
     return 0;
 }
