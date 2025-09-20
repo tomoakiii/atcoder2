@@ -12,7 +12,7 @@ const int INFi = 0x0F0F0F0F;
 struct ST{
     int a,b,c,d;
     const bool operator<(const ST &x) const{
-        return a < x.a;
+        return b < x.b;
     };
 };
 int main(){
@@ -21,18 +21,31 @@ int main(){
     vector<ST> A(Q);
 
     rep(i,Q) {
-        ll a,b,c,d;
+        int a,b,c,d;
         cin>>a>>b>>c>>d;
         a--, b--;
         A[i] = {a,b,c,d};
     }
-    sort(A.begin(), A.end());
-    vector<ll> dp(11,-1);
-    dp[0] = 0;
-    rep(i,Q) {
-        int a = A[i].a;
-        int b = A[i].b;
-        dp[i]
-    }
+
+    ll ans = 0;
+
+    auto dfs = [&](auto dfs, int cur, int arr[], int low)->void{
+        if(cur == N) {
+            ll score = 0;
+            rep(i,Q) {
+                if(arr[A[i].b] - arr[A[i].a] == A[i].c) score += A[i].d;
+                chmax(ans, score);
+            }
+            return;
+        }
+        for(int i=low; i<M; i++) {
+            arr[cur] = i;
+            dfs(dfs, cur+1, arr, i);
+        }
+        return;
+    };
+    int arr[10];
+    dfs(dfs, 0, arr, 0);
+    cout << ans << endl;
     return 0;
 }
