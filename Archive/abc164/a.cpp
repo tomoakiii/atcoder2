@@ -11,14 +11,8 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll X;
-    cin >> X;
-    ll t = 0;
-    ll now = 100;
-    while(X > now) {
-        t++;
-        now  = now + now/100;
-    }
-    cout << t << endl;
+    ll S, W; cin >> S >> W;
+    if(S <= W) cout << "unsafe" << endl;
+    else cout << "safe" << endl; 
     return 0;
 }

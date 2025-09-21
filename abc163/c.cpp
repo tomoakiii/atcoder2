@@ -11,14 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll K,A,B;
-    cin >> K >> A >> B;
-    for(int a = A; a <= B; a++) {
-        if(a%K==0) {
-            cout<<"OK"<<endl;
-            return 0;
-        }
+    ll N;
+    cin >> N;
+    int a;
+    vector uv(N, vector<int>{});
+    rep(i,N-1) {
+        cin>>a; a--;
+        uv[a].push_back(i+1);
     }
-    cout<<"NG"<<endl;
+    rep(i,N) cout<<uv[i].size()<<endl;   
     return 0;
 }
