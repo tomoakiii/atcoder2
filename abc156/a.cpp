@@ -11,11 +11,11 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N>>M;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-
+    ll N,R;
+    cin >> N>>R;
+    if(N>=10) cout<<R<<endl;
+    else {
+        cout << R + (100*(10-N)) << endl;
+    }
     return 0;
 }

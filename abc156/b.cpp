@@ -11,11 +11,13 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N>>M;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-
+    ll N,K;
+    cin >> N >> K;
+    int cnt = 0;
+    while(N) {
+        N/=K;
+        cnt++;
+    }
+    cout<<cnt<<endl;
     return 0;
 }

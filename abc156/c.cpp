@@ -11,11 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M;
-    cin >> N>>M;
+    ll N;
+    cin >> N;
+    double sm = 0; 
     vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-
+    rep(i,N) {
+        cin>>A[i];
+        double x = A[i]; sm+=x;
+    }
+    sm /= (double)N;
+    ll p = round(sm);
+    ll ans = 0;
+    rep(i,N) {
+        ans += (A[i] - p) * (A[i] - p);
+    }
+    cout << ans << endl;
     return 0;
 }
