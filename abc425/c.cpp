@@ -11,28 +11,32 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
+    ll N,Q;
+    cin >> N >> Q;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    rep(i,N-1) A[i+1] += A[i];
+    int sft = 0;
+    while(Q--) {
+        int top; cin>>top;
+        if(top == 1) {
+            int c; cin >> c;
+            sft += c;
+            sft %= N;
+        } else {
+            int l, r; cin>>l>>r;
+            l--, r--;
+            l += sft, r+= sft;
+            l%=N; r%=N;
+            ll sm = 0;
+            if(r<l) {
+                sm += A[N-1] - (A[l-1] - A[r]);
+            } else {
+                if(l-1>=0) sm += A[r] - A[l-1];
+                else sm += A[r];
+            }
+            cout << sm << endl;
+        }
     }
     return 0;
 }
