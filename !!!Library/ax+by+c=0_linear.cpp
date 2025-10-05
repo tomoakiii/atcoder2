@@ -25,11 +25,12 @@ int main(){
         int p0 = dist(rd);
         rd();
         int p1 = dist(rd);
-            
-        auto make_ab = [&X, &Y](int p0, int p1)-> abc{
+        
+        // X[p0], Y[p0] および X[p1], Y[p1] を通る直線の係数
+        auto make_ab = [&](ll x1, ll x2, ll y1, ll y2)-> abc{
             // return abc for a*x + b*y + c = 0
-            ll dX = X[p0] - X[p1];
-            ll dY = Y[p0] - Y[p1];
+            ll dX = x1 - x2;
+            ll dY = y1 - y2;
             abc out;
             if(dX == 0) { // X = X[p0]
                 out.a = 1;
@@ -54,14 +55,14 @@ int main(){
             return out; 
         };
 
-        auto ab = make_ab(p0, p1);
+        auto ab = make_ab(X[p0], X[p1], Y[p0], Y[p1]);
         int cnt = 0;
         rep(i,N) {
             if(i==p0) {
                 cnt++;
                 continue;
             }
-            auto ab2 = make_ab(i, p0);
+            auto ab2 = make_ab(X[i], X[i], Y[p0], Y[p0]);            
             if (ab.a == ab2.a && ab.b == ab2.b && ab.c == ab2.c) cnt++;
         }
         if(cnt > N/2) {
