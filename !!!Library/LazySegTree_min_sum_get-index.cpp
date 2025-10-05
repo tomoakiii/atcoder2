@@ -1,3 +1,7 @@
+/* https://atcoder.jp/contests/abc426/tasks/abc426_f */
+/* 区間加算 & 最小値取得 */
+/* Sをvalueとindexのペアとすることで最小値のindexを取得可能 */
+
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
