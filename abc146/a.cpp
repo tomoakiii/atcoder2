@@ -1,0 +1,25 @@
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
+typedef long long ll;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
+
+int main(){
+    map<string, int> mp;
+    mp["SUN"] = 0;
+    mp["MON"] = 1;
+    mp["TUE"] = 2;
+    mp["WED"] = 3;
+    mp["THU"] = 4;
+    mp["FRI"] = 5;
+    mp["SAT"] = 6;
+    string S; cin>>S;
+    cout << 7 - mp[S] << endl;
+    return 0;
+}
