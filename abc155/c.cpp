@@ -9,26 +9,16 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint1000000007 mint;
+
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-    sort(A.begin(), A.end());
-    mint mx = A[0];
-    mint p = 2;
-    for(int i=1; i<N; i++) {
-        mx += p*A[i];
-        p *= 2;
+    int N; cin>>N;
+    map<string,int> mp;
+    while(N--){
+        string s; cin>>s;
+        mp[s]++;
     }
-    reverse(A.begin(), A.end());
-    mint mn = A[0];
-    p = 2;
-    for(int i=1; i<N; i++) {
-        mn += p*A[i];
-        p *= 2;
-    }
-    cout << (mx-mn).val() << endl;
+    int mx = 0;
+    for(auto [s, i]:mp) chmax(mx, i);
+    for(auto [s, i]:mp) if(i==mx) cout<<s<<endl;
     return 0;
 }
