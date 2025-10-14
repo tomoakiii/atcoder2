@@ -11,17 +11,23 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
+    ll H,N;
+    cin >> H >> N;
+    vector<ll> A(N), B(N);
+    rep(i,N) cin >> A[i] >> B[i];
+    vector<ll> dp(H+1, INF);
+    dp[H] = 0;
+    for(ll h=H; h>0; h--) {
+        rep(i,N) {
+            for(ll k=A[i]; k<=A[i]; k++){
+                if(h - A[i] <= 0) {
+                    chmin(dp[0], dp[h] + B[i]);
+                } else {
+                    chmin(dp[h - A[i]], dp[h] + B[i]);
+                }
+            }
         }
     }
-     
+    cout << dp[0] << endl;
     return 0;
 }

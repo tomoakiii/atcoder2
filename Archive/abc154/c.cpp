@@ -11,17 +11,12 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
-        }
+    set<ll> st;
+    int n; cin>>n;
+    rep(i,n) {
+        ll a; cin>>a; st.insert(a);
     }
-     
+    if(st.size() == n) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
     return 0;
 }

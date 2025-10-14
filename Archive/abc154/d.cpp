@@ -5,23 +5,22 @@ using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
-        }
+int main(){    
+    ll n,k; cin>>n>>k;
+    vector<double> p(n);
+    rep(i,n) {
+        double pi; cin>>pi;
+        p[i] = (pi+1) / 2;
     }
-     
+    vector<double> sm(n+1);
+    rep(i,n) sm[i+1] = sm[i] + p[i];
+    int l=0, r=k;
+    double ans = 0;
+    while(r<=n){
+        chmax(ans, sm[r++] - sm[l++]);
+    }
+    printf("%.10f\n", ans);
     return 0;
 }

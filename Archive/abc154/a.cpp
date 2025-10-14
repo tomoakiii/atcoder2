@@ -11,17 +11,10 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
-        }
-    }
-     
+    string s,t; cin>>s>>t;
+    int a,b; cin>>a>>b;
+    string u; cin>>u;
+    if(s==u) cout<<a-1<<" "<<b<<endl;
+    else cout<<a<<" "<<b-1<<endl;
     return 0;
 }

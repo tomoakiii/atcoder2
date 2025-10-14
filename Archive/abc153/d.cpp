@@ -11,17 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
-        }
-    }
-     
+    ll H; cin >> H;
+    unordered_map<ll, ll> mp;
+    auto func = [&](auto func, ll h)->ll{
+        if(mp.contains(h)) return mp[h];
+        if(h==1) return 1;        
+        mp[h] = 1 + 2*func(func, h/2);
+        return mp[h];
+    };
+    cout<<func(func, H)<<endl;
     return 0;
 }

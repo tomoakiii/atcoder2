@@ -11,17 +11,12 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K;
-    cin >> N >> K;
-    if(K>=N-1){
-        // n: num of 0
-        auto func = [&](ll num, mint nm) -> mint{
-            nm *= 
-        };
-        for(int i=0; i<N; i++) {
-
-        }
+    ll H,N;cin>>H>>N;
+    rep(i,N){
+        ll a; cin>>a;
+        H-=a;
     }
-     
+    if(H<=0) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
     return 0;
 }
