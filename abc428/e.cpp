@@ -61,7 +61,7 @@ int main(){
         } else {
             second_d = 0;
             second_nx = cur;
-            second_nd = cur;
+            second_nd = cur; 
         }
         for(auto nx: uv[cur]) {
             if(nx != top_nx) {
