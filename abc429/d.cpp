@@ -45,13 +45,10 @@ int main(){
             tmp -= cb;
             it2++;
             lastvb = newvb;            
-        }
-        while(tmp < C) {
-            auto [v,c] = *it;
-            tmp += c;
-            it++;
-        }
-        
+        }        
+        auto [v,c] = *it;
+        tmp += c;
+        it++;        
     }
     return 0;
 }
