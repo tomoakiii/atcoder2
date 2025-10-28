@@ -13,6 +13,8 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     string S;
     cin>>S;
-    
+    map<char,int>mp;
+    for(auto c:S)mp[c]++;
+    for(auto [c,v]:mp)if(v!=2){cout<<"No"<<endl;return 0;}cout<<"Yes"<<endl;
     return 0;
 }
