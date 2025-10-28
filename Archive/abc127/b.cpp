@@ -10,10 +10,12 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll r,D,x;
+    cin >> r>>D>>x;
+    rep(i,10) {
+        x = r*x-D;
+        cout<<x<<endl;
+    }
     return 0;
 }

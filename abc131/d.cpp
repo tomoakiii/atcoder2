@@ -10,10 +10,20 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N;
+    cin >> N;
+    vector<pair<ll,ll>> BA(N);
+    rep(i,N) cin>>BA[i].second>>BA[i].first;
+    sort(BA.begin(),BA.end());
+    ll last = 0;
+    rep(i,N) {
+        last += BA[i].second;
+        if(last > BA[i].first) {
+            cout<<"No"<<endl;
+            return 0;
+        }
+    }
+    cout<<"Yes"<<endl;
     return 0;
 }

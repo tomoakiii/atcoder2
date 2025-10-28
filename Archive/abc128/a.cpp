@@ -10,10 +10,9 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll A,P; cin>>A>>P;
+    ll pic = A*3 + P;
+    cout<<pic/2<<endl;
     return 0;
 }

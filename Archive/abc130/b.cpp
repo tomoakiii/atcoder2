@@ -10,10 +10,18 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N,X;
+    cin >> N >> X;
+    ll d = 0;
+    ll ans = 0;
+    rep(i,N) {
+        ll L; cin>>L;
+        ans++;
+        d = d + L;
+        if(d > X) break;
+    }
+    if(d<=X) ans++;
+    cout<<ans<<endl;
     return 0;
 }

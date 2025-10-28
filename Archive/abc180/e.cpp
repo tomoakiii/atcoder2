@@ -34,6 +34,7 @@ int main(){
             if(memo[visit2][i] > cost2) func(func, i, visit2, cost2);
         }
     };
+    func(func, 0, 1, 0);
     cout << ans << endl;
     return 0;
 }

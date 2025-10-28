@@ -10,10 +10,11 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll W,H,x,y;
+    cin >> W>>H>>x>>y;
+    printf("%.10f ", (double(W*H)/2.));
+    if(W==x*2 && H==y*2) cout<<1<<endl;
+    else cout<<0<<endl;
     return 0;
 }

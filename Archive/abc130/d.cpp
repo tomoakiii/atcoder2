@@ -10,10 +10,22 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N, K; cin>>N>>K;
+    vector<ll> A(N+1);
+    rep(i,N) cin>>A[i+1];
+    rep(i,N) A[i+1] += A[i];    
+    ll ans = 0;
+    for(int i=1; i<=N; i++) {
+        if(A[N]-A[i-1] < K) continue;
+        ll ng = i-1, ok = N;
+        while(ok-ng>1) {
+            ll c = (ok+ng)/2;
+            if(A[c] - A[i-1] >= K) ok = c;
+            else ng = c;
+        }
+        ans += N+1-ok;
+    }
+    cout << ans << endl;
     return 0;
 }

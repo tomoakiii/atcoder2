@@ -10,10 +10,23 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    ll sm = 0;
+    rep(i,N) {
+        cin>>A[i];
+        sm += A[i];
+    }
+
+    ll ans = INF;
+    ll sm2 = 0;
+    rep(i,N) {
+        cin>>A[i];
+        sm2 += A[i];
+        chmin(ans, abs(sm-2*sm2));
+    }
+    cout<<ans<<endl;
     return 0;
 }

@@ -10,10 +10,15 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N,L;
+    cin >> N >> L;
+    ll sm = 0;
+    pair<ll,ll> mn = {INF,INF};
+    rep(i,N){
+        sm += L + i;
+        chmin(mn, {abs(L+i), L+i});
+    }
+    cout << sm - mn.second << endl;
     return 0;
 }

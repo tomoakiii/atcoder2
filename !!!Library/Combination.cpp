@@ -23,7 +23,7 @@ void Combination(int MAX_N, ll MOD) {
     for (int i = 0; i <= MAX_N; i++) {
         comb[i][0] = comb[i][i] = 1;
         for (int j = 1; j < i; j++) {
-            comb[i][j] = (comb[i - 1][j - 1] + Comb[i - 1][j]) % MOD;
+            comb[i][j] = (comb[i - 1][j - 1] + comb[i - 1][j]) % MOD;
         }
     }
 }

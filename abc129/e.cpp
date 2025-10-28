@@ -10,10 +10,21 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
+int main(){
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
     ll N, M;
     cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
     return 0;
 }

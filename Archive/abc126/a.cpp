@@ -10,10 +10,11 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N,K;
+    string S;
+    cin >> N >> K >> S;
+    S[K-1] = S[K-1]-'A'+'a';
+    cout<<S<<endl;
     return 0;
 }

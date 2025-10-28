@@ -10,10 +10,16 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
+int main(){        
     ll N, M;
     cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    dsu UF(N);
+    rep(i,M) {
+        int x, y, z;
+        cin>>x>>y>>z;
+        x--,y--;
+        UF.merge(x,y);
+    }
+    cout<<UF.groups().size()<<endl;
     return 0;
 }

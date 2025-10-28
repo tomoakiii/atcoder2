@@ -10,10 +10,20 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll N,K;
+    cin >> N >> K;
+    double p = 1/double(N);
+    double ans = 0;
+    rep(i,N) {
+        ll st = i+1;
+        double ps = p;        
+        while(st < K) {
+            st*=2;
+            ps = ps / 2;
+        }
+        ans += ps;
+    }
+    printf("%.10f\n", ans);
     return 0;
 }

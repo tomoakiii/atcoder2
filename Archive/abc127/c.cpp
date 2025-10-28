@@ -10,10 +10,18 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
+int main(){
+    ll N,M;
     cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    vector<ll> imos(N+1);
+    rep(i,M) {
+        int l,r; cin>>l>>r;
+        l--;
+        imos[l]++; imos[r]--;
+    }
+    int ans = 0;
+    rep(i,N) imos[i+1] += imos[i];    
+    rep(i,N) if(imos[i]==M) ans++;
+    cout << ans << endl;
     return 0;
 }

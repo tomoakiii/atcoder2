@@ -10,10 +10,19 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){    
-    ll N, M;
-    cin >> N >> M;
-    if(N==M) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+int main(){
+    ll A,B,C,D;
+    cin >> A >> B >> C >> D;
+    ll mn = (A+C-1)/C;
+    ll mx = B/C;
+    ll Cit = mx - mn + 1;
+    mn = (A+D-1)/D;
+    mx = B/D;
+    ll Dit = mx - mn + 1;
+    ll CD = lcm(C,D);
+    mn = (A+CD-1)/(CD);
+    mx = B/(CD);
+    ll CDit = mx - mn + 1;
+    cout << B-A+1 - Cit - Dit + CDit << endl;
     return 0;
 }
