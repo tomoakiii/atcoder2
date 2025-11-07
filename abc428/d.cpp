@@ -23,10 +23,10 @@ int main(){
         ll fmin = f(C, C+1);
         ll fmax = f(C, C+D);
         ll n = sqrtf(fmin);
-        ll ans = 0;        
+        ll ans = 0;
         ll n2 = n*n;
         string sC = to_string(C);
-        while(n2 <= fmax) {            
+        while(n2 <= fmax) {
             if(n*n < fmin) {
                 n++; n2=n*n;
                 continue;
@@ -45,6 +45,6 @@ int main(){
         }
         cout<<ans<<endl;
     }
-    
+
     return 0;
 }

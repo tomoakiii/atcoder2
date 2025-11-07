@@ -22,25 +22,21 @@ int main(){
         if(A[i]<0) neg.push_back(A[i]);
         else pos.push_back(A[i]);
     }
-    sort(neg.begin(), neg.end());
-    sort(pos.begin(), pos.end());
-    if(neg.size() == 2) {
+    if(neg.size() % 2 == 0) {
         ll ans = 0;
         for(auto a:neg) ans-=a;
         for(auto a:pos) ans+=a;
         cout<<ans<<endl;
     } else {
+        priority_queue<ll> que;
+        for(auto x:neg) que.push(-x);
+        for(auto x:pos) que.push(x);
         ll ans = 0;
-        for(auto a:neg) ans-=a;
-        if(pos.size() > 0) {
-            auto it = pos.begin();
-            ans -= *it;
-            it++;
-            while(it != pos.end()) {
-                ans += *it;
-                it++;
-            }
+        while(que.size() > 1) {
+            ans += que.top();
+            que.pop();
         }
+        ans += -que.top();
         cout<<ans<<endl;
     }
 

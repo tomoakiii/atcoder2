@@ -11,3 +11,6 @@ ColumnLimit: 120
 UseCRLF: false
 # 個別の設定項目を以下似追加
 # AccessModifierOffset: -4
+MaxEmptyLinesToKeep : 10
+AlignArrayOfStructures : Right
+AfterControlStatement : Never
