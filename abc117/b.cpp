@@ -9,11 +9,23 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+typedef pair<int,int> pii;
+typedef pair<pii, int> piii;
+typedef pair<ll,ll> pll;
+typedef pair<pll, pii> pp;
 int main(){
-    vector<ll> A(3);
-    rep(i,3) cin >> A[i];
-    sort(A.rbegin(),A.rend());
-    cout<<A[0]*100 + A[1]*10 + A[2] << endl;
+    ll N;
+    cin>>N;
+    vector<ll> A(N);
+    ll sm=0;
+    rep(i,N){
+        cin>>A[i];
+        sm+=A[i];
+    }
+    rep(i,N) if(sm-A[i]<=A[i]){
+        cout<<"No"<<endl;
+        return 0;
+    }
+    cout<<"Yes"<<endl;
     return 0;
 }

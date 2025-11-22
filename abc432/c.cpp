@@ -11,20 +11,27 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
+    ll N, X, Y; cin>>N>>X>>Y;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll D = Y-X;
+    ll mnM = INF;
+    rep(i,N) chmin(mnM, Y*A[i]);
+    ll ans = 0;
+    rep(i,N) {
+        ll P = Y*A[i] - mnM;
+        if(P%D != 0) {
+            cout << -1 << endl;
+            return 0;
+        }
+        ll a = P/D;
+        ll b = A[i] - a;
+        if(a < 0 || a > A[i] || b < 0 || b > A[i] || a * X + b* Y != mnM) {
+            cout << -1 << endl;
+            return 0;
+        }
+        ans += b;
     }
+    cout << ans << endl;
     return 0;
 }

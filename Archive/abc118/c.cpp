@@ -10,27 +10,25 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
+ll mygcd(ll x, ll y){
+    if(x < y) swap(x, y);
+    if(y == 0) return x;
+    ll k = x%y;
+    return gcd(y, k);
+}
+
+
 int main(){
     ll N;
     cin >> N;
 
     set<ll> st;
-    rep(i,N) {
+    ll g; cin >> g;
+    rep(i,N-1) {
         ll a; cin>>a;
         st.insert(a);
+        g = mygcd(a, g);
     }
-
-    while(true) {
-        set<ll> st2;
-        ll p = *st.begin();
-        for(auto s:st) {
-            if(s%p != 0) st2.insert(s%p);
-        }
-        if(st2.empty() || *st2.begin() == *st.begin()) {
-            cout<<p<<endl;
-            return 0;
-        }
-        swap(st,st2);
-    }
+    cout << g << endl;
     return 0;
 }
