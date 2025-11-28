@@ -11,20 +11,11 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
-    }
+    ll x1, y1, x2, y2; cin>>x1>>y1>>x2>>y2;
+    ll dx = x2-x1, dy = y2-y1;
+    ll x3=x2-dy, y3=y2+dx;
+    cout<<x3<<" "<<y3<<" ";
+    ll x4=x3-dx, y4=y3-dy;
+    cout<<x4<<" "<<y4<<endl;
     return 0;
 }
