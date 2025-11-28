@@ -11,28 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    ll N,K;
+    cin >> N >> K;
+    if(K>=N-1){
+        // n: num of 0
+        auto func = [&](ll num, mint nm) -> mint{
+            nm *= 
+        };
+        for(int i=0; i<N; i++) {
 
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+        }
     }
+     
     return 0;
 }

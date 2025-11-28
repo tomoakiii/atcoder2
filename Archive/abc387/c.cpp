@@ -9,36 +9,49 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-ll dp[20][10][2];
 
 int main(){
     ll l,r;
     cin >> l >> r;
-    string L = to_string(l-1);
-    string R = to_string(r);
 
     auto f = [&](auto f, int cur, ll lmt, int isany, string &s) -> ll{
-        if(dp[cur][lmt][isany] != -1) return dp[cur][lmt][isany];
+        ll ret;
         ll p = (s[cur]-'0');
         if(cur == s.size()-1){
-            if(isany == 1) dp[cur][lmt][isany] = lmt;
-            else dp[cur][lmt][isany] = min(lmt, p);
+            if(isany == 1) ret = lmt;
+            else ret = min(lmt, p+1);
         } else {
-            if(isany == 1) dp[cur][lmt][isany] = lmt * f(f,cur+1,lmt,1,s);
-            else if(p<lmt) dp[cur][lmt][isany] = p*f(f,cur+1,lmt,1,s) + f(f,cur+1,lmt,0,s);
-            else dp[cur][lmt][isany] = (p+1)*f(f,cur+1,lmt,1,s);
+            if(isany == 1) ret = lmt * f(f,cur+1,lmt,1,s);
+            else if(p<lmt) ret = p*f(f,cur+1,lmt,1,s) + f(f,cur+1,lmt,0,s);
+            else ret = lmt*f(f,cur+1,lmt,1,s);
         }
-        return dp[cur][lmt][isany];
+        return ret;
     };
-
-    rep(i,20) rep(j,10) rep(k,2) dp[i][j][k] = -1;
     
-    auto solve = [&](string S)->ll{
+    auto solve = [&](ll nm)->ll{
+        if(nm < 10) return 0;
+        string S = to_string(nm);
         ll l=0;
-        for(int i=1; i<(S[0]-'0'); i++) l += f(f,0,i,1,S);
-        l+=f(f,0,(S[0]-'0'),0,L);
+        string tmp = "";
+        for(int d=1; d<S.size(); d++) {
+            tmp = tmp + '9';
+            if(d < (S.size() - 1)){
+                for(int k=1; k<=9; k++) {
+                    l += f(f, 0, k, 1, tmp);
+                }
+            } else {
+                for(int k=1; k<(S[0]-'0'); k++) {
+                    l += f(f, 0, k, 1, tmp);
+                }
+            }
+        }
+        ll p = S[0] - '0';
+        reverse(S.begin(), S.end());        
+        S.pop_back();
+        reverse(S.begin(), S.end());
+        l += f(f, 0, p, 0, S);
         return l;
     };
-    cout << solve(R) - solve(L) << endl;
+    cout << solve(r) - solve(l-1) << endl;
     return 0;
 }

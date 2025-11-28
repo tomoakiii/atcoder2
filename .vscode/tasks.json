@@ -41,7 +41,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "${file}",
-                "-std=c++20",
+                "-std=c++23",
                 "-g",
                 "-gdwarf-4",
                 "-fdiagnostics-color=always",
@@ -58,7 +58,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "${file}",
-                "-std=c++20",
+                "-std=c++23",
                 "-g",
                 "-gdwarf-4",
                 "-fdiagnostics-color=always",
@@ -86,7 +86,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "${file}",
-                "-std=c++20",
+                "-std=c++23",
                 "-g",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
@@ -106,7 +106,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "${file}",
-                "-std=c++20",
+                "-std=c++23",
                 "-g",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
@@ -130,7 +130,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "-std=c++20",
+                "-std=c++23",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
