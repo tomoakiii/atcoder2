@@ -11,22 +11,6 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll a = 1;
-    auto func = [](ll x)->ll{
-        ll nx = 0;
-        while(x) {
-            nx += x%10;
-            x/=10;
-        }
-        return nx;
-    };
-    vector<ll> sm(N+1);
-    sm[1] = 1;
-    for(int i=2; i<=N; i++) {
-        sm[i] = sm[i-1] + func(sm[i-1]);
-    }
-    cout << sm[N] << endl;
+    ll r; cin >> r; cout<<r*r<<endl;    
     return 0;
 }

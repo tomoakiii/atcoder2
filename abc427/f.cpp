@@ -11,28 +11,28 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    string S;
-    cin >> S;
-
-    ll N;
-    cin >> N;
-    vector<string> S(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
+    ll N,M;
     cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector A0, A1;
+    rep(i,N) {
+        cin>>A[i];
+        A[i] %= M;
+    }
+    ll c = 0;
+    ll cnt = 0;
+    sort(A.begin(), A.end());
+    rep(i,N) {        
+        A0.push_back(A[i]);
+        if(i == (N+1)/2) swap(A0, A1);        
+    }
+    int sz = A0.size();
+    ll mn = *A1.begin();
+    ll mx = *A1.rbegin();
+    rep(k, 1<<sz) {
+        ll sm = 0;
+        rep(i, sz) {
+            sm += A0[i];
+        }
     }
     return 0;
 }

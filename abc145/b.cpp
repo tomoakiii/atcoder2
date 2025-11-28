@@ -13,20 +13,19 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    ll a = 1;
-    auto func = [](ll x)->ll{
-        ll nx = 0;
-        while(x) {
-            nx += x%10;
-            x/=10;
-        }
-        return nx;
-    };
-    vector<ll> sm(N+1);
-    sm[1] = 1;
-    for(int i=2; i<=N; i++) {
-        sm[i] = sm[i-1] + func(sm[i-1]);
+    string S;
+    cin >> S;
+
+    if(N%2==1) {
+        cout<<"No"<<endl;
+        return 0;
     }
-    cout << sm[N] << endl;
+    rep(i,N/2){
+        if(S[i]!=S[i+N/2]){
+            cout<<"No"<<endl;
+            return 0;
+        }
+    }
+    cout<<"Yes"<<endl;    
     return 0;
 }

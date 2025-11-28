@@ -13,20 +13,26 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ll N;
     cin >> N;
-    ll a = 1;
-    auto func = [](ll x)->ll{
-        ll nx = 0;
-        while(x) {
-            nx += x%10;
-            x/=10;
-        }
-        return nx;
-    };
-    vector<ll> sm(N+1);
-    sm[1] = 1;
-    for(int i=2; i<=N; i++) {
-        sm[i] = sm[i-1] + func(sm[i-1]);
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    string S;
+    cin >> S;
+
+    ll N;
+    cin >> N;
+    vector<string> S(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
     }
-    cout << sm[N] << endl;
     return 0;
 }
