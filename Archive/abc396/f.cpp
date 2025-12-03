@@ -143,3 +143,41 @@ public:
         cout << endl;
     }
 };
+
+int main(){
+    ll N,M;
+    cin >> N>>M;
+    priority_queue<pair<ll,int>> que;
+    vector P(M, vector<ll>{});
+    rep(i,N) {
+        ll a; cin>>a; a%=M;
+        P[a].push_back(i);
+        que.push({a,i});
+    }
+    ll ans = 0;
+    SegTree<ll> ST(vector<ll>(N+2,0));
+
+    for(int i=M-1; i>=0; i--) {
+        if(P[i].size() == 0)  continue;
+        for(int k=P[i].size()-1; k>=0; k--){
+            int j = P[i][k];
+            if(j<N-1) ans += N - 1 - j - ST.GetSum(0,j+1, N-1);
+            ST.AddVal(j, 1);
+        }
+    }
+    rep(i,M) {
+        cout<<ans<<endl;
+        while(!que.empty()) {
+            auto [x,j] = que.top();
+            if(x + i == M - 1) {
+                ans += j;
+                ans -= N-1-j;
+                que.pop();
+            } else {
+                break;
+            }
+        }
+    }
+
+    return 0;
+}

@@ -143,3 +143,51 @@ public:
         cout << endl;
     }
 };
+
+typedef pair<ll,ll> pll;
+typedef pair<pair<ll,ll>,int> pli;
+int main(){
+    ll N,M,Q;
+    cin >> N >> M >> Q;
+    priority_queue<pll, vector<pll>, greater<pll>> LR;
+    vector<ll> R(N+100);
+    rep(i,M) {
+        ll l,r;
+        cin>>l>>r;
+        LR.push({l,r});
+        R[r]++;
+    }
+
+    priority_queue<pli, vector<pli>, greater<pli>> PQ;
+    rep(i,Q) {
+        ll l,r;
+        cin>>l>>r;
+        pli p;
+        p.first = {l,r};
+        p.second = i;
+        PQ.push(p);
+    }
+    vector<int> ans(Q);
+    SegTree<ll> ST(R);
+
+    while(!PQ.empty()) {
+        auto p = PQ.top();
+        PQ.pop();
+        int i = p.second;
+        auto [l,r] = p.first;
+        while(!LR.empty()) {
+            auto [ll, rr] = LR.top();
+            if(ll < l) {
+                ST.AddVal(rr, -1);
+                LR.pop();
+            } else {
+                break;
+            }
+        }
+        ans[i] = ST.GetSum(0, l, r);
+    }
+    rep(i,Q) {
+        cout<<ans[i]<<endl;
+    }
+    return 0;
+}
