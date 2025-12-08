@@ -11,20 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll a,b; cin>> a >> b;
+    ll x=1;
+    rep(i,100000) {
+        ll sx = (x*(x+1))/2;
+        x++;
+        ll sy = (x*(x+1))/2;
+        ll d = sy - sx;
+        if(d == b-a) {
+            cout<<sy-b<<endl;
+            return 0;
+        }
     }
     return 0;
 }
