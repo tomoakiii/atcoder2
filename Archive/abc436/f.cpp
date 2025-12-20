@@ -156,16 +156,13 @@ int main(){
     }
     SegTree<ll> ST(vector<ll>(N,1));
     ll ans = N * (N+1) /2;
-    ll l = INF, r = 0;
-    rep(j,N) {
+    for(int j=N-1; j>=0; j--) {
         ll i = ORD[j];
-        chmin(l, i-1);
-        chmax(l, 0);
-        chmax(r, i+1);
-        chmin(r, N-1);
+        int l = i-1;
+        int r = i+1;
         ll lc = 0, rc = 0;
-        if(i-1>=0) lc = ST.GetSum(0, 0, l);
-        if(i+1<=N-1) rc = ST.GetSum(0, r, N-1);
+        if(0<=l) lc = ST.GetSum(0, 0, l);
+        if(r<=N-1) rc = ST.GetSum(0, r, N-1);
         ST.SetVal(i,0);
         ans += lc * rc;
     }
