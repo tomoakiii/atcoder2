@@ -1,3 +1,5 @@
+// https://atcoder.jp/contests/abc070/tasks/abc070_d
+
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -58,10 +60,10 @@ public:
             }
             k*=2;
         }
-        for(int i=n-2; i>=0; i--) {      
+        for(int i=n-2; i>=0; i--) {
             tr[i].l = tr[i*2+1].l;
             tr[i].r = tr[i*2+2].r;
-            tr[i].c = (tr[i].l + tr[i].r)/2;        
+            tr[i].c = (tr[i].l + tr[i].r)/2;
         }
     }
 
@@ -73,7 +75,7 @@ public:
             max(MaxElement(2*ind+1, a, tr[ind].c),
                 MaxElement(2*ind+2, tr[ind].c + 1, b));
         if (tr[ind].c >= b) return MaxElement(2*ind+1, a, b);
-        return MaxElement(2*ind+2, a, b);   
+        return MaxElement(2*ind+2, a, b);
     }
 
     // MinElement(0, start, end);
@@ -92,9 +94,9 @@ public:
 
     int GetVal(int ind){
         int i = ind+n-1;
-        return tr[i].val;        
+        return tr[i].val;
     }
-    
+
     void SetVal(int ind, int val){
         int i = ind+n-1;
         tr[i].val = tr[i].min.v = tr[i].max.v = val;
@@ -155,14 +157,14 @@ class eular_tour{
     vector<int> eular_tour_node;
     SegTree sg;
     eular_tour(vector<vector<int>> &tree, int root) {
-        auto dfs = [&](auto dfs, int cur, int d)->void{                                    
+        auto dfs = [&](auto dfs, int cur, int d)->void{
             depth.push_back(d);
-            eular_tour_node.push_back(cur);            
-            for(auto nx: tree[cur]){             
+            eular_tour_node.push_back(cur);
+            for(auto nx: tree[cur]){
                 dfs(dfs, nx, d+1);
-                depth.push_back(d);                
+                depth.push_back(d);
                 eular_tour_node.push_back(cur);
-            }            
+            }
         };
         dfs(dfs, root, 0);
         first_appear.resize(tree.size(), -1);
@@ -188,72 +190,46 @@ class eular_tour{
     int distance(int a, int b){
         int fa = first_appear[a], fb = first_appear[b];
         if(fa>fb) swap(fa,fb);
-        auto v = sg.MinElement(0, fa, fb);        
+        auto v = sg.MinElement(0, fa, fb);
         return (depth[fa] - v.v + depth[fb] - v.v);
     }
 
 };
 
 int main(){
-    int N, U, V;
-    cin >> N >> U >> V;
-    U--, V--;
-    vector uv(N, vector<int>{});
+    int N;
+    cin >> N;
+    vector uv(N, vector<pair<int,ll>>{});
     rep(i,N-1) {
         int u,v;
-        cin>>u>>v;
+        ll d;
+        cin>>u>>v>>d;
         u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+        uv[u].emplace_back(v,d);
+        uv[v].emplace_back(u,d);
     }
-    struct dep{
-        int dep;
-        int dist;
-        int dist_ind;
-    };
-    vector<dep> depth(N);
-    
+    vector<ll> depth(N,INF);
     vector tree(N, vector<int>{});
-    auto dfs = [&](auto dfs, int cur, int pre, int d)->void{
+    auto dfs = [&](auto dfs, int cur, int pre, ll d)->void{
         ll mx = 0;
-        depth[cur].dep = d;
-        depth[cur].dist = 1;
-        depth[cur].dist_ind = cur;        
-        for(auto nx: uv[cur]){
+        depth[cur] = d;
+        for(auto [nx, v]: uv[cur]){
             if(nx == pre) continue;
             tree[cur].push_back(nx);
-            dfs(dfs, nx, cur, d+1);
-            if(depth[nx].dist + 1 > depth[cur].dist) {
-                depth[cur].dist = depth[nx].dist + 1;
-                depth[cur].dist_ind = nx;
-            }
+            dfs(dfs, nx, cur, d+v);
         }
     };
-    dfs(dfs, V, -1, 0);
-
-    eular_tour ET(tree, V);
-
-    
-    ll mxd = depth[U].dep - 1;
-    ll trace = mxd;
-    rep(i,N){
-        int lca = ET.least_common_ancestor(i,U);
-        if(lca == V) continue;
-        if(lca == i) continue;        
-        if(lca == U) {
-            ll d = depth[i].dep - depth[U].dep;
-            d += trace;
-            chmax(mxd, d);
-            continue;
-        }
-        ll a = depth[U].dep - depth[lca].dep;
-        if(depth[lca].dep > a) {                
-            ll b = depth[i].dep - depth[lca].dep;
-            ll delta = depth[lca].dep - a;
-            ll d = a + b + delta - 1;
-            chmax(mxd, d);
-        }    
+    dfs(dfs, 0, -1, 0);
+    eular_tour ET(tree, 0);
+    ll Q,K; cin>>Q>>K;
+    K--;
+    while(Q--) {
+        auto dist = [&](int u, int v)->ll{
+            int lca = ET.least_common_ancestor(u,v);
+            return abs(depth[lca] - depth[u]) + abs(depth[lca] - depth[v]);
+        };
+        ll x, y; cin>>x>>y; x--, y--;
+        cout << dist(x,K) + dist(y,K) << endl;
     }
-    cout << mxd << endl;
     return 0;
 }
