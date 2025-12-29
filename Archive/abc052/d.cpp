@@ -11,10 +11,16 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll A,B,C,D; cin>>A>>B>>C>>D;
+    ll N,A,B;
+    cin >> N >> A >> B;
+    ll last; cin>>last;
     ll ans = 0;
-    chmax(ans, A*B);
-    chmax(ans, C*D);
-    cout<<ans<<endl;
+    rep(i,N-1) {
+        ll x; cin>>x;
+        ll d = x-last;
+        ans += min(A*d, B);
+        last = x;
+    }
+    cout << ans << endl;
     return 0;
 }
