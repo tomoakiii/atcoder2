@@ -11,19 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
-        }
-        chmin(mn, d);
+    ll H,W; cin>>H>>W;
+    rep(i,W+2) cout<<'#';
+    cout<<endl;
+    rep(i,H) {
+        cout<<'#';
+        string S; cin>>S; cout<<S;
+        cout<<'#'<<endl;
     }
-    cout<<mn<<endl;
+    rep(i,W+2) cout<<'#';
+    cout<<endl;
     return 0;
 }

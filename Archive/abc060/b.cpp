@@ -11,19 +11,22 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
+    ll A,B,C; cin>>A>>B>>C;
+    set<ll> st;
+    ll a = A;
+    while(true){
+        ll c = a%B;
+        if(c == C) {
+            cout<<"YES"<<endl;
+            return 0;
         }
-        chmin(mn, d);
+        else if (st.contains(c)) {
+            cout << "NO" << endl;
+            return 0;
+        } else {
+            st.insert(c);
+            a += A;
+        }
     }
-    cout<<mn<<endl;
     return 0;
 }

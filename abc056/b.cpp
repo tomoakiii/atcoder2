@@ -11,19 +11,13 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
-        }
-        chmin(mn, d);
+    ll W,a,b; cin>>W>>a>>b;
+    ll ans = 0;
+    if(a+W < b) {
+        ans = b-(a+W);
+    } else if(b+W<a) {
+        ans = a - (b+W);
     }
-    cout<<mn<<endl;
+    cout<<ans<<endl;
     return 0;
 }

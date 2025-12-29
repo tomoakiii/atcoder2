@@ -11,24 +11,18 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,A,B;
-    cin >> N >> A >> B;
-    priority_queue<ll> que;
+    ll N, K;
+    cin >> N >> K;
+    vector<pair<ll,ll>> AB(N);
     rep(i,N) {
-        ll h; cin>>h; que.push(h);
+        cin>>AB[i].first>>AB[i].second;
     }
-    ll th = 0;
-    int cnt = 0;
-    while(!que.empty()) {
-        auto q = que.top();
-        que.pop();
-        if(q <= th) {
-            cout << cnt << endl;
+    sort(AB.begin(), AB.end());
+    rep(i,N) {
+        K -= AB[i].second;
+        if(K<=0) {
+            cout<<AB[i].first<<endl;
             return 0;
-        } else {
-            que.push(q-A+B);
-            th += B;
-            cnt++;
         }
     }
     return 0;

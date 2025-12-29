@@ -11,19 +11,21 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
+    ll N,M;
+    cin >> N >> M;
+    string S,T; cin>>S>>T;
+    ll ans = INF;
+    for(int i=0; i<N-M+1; i++) {
+        ll cnt = 0;
+        rep(j,M) {
+            ll si = S[i+j], tj = T[j];
+            ll t;
+            if(si >= tj) t = abs(si - tj);
+            else t = si + 10 - tj;
+            cnt += t;
         }
-        chmin(mn, d);
+        chmin(ans, cnt);
     }
-    cout<<mn<<endl;
+    cout << ans << endl;
     return 0;
 }

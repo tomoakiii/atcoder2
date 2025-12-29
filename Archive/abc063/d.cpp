@@ -11,19 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
+    ll N,A,B;
+    cin >> N >> A >> B;
+    vector<ll> h(N);
+    ll D = A-B;
+    rep(i,N)cin>>h[i];
+    sort(h.rbegin(), h.rend());
+    ll ng = 0, ok = 1e9;
+
+    while(ok-ng>1) {
+        ll c = (ok+ng)/2;
+        ll cnt = 0;
+        rep(i,N) {
+            ll t = h[i] - c*B;
+            if(t <= 0) break;
+            cnt += (t+D-1)/D;
         }
-        chmin(mn, d);
+        if(cnt > c) ng = c;
+        else ok = c;
     }
-    cout<<mn<<endl;
+    cout<<ok<<endl;
     return 0;
 }

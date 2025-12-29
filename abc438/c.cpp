@@ -9,21 +9,31 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef pair<ll,ll> pll;
 
 int main(){
     ll N;
     cin >> N;
-    ll mn = INF;
-    for(ll p = 1; p*p <= N; p++) {
-        if(N%p != 0) continue;
-        ll d = 0;
-        ll pp = N/p;
-        while(pp) {
-            d++;
-            pp/=10;
+    deque<pll> P;
+    P.push_back({-INF, 0});
+    ll last = -1;
+    ll cnt = 0;
+    rep(i,N) {
+        ll a; cin>>a;
+        if(a != last) {
+            last = a;
+            cnt = 0;
+        } else {
+            cnt++;
         }
-        chmin(mn, d);
+        if(cnt == 3) {
+            rep(k,3) P.pop_back();
+            last = P.back().first;
+            cnt = P.back().second;
+        } else {
+            P.push_back({last, cnt});
+        }
     }
-    cout<<mn<<endl;
+    cout << P.size()-1 << endl;
     return 0;
 }
