@@ -10,6 +10,10 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
+ll nc2(ll x){
+    return x * (x-1) / 2;
+}
+
 int main(){
     ll N;
     cin >> N;
@@ -17,36 +21,66 @@ int main(){
     rep(i,N-1) {
         int u,v;
         cin>>u>>v;
-        if(v>u) swap(u,v);
         uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
     }
-    dsu UF(N);
-    map<int,ll> cld;
+
+    vector<ll> par(N);
+    vector<ll> cld(N);
+    vector<ll> dpt(N, 0);
+    auto dfs = [&](auto dfs, int cur, int pre = -1)->ll{
+        ll ret = 1;
+        par[cur] = pre;
+        if(pre != -1) dpt[cur] = dpt[pre] + 1;
+        for(auto nx: uv[cur]){
+            if(nx == pre) continue;
+            ret += dfs(dfs, nx, cur);
+        }
+        cld[cur] = ret;
+        return ret;
+    };
+    dfs(dfs, 0);
+    vector<ll> visit(N);
+    unordered_set<ll> st;
+    ll l=-1,r=-1;
+    bool ok = true;
     ll ans = 0;
+    ll lsm = 0;
     rep(i,N) {
-        ll clsm = 0;
-        for(auto nx: uv[i]) {
-            int ld = UF.leader(nx);
-            clsm += cld[ld];
+        if(visit[i]) {
+            if(st.contains(i)) {
+                st.erase(i);
+            }
+        } else {
+            int p = i, pr = -1;
+            while(!visit[p]) {
+                visit[p] = true;
+                st.insert(p);
+                pr = p;
+                p = par[p];
+            }
+            if(p == 0) {
+                if(l == -1) {
+                    l = i;
+                    lsm = cld[pr];
+                } else if {
+                    (r == -1) r = i;
+                }
+                else {
+                    ok = false;
+                    break;
+                }
+            } else if (p == l) {
+                ans += (i-1) * (dpt[i] - dpt[l] - 1);
+                ans += i;
+                l = i;
+            } else if (p == r) {
+                ans += (i-1) * (dpt[i] - dpt[r] - 1);
+                ans += i;
+                r = i;
+            }
         }
-        ll cnt = clsm + 1;
-        for(auto nx: uv[i]) {
-            int ld = UF.leader(nx);
-            cnt += cld[ld] * (clsm - cld[ld]);
-            clsm -= cld[ld];
-            UF.merge(i, nx);
-        }
-        int ld = UF.leader(i);
-        cld[ld] = cnt;
-        ans += cnt * (i+1);
     }
-    /*
-    bool flg = true;
-    for(int i=1; i<N; i++) {
-        if(uv[i].size() > 1) flg = false;
-    }
-    if(flg) ans += N;
-    */
     cout<<ans<<endl;
     return 0;
 }
