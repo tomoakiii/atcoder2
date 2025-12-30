@@ -11,20 +11,23 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    map<ll,ll> mp;
-    rep(i,N) {
-        ll a; cin>>a;
-        mp[a]++;
-    }
-    ll tmp = 0;
-    for(auto [v, &c]: mp) {
-        while(c > 1) {
-            
+    string S;
+    cin>>S;
+    const int N = S.size() - 1;
+    ll ans = 0;
+    rep(k, 1<<N) {
+        vector<ll> sm(1);
+        sm[0] = S[0]-'0';
+        rep(i,N) {
+            if(k >> i & 1) {
+                sm.push_back(S[i+1]-'0');
+            } else {
+                sm[sm.size()-1] = 10*sm[sm.size()-1]+S[i+1]-'0';
+            }
         }
+        ll t;
+        for(auto s: sm) ans += s;
     }
-
+    cout << ans << endl;
     return 0;
 }

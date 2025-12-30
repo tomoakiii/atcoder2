@@ -11,20 +11,22 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    map<ll,ll> mp;
-    rep(i,N) {
-        ll a; cin>>a;
-        mp[a]++;
+    vector<string> S(3);
+    vector Si(3,vector<int>{});
+    rep(i,3) {
+        cin>>S[i];
+        reverse(S[i].begin(),S[i].end());
+        for(auto c: S[i]) Si[i].push_back(c-'a');
     }
-    ll tmp = 0;
-    for(auto [v, &c]: mp) {
-        while(c > 1) {
-            
+    int turn = 0;
+    while(true) {
+        if(Si[turn].size() == 0) {
+            cout << char(turn + 'A') << endl;
+            return 0;
         }
+        int nx = Si[turn].back();
+        Si[turn].pop_back();
+        turn = nx;
     }
-
     return 0;
 }

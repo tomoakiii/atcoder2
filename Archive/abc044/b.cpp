@@ -11,20 +11,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    map<ll,ll> mp;
-    rep(i,N) {
-        ll a; cin>>a;
-        mp[a]++;
-    }
-    ll tmp = 0;
-    for(auto [v, &c]: mp) {
-        while(c > 1) {
-            
+    string W; cin>>W;
+    map<char,int> mp;
+    for(auto w:W) mp[w]++;
+    for(auto [v,c]:mp){
+        if(c%2==1) {
+            cout << "No" << endl;
+            return 0;
         }
     }
-
+    cout << "Yes" << endl;
     return 0;
 }

@@ -11,20 +11,26 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    map<ll,ll> mp;
+    ll N,A; cin>>N>>A;
+    vector<ll> X(N);
+    rep(i,N)cin>>X[i];
+    vector dp(N+1, vector<ll>(A*N+1));
+    dp[0][0] = 1;
     rep(i,N) {
-        ll a; cin>>a;
-        mp[a]++;
-    }
-    ll tmp = 0;
-    for(auto [v, &c]: mp) {
-        while(c > 1) {
-            
+        vector dp_new = dp;
+        rep(j,N){
+            rep(k, A*N) {
+                if(k+X[i] > A*N) break;
+                dp_new[j+1][k+X[i]] += dp[j][k];
+            }
         }
+        swap(dp,dp_new);
     }
-
+    ll ans = 0;
+    for(int i=1; i<=N; i++) {
+        ll tgt = i * A;
+        ans += dp[i][tgt];
+    }
+    cout << ans << endl;
     return 0;
 }

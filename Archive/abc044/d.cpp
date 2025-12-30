@@ -14,17 +14,17 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
-    map<ll,ll> mp;
-    rep(i,N) {
-        ll a; cin>>a;
-        mp[a]++;
-    }
-    ll tmp = 0;
-    for(auto [v, &c]: mp) {
-        while(c > 1) {
-            
-        }
-    }
+    rep(i,N) cin>>A[i];
 
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
     return 0;
 }
