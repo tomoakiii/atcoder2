@@ -9,7 +9,7 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint998244353 mint;
+typedef modint1000000007 mint;
 
 template <class Type> class Combination{
 public:
@@ -52,16 +52,9 @@ ll cmb(ll n, ll k){
 }
 
 int main(){
-    ll A, B, C, D;
-    cin>>A>>B>>C>>D;
-    Combination<mint> CM(4e6);
-    mint ans = 0;
-    for(ll k = 0; k<=C; k++) {
-        mint p = CM.comb(A+k+B, B);
-        p *= CM.comb(C-k+D-1, D-1);
-        ans += p;
-    }
-
+    ll W,H; cin>>W>>H;
+    Combination<mint> CM(3e5);
+    mint ans = CM.comb(W-1+H-1, W-1);
     cout << ans.val() << endl;
     return 0;
 }
