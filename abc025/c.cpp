@@ -17,12 +17,15 @@ pair<ll,ll> dfs2();
 
 pair<ll,ll> dfs(){
     if(mp.contains(G)) return mp[G];
-    pair<ll,ll> mx = {0,0};
+    pair<ll,ll> mx = {-INF,-INF};
     rep(i,3) rep(j,3) if(G[i][j]==-1){
         G[i][j] = 1;
         pair<ll,ll> sc = dfs2();
-        if(mx.first > sc.first) {
-            mx = sc;
+        if(mx.first < sc.first) mx = sc;
+        else if (mx.first == sc.first) {
+            if(mx.second > sc.second) {
+                mx = sc;
+            }
         }
         G[i][j] = -1;
     }
@@ -32,12 +35,15 @@ pair<ll,ll> dfs(){
 
 pair<ll,ll> dfs2(){
     if(mp.contains(G)) return mp[G];
-    pair<ll,ll> mx = {0,0};
+    pair<ll,ll> mx = {-INF,-INF};
     rep(i,3) rep(j,3) if(G[i][j]==-1){
         G[i][j] = 0;
         pair<ll,ll> sc = dfs();
-        if(mx.second > sc.second) {
-            mx = sc;
+        if(mx.second < sc.second) mx = sc;
+        else if (mx.second == sc.second) {
+            if(mx.first > sc.first) {
+                mx = sc;
+            }
         }
         G[i][j] = -1;
     }
@@ -65,25 +71,27 @@ int main(){
             score.second+=B[i][j];
         }
         rep(i,3) rep(j,2) if(G[i][j+1] == G[i][j]) {
-            score.second+=C[i][j];
-        } else {
             score.first+=C[i][j];
+        } else {
+            score.second+=C[i][j];
         }
         mp[G] = score;
         rep(i,3)rep(j,3) {
             int g = G[i][j];
             G[i][j] = -1;
             mp[G] = score;
+            G[i][j] = g;
         }
     }while(next_permutation(ORD.begin(),ORD.end()));
 
     rep(i,3)rep(j,3)G[i][j]=-1;
-    auto score = dfs();
     /*
     G[0] = {0,1,0};
     G[1] = {1,1,0};
     G[2] = {1,0,1};
     */
+    auto score = dfs();
+    
     cout << score.first << endl << score.second << endl;
     return 0;
 }
