@@ -40,7 +40,7 @@ public:
 int main(){
     ll N,K;
     cin >> N >> K;
-    Combination<mint> CM(N);
+    Combination<mint> CM(max(N,K));
     mint ans = 0;
     for(ll k=1; k<=K; k++) {
         if(k==1) ans += N;
