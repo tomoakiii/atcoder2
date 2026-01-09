@@ -11,28 +11,28 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    ll mn = INF;
-    ll l = 0, r = 2e9;
-    vector<ll> H(N),S(N);
-    rep(i,N) cin>>H[i]>>S[i];
-    while(r - l > 1) {
-        ll c = (l+r) / 2;
-        bool flg = true;
-        vector<int> T(N,0);
-        rep(i, N) {
-            if(c>H[i])T[i] = (c-H[i])/S[i];
-        }
-        sort(T.begin(),T.end());
-        rep(i,N) {
-            if(T[i]<i) {
-                flg = false;
-            } 
-        }
-        if(flg) r = c;
-        else l = c;
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
     }
-    cout << r << endl;
+    rep(i,N) {
+        set<ll> fr;
+        for(auto u: uv[i]){
+            for(auto v: uv[u]){
+                fr.insert(v);
+            }
+        }
+        for(auto u:uv[i]){
+            fr.erase(u);
+        }
+        fr.erase(i);
+        cout << fr.size() << endl;
+    }
     return 0;
 }

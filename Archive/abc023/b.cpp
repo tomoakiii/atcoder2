@@ -14,6 +14,10 @@ int main(){
     ll N;
     string S;
     cin >> N >> S;
+    if(S=="b"){
+        cout<<0<<endl;
+        return 0;
+    }
     string T="";
     T.push_back('b');
     rep(k, N) {
