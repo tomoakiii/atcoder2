@@ -15,23 +15,24 @@ int main(){
     cin >> N;
     ll mn = INF;
     ll l = 0, r = 2e9;
-    vector<ll> T(N);
-    rep(i,N) {
-        ll h, s; cin>>h>>s;
-        T[i] = h + (N-1)*s;
-    }
+    vector<ll> H(N),S(N);
+    rep(i,N) cin>>H[i]>>S[i];
     while(r - l > 1) {
         ll c = (l+r) / 2;
         bool flg = true;
+        vector<int> T(N,0);
         rep(i, N) {
-            if(T[i] > c) {
+            if(c>H[i])T[i] = (c-H[i])/S[i];
+        }
+        sort(T.begin(),T.end());
+        rep(i,N) {
+            if(T[i]<i) {
                 flg = false;
-                break;
-            }
+            } 
         }
         if(flg) r = c;
         else l = c;
     }
-    cout << l << endl;
+    cout << r << endl;
     return 0;
 }
