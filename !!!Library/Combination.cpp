@@ -18,9 +18,10 @@ public:
 };
 
 // N=5000以下で使うこと
-void Combination(int MAX_N, ll MOD) {
-    vector comb(MAX_N+1, vector<ll>(MAX_N));
-    for (int i = 0; i <= MAX_N; i++) {
+// doubleならN=1000まで
+void Combination(int N, ll MOD) {
+    vector comb(N+1, vector<ll>(N));
+    for (int i = 0; i <= N; i++) {
         comb[i][0] = comb[i][i] = 1;
         for (int j = 1; j < i; j++) {
             comb[i][j] = (comb[i - 1][j - 1] + comb[i - 1][j]) % MOD;
@@ -41,7 +42,7 @@ void duplicate_combination(ll MOD){
         cin>>C[i];
         total += C[i];
     }
-    ll ans = 1;        
+    ll ans = 1;
     rep(i, N){
         ans *= Comb[total][C[i]];
         ans %= MOD;
