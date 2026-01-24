@@ -46,10 +46,10 @@ public:
             }
             k*=2;
         }
-        for(int i=n-2; i>=0; i--) {      
+        for(int i=n-2; i>=0; i--) {
             tr[i].l = tr[i*2+1].l;
             tr[i].r = tr[i*2+2].r;
-            tr[i].c = (tr[i].l + tr[i].r)/2;        
+            tr[i].c = (tr[i].l + tr[i].r)/2;
         }
     }
 
@@ -62,6 +62,12 @@ public:
             tr[ii].val = tr[ii*2+1].val + tr[ii*2+2].val;
             i = ii;
         }
+    }
+
+
+    void SetVal(int ind, Type val){
+        int i = ind+n-1;
+        tr[i].val = val;
     }
 
     Type GetSum(int ind, int a, int b){
@@ -85,8 +91,8 @@ int main(){
     set<ll> st;
     int ind=-1;
     rep(i,N) {
-        cin>>A[i];        
-        st.insert(A[i]);        
+        cin>>A[i];
+        st.insert(A[i]);
     }
     unordered_map<ll,int> mp;
     for(auto s: st) {
@@ -96,16 +102,16 @@ int main(){
     const int M = st.size();
     rep(i,N) A[i] = mp[A[i]];
 
-    
+
     vector<mint> p2(N,1);
-    rep(i,N-1) p2[i+1] = 2*p2[i];    
+    rep(i,N-1) p2[i+1] = 2*p2[i];
     vector<mint> indp2(N,1/p2[N-1]);
     for(int i=N-2; i>=0; i--) indp2[i] = 2*indp2[i+1];
-    
+
     SegTree<mint> ST(vector<mint>(M+1));
     ST.AddVal(A[0], p2[N-1]);
     mint sm = 0;
-    for(int i=1; i<N; i++) {        
+    for(int i=1; i<N; i++) {
         mint p = ST.GetSum(0,0,A[i]);
         p *= indp2[N-i];
         ST.AddVal(A[i], p2[N-1-i]);

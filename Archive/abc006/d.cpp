@@ -1,5 +1,3 @@
-/* https://atcoder.jp/contests/abc006/tasks/abc006_4 */
-/** https://zenn.dev/reputeless/books/standard-cpp-for-competitive-programming/viewer/lis **//
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,7 +15,7 @@ int main(){
     cin >> N;
     vector<int> A(N);
     rep(i,N) cin>>A[i];
-    vector<int> uc(N); // Count which order number each index is assigned
+    vector<int> uc(N), dc(N); // Count which order number each index is assigned
     vector<int> up; // Storage table which number is temporally stored, like as dp
     rep(i,N) {
         auto it = lower_bound(up.begin(), up.end(), A[i]);
