@@ -14,16 +14,12 @@ int main(){
     vector C(8,vector<char>(8));
     rep(i,8)rep(j,8) cin>>C[i][j];
 
-    auto fill = [&](int i, int j)->bool{
-        rep(y,8) {
-            if(C[y][j] == 'Q' && y==i) return false;
-            if(C[y][j] == '.') C[y][j] = 'x';
-        }
+    auto fill = [&](int i, int j, vector<vector<char>> &C)->bool{
         rep(x,8) {
-            if(C[i][x] == 'Q' && x==j) return false;
-            if(C[i][x] == '.') C[i][x] = 'x';
+            if(x == j) continue;
+            if(C[i][x] == 'Q')  return false;
+            if(C[i][x] == '.')  C[i][x] = 'x';
         }
-
         int ct = 0;
         for(int y=i+1; y<8; y++) {
             ct++;
@@ -37,7 +33,11 @@ int main(){
                 if(C[y][x]=='Q') return false;
                 if(C[y][x]=='.') C[y][x]='x';
             }
+            x = j;
+            if(C[y][x]=='Q') return false;
+            if(C[y][x]=='.') C[y][x]='x';
         }
+        ct = 0;
         for(int y=i-1; y>=0; y--) {
             ct++;
             int x = j+ct;
@@ -50,28 +50,35 @@ int main(){
                 if(C[y][x]=='Q') return false;
                 if(C[y][x]=='.') C[y][x]='x';
             }
+            x = j;
+            if(C[y][x]=='Q') return false;
+            if(C[y][x]=='.') C[y][x]='x';
         }
         return true;
     };
 
+
+    auto debug = [&]()->void{
+        cerr<<endl;
+        rep(i,8) {
+            rep(j,8) {
+                cerr<<C[i][j];
+            }
+            cerr<<endl;
+        }
+        cerr<<endl;
+    };
+
     rep(i,8)rep(j,8) {
         if(C[i][j]!='Q') continue;
-        fill(i,j);
-    }
-
-    rep(i,8) {
-        rep(j,8) {
-            cout<<C[i][j];
+        if(!fill(i,j,C)) {
+            cout << "No Answer" << endl;
+            return 0;
         }
-        cout<<endl;
     }
-
-    auto func = [&](auto func, int i, int j, int rem)->void{
+    debug();
+    auto func = [&fill](auto func, int i, int j, int rem, vector<vector<char>> C)->void{
         if(j == 8) return;
-        if(rem == 2) {
-            cerr << "2" << endl;
-
-        }
         if(rem == 0) {
             rep(i,8) {
                 rep(j,8) {
@@ -87,13 +94,17 @@ int main(){
             ni=0; nj++;
         }
         if(C[i][j] != '.') {
-            func(func, ni, nj, rem);
+            func(func, ni, nj, rem, C);
+            return;
         }
-        C[i][j] = 'Q';
-        if(fill(i,j)) func(func, ni, nj, rem-1);
-        C[i][j] = '.';
+        auto C2 = C;
+        C2[i][j] = 'Q';
+        if(fill(i,j,C2)) {
+            func(func, ni, nj, rem-1, C2);
+        }
+        func(func, ni, nj, rem, C);
     };
-    func(func, 0,0,5);
-    cout << "No answer" << endl;
+    func(func, 0,0,5,C);
+    cout << "No Answer" << endl;
     return 0;
 }
