@@ -12,16 +12,15 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
+    ll N; cin>>N; N--;
+    string ans(10, '4');
+    int i = 0;
+    while(N) {
+        if(N%2) ans[i] = '7';
+        N/=2;
+        i++;
     }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
+    reverse(ans.begin(), ans.end());
+    cout<<ans<<endl;
     return 0;
 }

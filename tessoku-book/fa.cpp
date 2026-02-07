@@ -12,16 +12,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
+    ll D,X; cin>>D>>X;
+    vector<int> A(D);
+    A[0] = X;
+    rep(i,D-1) {
+        ll a; cin>>a;
+        A[i+1] = A[i] + a;
     }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
+    int Q; cin>>Q;
+    while(Q--) {
+        int s, t; cin>>s>>t; s--,t--;
+        if(A[s] == A[t]) cout << "Same" << endl;
+        else if(A[s] > A[t]) cout<<s+1 <<endl;
+        else cout<<t+1<<endl;
+    }
+
     return 0;
 }

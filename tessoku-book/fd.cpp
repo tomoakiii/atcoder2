@@ -12,16 +12,10 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
+    ll N; cin>>N;
+    cout<<N<<endl;
+    rep(i,N) {
+        cout << i+1 << " " << (i+1)%N + 1 << endl;
     }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
     return 0;
 }

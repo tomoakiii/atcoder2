@@ -10,18 +10,21 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+typedef modint1000000007 mint;
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
+    ll W; cin>>W; W--;
+    mint x = 12;
+    vector<mint> pow(100, 1);
+    pow[1] = 7;
+    rep(i,98) {
+        pow[i+2] = pow[i+1] * pow[i+1];
     }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
+    int i = 0;
+    while(W) {
+        i++;
+        if(W%2) x *= pow[i];
+        W/=2;
+    }
+    cout << x.val() << endl;
     return 0;
 }

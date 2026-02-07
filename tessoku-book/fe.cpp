@@ -12,16 +12,21 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
+    ll N; cin>>N;
+    vector<ll> C(N);
+    rep(i,N) cin>>C[i];
+    sort(C.begin(),C.end());
+    vector<ll> cnt(N+1);
+    ll sm = 0;
+    rep(i,N) {
+        sm += C[i];
+        cnt[i+1] = sm;
     }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
+    int Q; cin>>Q;
+    while(Q--) {
+        ll x; cin>>x;
+        auto it = upper_bound(cnt.begin(), cnt.end(),x) - cnt.begin();
+        cout << it-1 << endl;
+    }
     return 0;
 }

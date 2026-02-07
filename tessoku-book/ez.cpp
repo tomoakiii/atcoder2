@@ -12,16 +12,11 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main() {
-    int N,M;
-    cin>>N>>M;
-    mf_graph<int> G(N);
-    rep(i,M) {
-        int u, v, c;
-        cin >> u >> v >> c;
-        u--, v--;
-        G.add_edge(u, v, c);
-    }
-    int res = G.flow(0, N-1);
-    cout << res << endl;
+    int N; cin>>N;
+    vector<int> A(N);
+    rep(i,N) cin>>A[i];
+    int mx = 0;
+    rep(i,N) for(int j=i+1; j<N; j++) chmax(mx,A[i]+A[j]);
+    cout<<mx<<endl;
     return 0;
 }

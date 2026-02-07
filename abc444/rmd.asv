@@ -1,0 +1,22 @@
+function rmd
+p = fullfile(cd, "build", "testcase", "e");
+for n=1:100
+    fp = fopen(fullfile(p, fprintf("hand-%d.in", n)), "w+");
+    fpo = fopen(fullfile(p, fprintf("hand-%d.out", n)), "w+");
+    r = rand(1,100);
+    r = floor(r * 1000);
+    fprintf(fp, "100 100\n");
+    fprintf(fp, "%d ", r);
+    fprintf(fp, "\n", r);
+    ans = 0;
+    m = zeros(100,1);
+    indx = 1;
+    for i=1:100
+        for j=i:100
+            for k = i : j
+                m[indx] = r[k];
+            end
+            sort
+        end
+    end
+end
