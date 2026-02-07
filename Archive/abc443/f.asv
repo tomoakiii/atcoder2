@@ -1,0 +1,33 @@
+function f
+pt = fullfile(cd, "build", "testcase", "f");
+for n = 10 : 1000        
+    fn = sprintf('sample-%.4d.in', n);
+    fpi = fopen(fullfile(pt, fn), 'w+');
+    fprintf(fpi, "%d\n", n);
+    fn = sprintf('sample-%.4d.out', n);
+    fpo = fopen(fullfile(pt, fn), 'w+');
+    flg = true;
+    for nx = 1 : n
+        x = n * nx;
+        lastp = 10;        
+        while (x > 0)
+            p = rem(x,10);
+            x = x - p;
+            x = x / 
+            if p <= lastp
+                lastp = p;
+            else
+                flg = false;
+                break;
+            end
+        end
+        if flg
+            fprintf(fpo, "%d\n", x);
+            break;
+        end
+    end
+    if ~flg
+        fprintf(fpo, "-1\n");
+    end
+    fclose all;
+end

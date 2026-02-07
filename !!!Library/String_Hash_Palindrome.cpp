@@ -1,4 +1,4 @@
-// https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_bd
+// https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_ec
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -51,11 +51,19 @@ int main(){
     string S;
     cin>>N>>Q>>S;
     StringHash<mint> SH(S);
+    reverse(S.begin(),S.end());
+    StringHash<mint> SH2(S);
+
     while(Q--) {
-        ll a,b,c,d; cin>>a>>b>>c>>d;
-        a--,b--,c--,d--;
-        mint h1 = SH.GetHash(a,b);
-        mint h2 = SH.GetHash(c,d);
+        int a,b; cin>>a>>b;
+        a--, b--;
+        int ln = (b-a+1)/2;
+        mint h1 = SH.GetHash(a, a+ln);
+        swap(a,b);
+        a = N-a-1;
+        b = N-b-1;
+        ln = (b-a+1)/2;
+        mint h2 = SH2.GetHash(a, a+ln);
         if(h1 == h2) cout<< "Yes"<<endl;
         else cout << "No" << endl;
     }

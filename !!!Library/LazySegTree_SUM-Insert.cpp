@@ -44,7 +44,7 @@ int main(){
         A[i].value = a;
         A[i].size = 1;
     }
-    lazy_segtree<S, op, e, F, mapping, composition, id> LS(A);        
+    lazy_segtree<S, op, e, F, mapping, composition, id> LS(A);
     rep(i,M) {
         int l, r;
         cin>>l>>r;

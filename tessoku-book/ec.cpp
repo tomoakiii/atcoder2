@@ -10,6 +10,7 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef pair<ll, pair<int,int>> pl;
 typedef modint998244353 mint;
 
 template<class Type> class StringHash {
@@ -51,11 +52,19 @@ int main(){
     string S;
     cin>>N>>Q>>S;
     StringHash<mint> SH(S);
+    reverse(S.begin(),S.end());
+    StringHash<mint> SH2(S);
+
     while(Q--) {
-        ll a,b,c,d; cin>>a>>b>>c>>d;
-        a--,b--,c--,d--;
-        mint h1 = SH.GetHash(a,b);
-        mint h2 = SH.GetHash(c,d);
+        int a,b; cin>>a>>b;
+        a--, b--;
+        int ln = (b-a+1)/2;
+        mint h1 = SH.GetHash(a, a+ln);
+        swap(a,b);
+        a = N-a-1;
+        b = N-b-1;
+        ln = (b-a+1)/2;
+        mint h2 = SH2.GetHash(a, a+ln);
         if(h1 == h2) cout<< "Yes"<<endl;
         else cout << "No" << endl;
     }
