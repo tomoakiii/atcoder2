@@ -1,4 +1,3 @@
-//https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_bp
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -10,27 +9,33 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef long double ld;
-typedef pair<ld,int> pl;
-int main() {
-    ll N,K; cin>>N>>K;
-    vector<ld> A(N);
+
+int main(){
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
     rep(i,N) {
         cin>>A[i];
+        A[i]--;
     }
-    ld ok = 0, ng = 1e9;
-    vector<ll> ans(N);
-    while(ng - ok > 0.000001) {
-        ld c = (ok+ng)/2;
-        ll cnt = 0;
+    vector<ll> nx(N);
+    rep(i,N) nx[i] = i;
+    vector<ll> nx2(N);
+    rep(kk,10) {
         rep(i,N) {
-            cnt += floor(A[i]/c);
+            nx2[i] = A[nx[i]];
         }
-        if(cnt < K) ng = c;
-        else ok = c;
+        swap(nx2,nx);
+    }
+    vector<ll> nx3(N);
+    rep(kk,100) {
+        rep(i,N) {
+            nx3[i] = nx2[nx2[i]];
+        }
+        swap(nx3,nx2);
     }
     rep(i,N) {
-        cout << floor(A[i]/ok) << " ";
+        cout << nx3[i]+1 << " ";
     }
     cout<<endl;
     return 0;

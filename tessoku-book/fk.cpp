@@ -10,28 +10,29 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef long double ld;
-typedef pair<ld,int> pl;
+typedef modint1000000007 mint;
 int main() {
-    ll N,K; cin>>N>>K;
-    vector<ld> A(N);
-    rep(i,N) {
-        cin>>A[i];
-    }
-    ld ok = 0, ng = 1e9;
-    vector<ll> ans(N);
-    while(ng - ok > 0.000001) {
-        ld c = (ok+ng)/2;
-        ll cnt = 0;
+    ll N,P; cin>>N>>P;
+    if(P == 0) {
+        ll zn = 0;
         rep(i,N) {
-            cnt += floor(A[i]/c);
+            ll a; cin>>a; mint x = a;
+            if(x.val() == 0) zn++;
         }
-        if(cnt < K) ng = c;
-        else ok = c;
+        cout << zn * (zn-1) / 2 + zn * (N-zn) << endl;
+        return 0;
     }
+    map<ll,ll> mp;
     rep(i,N) {
-        cout << floor(A[i]/ok) << " ";
+        ll a; cin>>a; mint x = a;
+        if(x.val() > 0) mp[x.val()]++;
     }
-    cout<<endl;
+    ll ans = 0;
+    for(auto [y, c]: mp) {
+        mint f = mint(P)/mint(y);
+        if(f.val() == y) ans += c * (c-1);
+        else ans += c * mp[f.val()];
+    }
+    cout << ans/2 << endl;
     return 0;
 }

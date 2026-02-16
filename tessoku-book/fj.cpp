@@ -10,26 +10,28 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint1000000007 mint;
+typedef long double ld;
+typedef pair<ld,int> pl;
+int dp[300][11][300]; // 今、切れ数、最初のページ
 int main() {
-    ll N,K; cin>>N>>K;
-    vector<ll> A(N);
-    ll sm = 0;
+    ll N,M,K; cin>>N>>M>>K;
+    vector point(N+1, vector<int>(N+1));
+    rep(i,M) {
+        int a, b; cin>>a>>b;
+        rep(j,a+1) point[b][j]++;
+    }
+    rep(i,N+1) rep(j,K+1) rep(k,N+1) dp[i][j][k] = -INFi;
+    dp[0][0][0] = 0;
     rep(i,N) {
-        cin>>A[i];
-        sm += A[i];
-    }
-    ll ng = 0, ok = 1e9;
-    while(ok-ng > 1) {
-        ll c = (ok+ng)/2;
-        ll cnt = 0;
-        rep(i,N) {
-            cnt += (A[i]+c-1)/c;
+        rep(j, K+1) {
+            rep(k, N+1) {
+                chmax(dp[i+1][j][k], dp[i][j][k] + point[i+1][k]);
+                if(j+1<=K) chmax(dp[i+1][j+1][i+1], dp[i][j][k]);
+            }
         }
-        if(cnt > K) ng = c;
-        else ok = c;
     }
-    rep(i,N) cout << (A[i]+ok-1)/ok << " ";
-    cout<<endl;
+    int ans = 0;
+    rep(k,N+1) chmax(ans, dp[N][K][k]);
+    cout << ans << endl;
     return 0;
 }
