@@ -11,18 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,Z,W;
-    cin >> N >> Z >> W;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-    sort(A.begin(),A.end());
-    if(N==1) {
-        cout << abs(A[0]-W) << endl;
-        return 0;
+    ll K; cin>>K;
+    ll N = 50;
+    cout<<N<<endl;
+    ll ans = (N-1) + K/N;
+    ll rm = K%N;
+    rep(i,rm) {
+        cout << ans + N - (rm-1) << " ";
     }
-    ll ans = A[N-1]-A[0];
-    chmax(ans, abs(A[0]-Z));
-    chmax(ans, abs(A[N-1]-Z));
-    cout<<ans<<endl;
+    for(int i=rm; i<N; i++) {
+        cout << ans - rm << " ";
+    }
+    cout<<endl;
     return 0;
 }

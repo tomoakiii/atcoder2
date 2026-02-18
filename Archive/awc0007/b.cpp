@@ -11,18 +11,23 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,Z,W;
-    cin >> N >> Z >> W;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-    sort(A.begin(),A.end());
-    if(N==1) {
-        cout << abs(A[0]-W) << endl;
-        return 0;
+    ll N,K; cin>>N>>K;
+    vector<unordered_set<string>> list(N);
+    rep(i,N) {
+        ll M; cin>>M;
+        rep(j,M) {
+            string s;cin>>s;
+            list[i].insert(s);
+        }
     }
-    ll ans = A[N-1]-A[0];
-    chmax(ans, abs(A[0]-Z));
-    chmax(ans, abs(A[N-1]-Z));
+    int ans = 0;
+    rep(i,N) {
+        for(int j=i+1;j<N;j++) {
+            int sm = 0;
+            for(auto s: list[i]) if(list[j].contains(s)) sm++;
+            if(sm>=K) ans++;
+        }
+    }
     cout<<ans<<endl;
     return 0;
 }
