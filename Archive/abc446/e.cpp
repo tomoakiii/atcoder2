@@ -50,6 +50,12 @@ int main(){
             continue;
         }
         while(!visit[s2][s3]) {
+            if(success[s2][s3]) break;
+            if(fail[s2][s3]){
+                flg = false;
+                op_f();
+                break;
+            }
             tmp.push_back({s2,s3});
             visit[s2][s3] = true;
             s1 = s2;

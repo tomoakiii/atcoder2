@@ -15,27 +15,37 @@ int main(){
     cin >> N;
     string T;
     cin >> T;
-    deque S1(N,'A'), S2(N,'A');
-    rep(i,N) S1[i] = T[i];
-    rep(i,N) S2[i] = T[N+i];
-    reverse(S2.begin(), S2.end());
-    map<deque<ll>, bool> mp; 
-    rep(i,N+1){
-        mp[S1] = true;
-        if(mp.count(S2)) {
-            for(auto c:S1) cout<<c;
-            cout << endl << N-i << endl;
-            return 0;
-        }
-        mp.clear();
-        char c = S1.back();
-        S1.pop_back();
-        char c2 = S2.front();
-        S2.pop_front();
-        S1.push_back(c2);
-        S2.push_back(c);        
+    string S1(N/2,'A'), S2(N/2,'A');
+    rep(i,N/2){
+        S1[i] = T[i];
+        S2[i] = T[N+i];
     }
-    
-    cout << -1 << endl;
+    int l = N/2;
+    int r = N/2;
+    if(N%2==0) {
+        l--;
+    }
+    bool flg = true;
+    int ans;
+    while(l>=0){
+        if(flg){
+            if(S1[l] != S2[l+N] || S1[r] != S2[r]) {
+                flg = false;
+                ans = l;
+                if(S1[l] != S2[r] || S1[r] != S2[l]) {
+                    cout << -1 << endl;
+                    return 0;
+                }
+            }
+        } else {
+            if(S1[l] != S2[r] || S1[r] != S2[l]) {
+                cout << -1 << endl;
+                return 0;
+            }
+        }
+        l--, r++;
+    }
+    cout << ans << endl;
+    cout << S1 << endl;    
     return 0;
 }

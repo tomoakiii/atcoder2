@@ -1,3 +1,5 @@
+// https://atcoder.jp/contests/abc221/tasks/abc221_e
+
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -10,21 +12,126 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+typedef modint998244353 mint;
 
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+template <class Type> class Combination{
+public:
+    vector<mint> fct{}; // array of factorial. fct[k] = k!
+    vector<mint> rfct{}; // rmfct[k] = 1/k!
+    Combination(int M){
+        fct.resize(M+1, 1);
+        rfct.resize(M+1, 1);
+        for(ll i=2; i<=M; i++) {
+            mint ip = i;
+            fct[i] = fct[i-1] * ip;
+        }
+        rfct[M] = 1/fct[M];
+        for(ll i=M; i>1; i--) {
+            mint ip = i;
+            rfct[i-1] = rfct[i] * ip;
+        }
     }
+
+    // kCr = (k!)/(r!)/((k-r)!)
+    mint comb(ll n, ll k){
+        if (n < k || k < 0) return 0;
+        return fct[n] * rfct[k] * rfct[n-k];
+    };
+
+};
+
+template <class Type> class SegTree {
+private:
+    struct val_ind{
+        Type v;
+        int i;
+    };
+
+    int n, sz, trsize;
+    struct nd{
+        int l;
+        int r;
+        int c;
+        Type val;
+    };
+    vector<nd> tr;
+public:
+    // tr[n-1] ~ tr[n-1+sz-1] = original vector v
+    SegTree(vector<Type> v) {
+        sz = (int)v.size();
+        n = 1;
+        while(n < sz) n *= 2;
+        trsize = 2*n-1;
+        tr.resize((size_t)trsize);
+        for(int i=0; i<sz; i++) {
+            tr[i+n-1].val = v[i];
+        }
+        for(int i=0; i<n; i++) tr[i+n-1].l = tr[i+n-1].r = tr[i+n-1].c = i;
+        int k=1;
+        while ((n-1)/k > 0){
+            for(int i=(n-1)/k; i<(trsize-1)/k; i+=2){
+                tr[i/2].val = tr[i].val + tr[i+1].val;
+            }
+            k*=2;
+        }
+        for(int i=n-2; i>=0; i--) {
+            tr[i].l = tr[i*2+1].l;
+            tr[i].r = tr[i*2+2].r;
+            tr[i].c = (tr[i].l + tr[i].r)/2;
+        }
+    }
+
+
+    void AddVal(int ind, Type delta){
+        int i = ind+n-1;
+        tr[i].val = tr[i].val + delta;
+        while(i>0){
+            int ii = (i-1)/2;
+            tr[ii].val = tr[ii*2+1].val + tr[ii*2+2].val;
+            i = ii;
+        }
+    }
+
+
+    void SetVal(int ind, Type val){
+        int i = ind+n-1;
+        tr[i].val = val;
+    }
+
+    Type GetSum(int ind, int a, int b){
+        if(tr[ind].l == a && tr[ind].r == b){
+            return tr[ind].val;
+        }
+        if (tr[ind].c >= a && tr[ind].c < b) {
+            return GetSum(2*ind+1, a, tr[ind].c) +
+                GetSum(2*ind+2, tr[ind].c + 1, b);
+        }
+        if (tr[ind].c >= b) return GetSum(2*ind+1, a, b);
+        return GetSum(2*ind+2, a, b);
+    }
+
+};
+
+int main(){
+    ll N,D;
+    cin >> N >> D;
+    map<ll,ll> mp;
+    rep(i,N) {
+        ll a; cin>>a; mp[a]++;
+    }
+    set<ll> B;
+    mint ans = 1;
+    Combination<mint> CM(2*N);
+    ll M = 1e6;
+    SegTree<ll> ST(vector<ll>(M+1,0));
+    for(auto [v,c]: mp) {
+        ll cnt = 0;
+        if(v-D<0) cnt += ST.GetSum(0,0,M);
+        else cnt += ST.GetSum(0,v-D,M);
+        ans *= CM.comb(c+cnt, c);
+//        cerr<<ans.val()<<endl;
+        ST.AddVal(v,c);
+    }
+    cout<<ans.val()<<endl;
     return 0;
 }
