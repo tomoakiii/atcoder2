@@ -11,14 +11,8 @@ const ll INF = 0x7F7F7F7F7F7F7F7F;
 const int INFi = 0x7F0F0F0F;
 
 int main(){
-    int N; cin>>N;
-    ll ans = 0;
-    set<int> st;
-    rep(i,N){
-        int p; cin>>p;
-        st.insert(p);
-        while(st.contains(ans)) ans++;
-        cout<<ans<<endl;
-    }
+    string S; cin>>S;
+    S[0] = S[0] - 'A' + 'a';
+    cout << "Of" << S << endl;
     return 0;
 }

@@ -84,3 +84,30 @@ public:
     }
 
 };
+
+int main(){
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    ll M = 2e5;
+    SegTree<mint> ST(vector<mint>(M+1,0));
+    SegTree<ll> ST_cnt(vector<ll>(M+1,0));
+    mint p = 0;
+    rep(i,N) {
+        auto sm = ST_cnt.GetSum(0,0,A[i]-1);
+
+        p += (2*sm+1)*A[i];
+        p += 2*ST.GetSum(0,A[i],M);
+
+        ST.AddVal(A[i], A[i]);
+        ST_cnt.AddVal(A[i],1);
+
+        mint ans = (i+1)*(i+1);
+        ans = ans.inv();
+        ans *= p;
+        cout << ans.val() << endl;
+    }
+
+    return 0;
+}
