@@ -17,46 +17,30 @@ int main(){
         cout<<K<<endl;
         return 0;
     }
-    int M = 100000;
-    vector dp(M, vector<ll>(10,0));
-    ll cnt = 0;
-    rep(i,10) {
-        dp[0][i] = 1;
-    }
-    cnt = 9;
-    rep(i, M-1) {
-        rep(j, 10) {
-            for(int p=-1; p<=1; p++){
-                if(j+p>=0 && j+p<=9){
-                    dp[i+1][j] += dp[i][j+p];          
-                }
+    K-=9;
+    for(ll i=2; i<INF; i++) {
+        set<ll>st;
+        auto func = [&](auto func, int cur, ll d, ll p)->void{
+            if(cur == i) {
+                st.insert(p);
+                return;
             }
-            if(j!=0) cnt += dp[i+1][j];
-            if(cnt<K) continue;
-            cout<<j;
-            rep(k,i+1){
-                for(int t=1; t<=9; t++){
-                    K -= dp[k][t];
-                }
+            if(d<9) func(func,cur+1,d+1,p*10+(d+1));
+            func(func,cur+1,d,p*10+(d));
+            if(d>0) func(func,cur+1,d-1,p*10+(d-1));
+        };
+        rep(j,9) func(func, 1, j+1, j+1);
+        if(st.size() > K) {
+            auto it = st.begin();
+            K--;
+            while(K--){
+                it++;
             }
-            for(int k=1; k<j; k++){                
-                K -= dp[i+1][k];
-            }
-            int nj = j;
-            for(int k=i; k>=0; k--) {
-                for(int p=-1; p<=1; p++){
-                    if(nj+p>=0 && nj+p<=9 && dp[k][nj+p]<K) {
-                        K-=dp[k][nj+p];
-                    } else {
-                        cout<<nj+p;
-                        nj = nj+p;
-                        break;
-                    }
-                }
-            }
-            cout<<endl;
+            cout << *it << endl;
             return 0;
+        } else {
+            K -= st.size();
         }
-    }        
+    }    
     return 0;
 }

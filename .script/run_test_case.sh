@@ -1,10 +1,23 @@
 export PATH="/home/tetitubuta/.local/bin:$PATH"
 #!/bin/bash
+#!/bin/bash
 
+# 1. まず引数を受け取る（例: ~/atcoder2/Archive/abc112/a.cpp）
 relative_file=$1
-relative_path=$(dirname "$relative_file")
-contest_name=${relative_path//\//}
+# 2. そのファイルがあるディレクトリの絶対パスを取得
+# 一旦そのディレクトリに移動して pwd を取ることで、"~" も正しく展開されます
+dir_full_path=$(cd "$(dirname "$relative_file")" && pwd)
+
+# 3. ディレクトリの末尾（abc112）を抽出
+contest_name=$(basename "$dir_full_path")
+
+# 4. ファイル名から問題ID（a）を抽出
 problem_id=$(basename "$relative_file" .cpp)
+
+
+relative_path=$(dirname "$relative_file")
+#contest_name=${relative_path//\//}
+#problem_id=$(basename "$relative_file" .cpp)
 url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_id}
 
 download_dir=${relative_path}/build/testcase/${problem_id}

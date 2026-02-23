@@ -35,7 +35,7 @@ int main(){
                 if(stP[stP.size()-1] * x <= c) cnt+=stP.size();
                 else if (stP[0] * x > c) continue;
                 else{
-                    int ok2 = 0, ng2 = stP.size()-1;
+                    int ok2 = 0, ng2 = stP.size();
                     while(ng2 - ok2 > 1) {
                         int c2 = (ok2+ng2) / 2;
                         if(stP[c2] * x <= c) ok2 = c2;
@@ -53,35 +53,27 @@ int main(){
     } else {
         K -= nN;
         K -= nZ;
-        ll ng = 0, ok = 2e18;  // ok以下になるものはKmax個ある。ng以下になるものは1個もない
+        ll ng = 0, ok = 5e18;  // ok以下になるものはKmax個ある。ng以下になるものは1個もない
+        reverse(stN.begin(), stN.end());
+        for(auto &ssn: stN) ssn*=-1;
         while(ok - ng > 1) {
             ll c = (ok + ng) / 2;
             ll cnt = 0; // c以下になるものの個数
-            rep(i, (int)stP.size()-1) {
-                if(stP[i] * stP[stP.size()-1] <= c) cnt += stP.size()-i-1;
-                else if(stP[i] * stP[i+1] > c) break;
-                else {
-                    int ok2 = i+1, ng2 = stP.size();
-                    while(ng2 - ok2 > 1) {
-                        int c2 = (ok2 + ng2) / 2;
-                        if(stP[i] * stP[c2] <= c) ok2 = c2;
-                        else ng2 = c2;
-                    }
-                    cnt += ok2 - i;
-                }                
-            }
-            rep(i, (int)stN.size()-1) {
-                if(stN[i] * stN[stN.size()-1] > c) continue;
-                else if(stN[i] * stN[i+1] <= c) cnt += stN.size()-i-1;
-                else {
-                    int ng2 = i+1, ok2 = stN.size()-1;
-                    while(ok2 - ng2 > 1) {
-                        int c2 = (ok2 + ng2) / 2;
-                        if(stN[i] * stN[c2] <= c) ok2 = c2;
-                        else ng2 = c2;
-                    }
-                    cnt += stN.size() - ok2;
+            rep(kkk,2){
+                rep(i, (int)stP.size()-1) {
+                    if(stP[i] * stP[stP.size()-1] <= c) cnt += stP.size()-i-1;
+                    else if(stP[i] * stP[i+1] > c) break;
+                    else {
+                        int ok2 = i, ng2 = stP.size();
+                        while(ng2 - ok2 > 1) {
+                            int c2 = (ok2 + ng2) / 2;
+                            if(stP[i] * stP[c2] <= c) ok2 = c2;
+                            else ng2 = c2;
+                        }
+                        cnt += ok2 - i;
+                    }                
                 }
+                swap(stP,stN);
             }
             if(cnt >= K) ok = c;
             else ng = c;
