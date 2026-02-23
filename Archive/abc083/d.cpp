@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 using namespace atcoder;
-#define rep(i,n) for (ll i = 0; i < (n); ++i)
+#define rep(i,n) for (int i = 0; i < (n); ++i)
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
@@ -11,20 +11,14 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    string S; cin>>S;
+    int N=S.size();
+    int a=N;
+    rep(i,N-1) {
+        if(S[i] != S[i+1]) {
+            chmin(a,max(i+1,N-1-i));
+        }
     }
+    cout<<a<<endl;
     return 0;
 }
