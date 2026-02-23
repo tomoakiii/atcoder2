@@ -11,8 +11,6 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
-typedef modint998244353 mint;
 template <class Type> class SegTree {
 private:
     struct val_ind{
@@ -87,5 +85,40 @@ public:
         if (tr[ind].c >= b) return GetSum(2*ind+1, a, b);
         return GetSum(2*ind+2, a, b);
     }
-
 };
+int main(){
+    ll N;
+    cin >> N;
+    vector<ll> C(N), X(N);
+    rep(i,N) {
+        cin>>C[i];
+        C[i]--;
+    }
+    rep(i,N) {
+        cin>>X[i];
+        X[i]--;
+    }
+    vector list(N, vector<int>{});
+    rep(i,N) {
+        list[C[i]].push_back(i);
+    }
+    SegTree<ll> ST(vector<ll>(N+1,0));
+    ll ans = 0;
+    rep(i,N){
+        ans += ST.GetSum(0,X[i]+1,N);
+        ST.AddVal(X[i],1);
+    }
+  //  cerr<<ans<<endl;
+    SegTree<ll> ST2(vector<ll>(N+1,0));
+    for(auto ll:list){
+        for(auto i:ll){
+            ans-=ST2.GetSum(0,X[i]+1,N);
+            ST2.AddVal(X[i],1);
+        }
+        for(auto i:ll){
+            ST2.SetVal(X[i],0);
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
