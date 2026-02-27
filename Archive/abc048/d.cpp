@@ -11,20 +11,23 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    string S;
+    cin>>S;
+    int N=S.size();
+    if(S[0]==S.back()){
+        if(N%2==1) cout<<"Second"<<endl;
+        else cout<<"First"<<endl;
+    } else {
+        if(N%2==0) cout<<"Second"<<endl;
+        else cout<<"First"<<endl;
     }
     return 0;
 }
+
+/*
+ababa 0
+abacba 
+a-a-a -1
+a-a -3
+
+*/
