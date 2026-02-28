@@ -11,20 +11,13 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    int H,W,K; cin>>H>>W>>K;
+    char c1,c2; cin>>c1>>c2;
+    vector<string> S(H);
+    rep(i,H) cin>>S[i];
+    rep(i,H*K) {
+        rep(j,W*K) cout << (S[i/K][j/K]=='#'?c1:c2);
+        cout << endl;
     }
     return 0;
 }

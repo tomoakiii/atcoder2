@@ -11,20 +11,29 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll N,Q;
+    cin >> N >> Q;
+    vector<ll> V(N);
+    vector uv(N, vector<int>{});
+    rep(i,N) cin>>V[i];
+    rep(i,N-1) {
+        int p; cin>>p; p--;
+        uv[i+1].push_back(p);
+        uv[p].push_back(i+1);
+    }
+    vector<ll> ans(N);
+    auto dfs = [&](auto dfs, int cur, int pre)->void{
+        if(pre!=-1) ans[cur] = ans[pre]+V[cur];
+        else ans[cur] = V[cur];
+        for(auto nx: uv[cur]) {
+            if(nx == pre) continue;
+            dfs(dfs, nx, cur);
+         }
+    };
+    dfs(dfs, 0, -1);
+    while(Q--) {
+        int x; cin>>x; x--;
+        cout<<ans[x]<<endl;
     }
     return 0;
 }
