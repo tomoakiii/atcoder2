@@ -1,30 +1,35 @@
-#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
-using namespace atcoder;
 #define rep(i,n) for (ll i = 0; i < (n); ++i)
-template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
-template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll N,Q;
+    cin >> N >> Q;
+    vector<tuple<ll,ll,ll>> event;
+    rep(i,N) {
+        ll s,t,x; cin>>s>>t>>x;
+        event.push_back(make_tuple(s-x,1,x));
+        event.push_back(make_tuple(t-x,2,x));
     }
+    vector<ll> ans(Q);
+    rep(i,Q) {
+        ll d; cin>>d;
+        event.push_back(make_tuple(d,3,i));
+    }
+    sort(event.begin(),event.end());
+    multiset<ll> st;
+    for(auto [time, query, x]: event) {
+        if(query == 1) {
+            st.insert(x);
+        } else if(query == 2){
+            st.erase(st.find(x));
+        } else {
+            if(st.empty()) ans[x] = -1;
+            else ans[x] = *st.begin();
+        }
+    }
+    for(auto a:ans) cout<<a<<endl;
     return 0;
 }

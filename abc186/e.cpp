@@ -16,22 +16,20 @@ int main(){
     while(Top--){
         ll N,S,K;
         cin>>N>>S>>K;
-        ll a = K%N;
-        vector<ll> ret;
-        for (ll i = 1; i * i <= S; i++) {
-            if (S % i == 0) {
-                ret.push_back(i);
-                if (i * i != S) ret.push_back(S/i);
-            }
+        S %= N;
+        K %= N;
+        S = N - (S%N);
+        ll g = gcd(K,N);
+        if(S%g != 0) {
+            cout<<-1<<endl;
+            continue;
         }
-        ll ans = INF;
-        for(auto v: ret) {
-            ll g = gcd(v, N);
-            ll NN = N/g;
-            ll p = NN - S/v;
-            chmin(ans, p);
-        }
-        cout << ans << endl;
+        S/=g; K/=g; N/=g;
+        modint mi;
+        mi.set_mod(N);
+        mi = S;
+        mi = mi / K;
+        cout<< mi.val() << endl;
     }
     return 0;
 }

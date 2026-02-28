@@ -14,19 +14,17 @@ int main(){
     ll N;
     cin >> N;
     vector<ll> A(N);
-    rep(i,N) {
-        cin>>A[i];
-    }
-    fenwick_tree<ll> FT(N);
-    ll ans = 0;
-    rep(i,N) {
-        ans += FT.sum(A[i],N);
-        FT.add(A[i], 1);
-    }
-    rep(i,N) {
-        cout << ans << endl;
-        ans += N-1-2*A[i];
-    }
+    rep(i,N) cin>>A[i];
 
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
     return 0;
 }

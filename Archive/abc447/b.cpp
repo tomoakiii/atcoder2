@@ -11,22 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) {
-        cin>>A[i];
+    string S; cin>>S;
+    map<char,int> mp;
+    int mx=0;
+    for(auto c:S) {
+        mp[c]++;
+        chmax(mx, mp[c]);
     }
-    fenwick_tree<ll> FT(N);
-    ll ans = 0;
-    rep(i,N) {
-        ans += FT.sum(A[i],N);
-        FT.add(A[i], 1);
+    for(auto c:S) {
+        if(mp[c] == mx) continue;
+        else cout<<c;
     }
-    rep(i,N) {
-        cout << ans << endl;
-        ans += N-1-2*A[i];
-    }
-
+    cout<<endl;
     return 0;
 }
