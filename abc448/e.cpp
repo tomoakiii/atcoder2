@@ -10,12 +10,12 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
+typedef modint mint;
 template <class Type> class PowMod {
 private:
     ll MMax = 100; // 2^100 = 1.2E30 までのダブリング
-    vector<Type> PM;
 public:
+    vector<Type> PM;
     // p^x
     PowMod(ll p) {
         PM.resize(MMax);
@@ -43,10 +43,46 @@ public:
 
 
 int main(){
-    typedef modint998244353 mint;
-    PowMod<mint> PM(2);
-    rep(i,10) {
-        cout << PM.GetPow(i).val() << endl;
+    ll K, X;
+    cin>>K>>X;
+    ll Mod = 10007 * X;
+    // ll Mod = 100000007 * X;
+
+    mint::set_mod(Mod);
+    PowMod<mint> pow10(10);
+
+    mint sm = 0;
+
+    ll M = 100;
+    vector<mint> pow11(M);
+    pow11[0] = 1;
+    pow11[1] = 11;
+    vector<ll> digit(M);
+    digit[0] = 1;
+    digit[1] = 2;
+    for(ll i=1; i<M-1; i++) {
+        pow11[i+1] = pow11[i] * pow10.PM[i+1] + pow11[i];
+        digit[i+1] = digit[i] * 2;
     }
+
+    rep(i, K) {
+        ll c,l; cin>>c>>l;
+        ll l2 = l;
+        mint k1 = pow10.GetPow(l);
+        mint k2 = 0;
+        int id = 0;
+        while(l2) {
+            if(l2%2 == 1) {
+                k2 = k2 * pow10.GetPow(digit[id]) + pow11[id];
+            }
+            id++;
+            l2 /= 2;
+        }
+        sm = k1 * sm + k2 * c;
+        // cerr<<sm.val()<<endl;
+    }
+    ll x = sm.val();
+    ll ans = x / X;
+    cout << ans << endl;
     return 0;
 }
