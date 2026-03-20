@@ -9,7 +9,6 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
 // Coodinate Compression
 // https://youtu.be/fR3W5IcBGLQ?t=8550
 template<typename T=int>
@@ -37,25 +36,29 @@ struct CC {
   }
 };
 
-int main() {
-  int n;
-  cin >> n;
-  vector<int> a(n);
-  rep(i,n) cin >> a[i];
-  CC<int> cc;
-  rep(i,n) cc.add(a[i]);
-
-  fenwick_tree<int> tcnt(n);
-  fenwick_tree<ll> tsum(n);
-  ll ans = 0;
-  rep(i,n) {
-    int ai = cc(a[i]);
-    ans += (ll)a[i]*tcnt.sum(0,ai);
-    ans -= tsum.sum(0,ai);
-    tcnt.add(ai,1);
-    tsum.add(ai,a[i]);
-  }
-
-  cout << ans << endl;
-  return 0;
+int main(){
+    ll N,M,K;
+    cin >> N >> M >> K;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    CC<ll> cc;
+    vector<ll> B(N+1);
+    cc.add(0);
+    cc.add(K);
+    rep(i,N) {
+        B[i+1] += B[i] + A[i] + M;
+        cc.add(B[i+1]);
+        cc.add(B[i+1]+K);
+    }
+    ll ans = 0;
+    fenwick_tree<ll> FT(cc.size()+1);
+    rep(i,N+1) {
+        FT.add(cc(B[i]), 1);
+    }
+    rep(i,N) {
+        FT.add(cc(B[i]), -1);
+        ans+=FT.sum(0, cc(B[i]+K)+1);
+    }
+    cout<<ans<<endl;
+    return 0;
 }

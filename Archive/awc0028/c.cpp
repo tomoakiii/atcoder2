@@ -11,22 +11,22 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,M,C;
-    cin >> N >> M >> C;
-    ll ln = sqrt(1e5);
-    vector<ll> A(N),B(M);
-    rep(i,N) cin>>A[i];
-    rep(i,M) cin>>B[i];
-    sort(A.begin(), A.end());
-    sort(B.begin(), B.end());
-    int j=0;
-    ll ans = 0;
+    ll N;
+    cin >> N;
+    ll sma=0, smb=0, mx=0, mn=INF;
+    vector<ll> A(N),B(N);
+    vector<ll> P(N);
+    rep(i,N) cin>>P[i];
     rep(i,N) {
-        if(B[j]>A[i]) continue;
-        ans+=C;
-        j++;
-        if(j==M) break;
+        cin>>A[i];
+        sma+=A[i];
+        chmax(mx, P[i]-A[i]);
+        chmax(mn, A[i]);
     }
-    cout<<ans<<endl;
+    rep(i,N) {
+        cin>>B[i];
+        smb+=B[i];
+    }
+    cout<<sma+mx-smb<<endl;
     return 0;
 }

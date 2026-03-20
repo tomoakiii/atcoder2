@@ -11,20 +11,31 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    string S;
+    cin>>S;
 
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    ll cp=0, cn=0, cm=0;
+    for(auto c:S) {
+        if(c=='+')cp++;
+        else if(c=='-')cn++;
+        else cm++;
     }
+
+    ll tp=0, tn=0, tm=0;
+    vector<ll> score(cm);
+    for(auto c:S) {
+        if(c=='M') {
+            // select go
+            ll inc = (cp-tp) - (cn-tn);
+            score[tm] = inc;
+            tm++;
+        }else if(c=='+') tp++;
+        else tn++;
+    }
+    sort(score.rbegin(), score.rend());
+    ll ans=0;
+    rep(i,cm/2) ans+=score[i];
+    for(auto i=cm-1;i>=cm/2;i--) ans-=score[i];
+    cout<<ans<<endl;
     return 0;
 }

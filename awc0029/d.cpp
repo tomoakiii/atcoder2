@@ -11,29 +11,32 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
+    ll N, M, K;
+    cin >> N >> M >> K;
     vector uv(N, vector<ll>{});
-    vector vu(N, vector<ll>{});
     rep(i,M) {
         int u,v;
         cin>>u>>v;
         u--, v--;
+        ll w; cin>>w;
+        if(w<K) continue;
         uv[u].emplace_back(v);
-        vu[v].emplace_back(u);
+        uv[v].emplace_back(u);
     }
-    vector<ll> dp(1ll<<N, 0);
-    dp[0] = 1;
-    rep(S,1ll<<N) {
-        rep(i, N) {
-            if(S>>i & 1) continue;
-            bool flg = true;
-            for(auto u: vu[i]){
-                if( !(S>>u & 1) ) flg = false;
+    vector<ll> dist(N,INF);
+    dist[0]=0;
+    queue<ll> que;
+    que.push(0);
+    while(!que.empty()) {
+        auto cur = que.front();
+        que.pop();
+        for(auto nx:uv[cur]){
+            if(chmin(dist[nx],dist[cur]+1)) {
+                que.push(nx);
             }
-            if(flg) dp[S|(1ll<<i)] += dp[S];
         }
     }
-    cout<<dp[(1ll<<N)-1]<<endl;
+    if(dist[N-1]==INF) cout<<-1<<endl;
+    else cout<<dist[N-1]<<endl;
     return 0;
 }

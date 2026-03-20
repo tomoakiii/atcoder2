@@ -37,25 +37,38 @@ struct CC {
   }
 };
 
-int main() {
-  int n;
-  cin >> n;
-  vector<int> a(n);
-  rep(i,n) cin >> a[i];
-  CC<int> cc;
-  rep(i,n) cc.add(a[i]);
 
-  fenwick_tree<int> tcnt(n);
-  fenwick_tree<ll> tsum(n);
-  ll ans = 0;
-  rep(i,n) {
-    int ai = cc(a[i]);
-    ans += (ll)a[i]*tcnt.sum(0,ai);
-    ans -= tsum.sum(0,ai);
-    tcnt.add(ai,1);
-    tsum.add(ai,a[i]);
-  }
-
-  cout << ans << endl;
-  return 0;
+int main(){
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> L(N),R(N);
+    CC cc;
+    rep(i,N) {
+        cin>>L[i]>>R[i];
+        cc.add(L[i]);
+        cc.add(R[i]);
+    }
+    ll M = cc.size();
+    vector<ll> A(M+1);
+    rep(i,N) {
+        A[cc(L[i])]++;
+        A[cc(R[i])]--;
+    }
+    rep(i,M) A[i+1]+=A[i];
+    ll ans = 0;
+    bool flg = false;
+    ll last;
+    rep(i,M+1) {
+        if(A[i] >= K) {
+            if(!flg) {
+                flg = true;
+                last = cc[i];
+            }
+        } else if(flg) {
+            ans += cc[i] - last;
+            flg = false;
+        }
+    }
+    cout<<ans<<endl;
+    return 0;
 }

@@ -14,26 +14,27 @@ int main(){
     ll N, M;
     cin >> N >> M;
     vector uv(N, vector<ll>{});
-    vector vu(N, vector<ll>{});
+    vector<set<int>> vu(N);
     rep(i,M) {
         int u,v;
         cin>>u>>v;
         u--, v--;
         uv[u].emplace_back(v);
-        vu[v].emplace_back(u);
+        vu[v].insert(u);
     }
-    vector<ll> dp(1ll<<N, 0);
-    dp[0] = 1;
-    rep(S,1ll<<N) {
-        rep(i, N) {
-            if(S>>i & 1) continue;
-            bool flg = true;
-            for(auto u: vu[i]){
-                if( !(S>>u & 1) ) flg = false;
+    priority_queue<int, vector<int>, greater<int>> que;
+    rep(i,N) if(vu[i].empty()) que.push(i);
+    while(!que.empty()) {
+        int c = que.top();
+        cout << c+1 << " ";
+        que.pop();
+        for(auto nx: uv[c]) {
+            vu[nx].erase(c);
+            if(vu[nx].empty()) {
+                que.push(nx);
             }
-            if(flg) dp[S|(1ll<<i)] += dp[S];
         }
     }
-    cout<<dp[(1ll<<N)-1]<<endl;
+    cout<<endl;
     return 0;
 }
