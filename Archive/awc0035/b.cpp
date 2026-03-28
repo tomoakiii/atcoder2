@@ -10,24 +10,22 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 int main(){
-    ll N;
-    cin >> N;
-    vector<pair<ll,int>> A(N);
+    ll N,M;
+    cin >> N >> M;
+    vector<ll> D(N),S(M);
+    rep(i,N) cin>>D[i];
+    rep(i,M) cin>>S[i];
+    sort(S.begin(),S.end());
+    ll ans = 0;
     rep(i,N) {
-        cin>>A[i].first;
-        A[i].second=i;
+        int id = lower_bound(S.begin(),S.end(),D[i])-S.begin();
+        ll m=INF;
+        //cerr<<id<<endl;
+        if(id<M) m = S[id]-D[i];
+        if(id>0) chmin(m, D[i]-S[id-1]);
+        ans+=m;
     }
-    sort(A.rbegin(),A.rend());
-    vector<int> visit(N,-1);
-    vector<ll> ans(N);
-    rep(j,N) {
-        auto [a,i] = A[j];
-        for(int k=i;k>=0;k--){
-
-        }
-    }
+    cout<<ans<<endl;
     return 0;
 }
-

@@ -7,27 +7,19 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
-
+const ll INF = 0x7F7F7F7F7F7F7F7F;
+const int INFi = 0x7F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<pair<ll,int>> A(N);
+    ll N,R;
+    cin >> N >> R;
+    ll ans=0;
     rep(i,N) {
-        cin>>A[i].first;
-        A[i].second=i;
+        ll x, y, p ,q;
+        cin>>x>>y>>p>>q;
+        ll dx=x-p, dy=y-q;
+        if(dx*dx+dy*dy<=R*R)ans++;
     }
-    sort(A.rbegin(),A.rend());
-    vector<int> visit(N,-1);
-    vector<ll> ans(N);
-    rep(j,N) {
-        auto [a,i] = A[j];
-        for(int k=i;k>=0;k--){
-
-        }
-    }
+    cout<<ans<<endl;
     return 0;
 }
-
