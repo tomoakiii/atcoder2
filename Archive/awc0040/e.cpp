@@ -9,7 +9,7 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef pair<ll,pair<ll,int>> pll;
+
 template<typename T=int>
 struct CC {
   bool initialized;
@@ -34,75 +34,77 @@ struct CC {
     return xs.size();
   }
 };
+typedef pair<ll,ll> pll;
 int main(){
     ll N,Q;
     cin >> N >> Q;
-    vector<pair<ll,ll>> XV(N);
-    CC cc;
-    CC cv;
+    vector<pll> XV(N);
+
+    CC<ll> cv;
     rep(i,N) {
         cin>>XV[i].first>>XV[i].second;
         cv.add(XV[i].second);
     }
     sort(XV.begin(),XV.end());
-    vector<ll> L(Q),R(Q);
+    ll sM = sqrt(Q);
+    ll MoSize = (N/sM)+1;
+    vector Mo(MoSize, vector<tuple<ll,ll,int>>{});
     rep(i,Q){
-        cin>>L[i]>>R[i];
-        cc.add(L[i]);
+        ll L,R; cin>>L>>R;
+        pll key = {L,0};
+        int l = lower_bound(XV.begin(), XV.end(), key)-XV.begin();
+        key = {R,INF};
+        int r = lower_bound(XV.begin(), XV.end(), key)-XV.begin();
+        if(l<N) {
+            ll p=l/sM;
+            Mo[p].push_back(make_tuple(r,l,i));
+        }
     }
-    ll sM = sqrt(cc.size());
-    vector Mo(Q, vector<tuple<ll,ll,int>>{});
-    rep(i,Q) {
-        ll p=cc(L[i])/sM;
-        Mo[p].push_back(make_tuple(R[i],L[i],i));
-    }
-    rep(p,Q) {
-        if(p==0) sort(Mo[p].begin(), Mo[p].end());
+    rep(p,MoSize) {
+        if(p%2==0) sort(Mo[p].begin(), Mo[p].end());
         else  sort(Mo[p].rbegin(), Mo[p].rend());
     }
+    vector<int> vlist(N);
+    rep(i,N) vlist[i] = cv(XV[i].second);
     int l=0, r=0;
-    ll sm = 1;
-    ll ln = 1;
+    ll sm = 0, ln = 0;
     ll Mv = cv.size();
     vector<ll> cnt(Mv);
-    cnt[cv(XV[0].second)]++;
     auto exec = [&](ll tl, ll tr)->void{
-        auto update = [&](ll v, bool flg)->void{
+        auto update = [&](int i, bool flg)->void{
+            ll v = vlist[i];
             if(flg) {
                 cnt[v]++;
-                if(cnt[v] == 1) ln++;
+                ln++;
                 sm += cnt[v];
             } else {
                 sm -= cnt[v];
                 cnt[v]--;
-                sm += cnt[v];
-                if(cnt[v] == 0) ln--;
+                ln--;
             }
         };
-        while(r<N && XV[r].first <= tr) {
+        while(r < tr) {
+            update(r,true);
             r++;
-            if(r==N) break;
-            update(cv(XV[r].second),true);        
         }
-        while(r>=0 && XV[r].first > tr) {
-            update(cv(XV[r].second),false);
-            if(r==0) break;
-            else r--;
+        while(l > tl) {
+            l--;
+            update(l,true);
         }
-        while(l>=0 && XV[l].first >= tl) {
-            update(cv(XV[l].second),false);
-            if(l==0) break;
-            else l--;
+        while(r > tr) {
+            r--;
+            update(r,false);
         }
-        while(l<r && XV[l].first < tl) {
+        while(l < tl) {
+            update(l,false);
             l++;
-            update(cv(XV[l].second),true);
         }
     };
     vector<ll> ans(Q);
     for(auto vv : Mo) {
-        for(auto [r,l,q] : vv) {
-            exec(l,r);
+        for(auto [tr,tl,q] : vv) {
+            exec(tl,tr);
+            //cerr<<tl<<" "<<tr<<endl;
             ll a = ln * (ln+1) / 2;
             a -= (sm - ln);
             ans[q] = a;

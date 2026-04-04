@@ -11,20 +11,9 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
-    }
+    int h,w; cin>>h>>w;
+    vector<string> S(h, string(w, '#'));
+    for(int i=1; i<h-1; i++) for(int j=1; j<w-1; j++) S[i][j]='.';
+    rep(i,h) cout<<S[i]<<endl;
     return 0;
 }
