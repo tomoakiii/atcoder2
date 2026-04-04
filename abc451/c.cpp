@@ -10,21 +10,20 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
 
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+
+int main(){
+    ll Q; cin>>Q;
+    multiset<ll> st;
+    rep(i,Q) {
+      int que; cin>>que;
+      ll h; cin>>h;
+      if(que==1) {
+        st.insert(h);
+      } else {
+        while(!st.empty() && *st.begin() <= h) st.erase(st.begin());
+      }
+      cout<<st.size()<<endl;
     }
     return 0;
 }
