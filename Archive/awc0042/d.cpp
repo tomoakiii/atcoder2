@@ -11,27 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S,T; cin>>S>>T;
-    int N=S.size();
-    vector G(26, vector<ll>(N+100,N+1));
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> A(N), B(N+1);
+    rep(i,N) cin>>A[i];
+    rep(i,N) B[i+1]=(B[i]+A[i])%K;
+    unordered_map<ll,ll> mp;
+    mp[0]++;
+    ll ans = 0;
     rep(i,N) {
-        int c=S[i]-'a';
-        G[c][i] = i+1;
-    }
-    for(auto t:T) {
-        int ti = t-'a';
-        for(int i=N+98; i>=0; i--) {
-            chmin(G[ti][i], G[ti][i+1]);
-        }
-    }
-    ll ans=0;
-    rep(i,N) {
-        int c=i;
-        for(auto t:T) {
-            int ti = t-'a';
-            c=G[ti][c];
-        }
-        ans+=c-1-i;
+        if(mp.contains(B[i+1])) ans+=mp[B[i+1]];
+        mp[B[i+1]]++;
     }
     cout<<ans<<endl;
     return 0;

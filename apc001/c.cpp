@@ -11,28 +11,27 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S,T; cin>>S>>T;
-    int N=S.size();
-    vector G(26, vector<ll>(N+100,N+1));
-    rep(i,N) {
-        int c=S[i]-'a';
-        G[c][i] = i+1;
-    }
-    for(auto t:T) {
-        int ti = t-'a';
-        for(int i=N+98; i>=0; i--) {
-            chmin(G[ti][i], G[ti][i+1]);
+    ll N; cin>>N;
+    int l = 0;
+    cout<<l<<endl;
+    string s; cin>>s;
+    if(s=="Vacant") return 0;
+    bool lf = (s=="Male");
+    int r = N;
+    while(r-l > 1) {
+        int c = (r+l)/2;
+        bool ex;
+        if((c-l)%2 == 0) ex=lf;
+        else ex = !lf;
+        cout<<c<<endl;
+        cin>>s;
+        if(s=="Vacant") return 0;
+        bool cf = (s=="Male");
+        if(cf==ex) {
+            l=c;
+            lf = cf;
         }
+        else r=c;
     }
-    ll ans=0;
-    rep(i,N) {
-        int c=i;
-        for(auto t:T) {
-            int ti = t-'a';
-            c=G[ti][c];
-        }
-        ans+=c-1-i;
-    }
-    cout<<ans<<endl;
     return 0;
 }

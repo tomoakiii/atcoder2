@@ -11,28 +11,20 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S,T; cin>>S>>T;
-    int N=S.size();
-    vector G(26, vector<ll>(N+100,N+1));
+    ll N; cin>>N;
+    vector<ll>A(N),B(N);
+    rep(i,N) cin>>A[i];
+    rep(i,N) cin>>B[i];
+    ll stock = 0;
     rep(i,N) {
-        int c=S[i]-'a';
-        G[c][i] = i+1;
-    }
-    for(auto t:T) {
-        int ti = t-'a';
-        for(int i=N+98; i>=0; i--) {
-            chmin(G[ti][i], G[ti][i+1]);
+        if(A[i] < B[i]) {
+            stock += (B[i]-A[i])/2;
+        }else if(A[i]>B[i]) {
+            stock -= A[i]-B[i];
         }
     }
-    ll ans=0;
-    rep(i,N) {
-        int c=i;
-        for(auto t:T) {
-            int ti = t-'a';
-            c=G[ti][c];
-        }
-        ans+=c-1-i;
-    }
-    cout<<ans<<endl;
+    if(stock>=0) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
+
     return 0;
 }

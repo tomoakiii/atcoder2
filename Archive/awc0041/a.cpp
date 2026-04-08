@@ -11,27 +11,17 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    string S,T; cin>>S>>T;
-    int N=S.size();
-    vector G(26, vector<ll>(N+100,N+1));
-    rep(i,N) {
-        int c=S[i]-'a';
-        G[c][i] = i+1;
-    }
-    for(auto t:T) {
-        int ti = t-'a';
-        for(int i=N+98; i>=0; i--) {
-            chmin(G[ti][i], G[ti][i+1]);
-        }
-    }
+    ll N, M;
+    cin >> N >> M;
+    vector<ll> C(N),K(N);
+    rep(i,N) cin>>C[i]>>K[i];
     ll ans=0;
-    rep(i,N) {
-        int c=i;
-        for(auto t:T) {
-            int ti = t-'a';
-            c=G[ti][c];
+    rep(i,M) {
+        int p; cin>>p; p--;
+        if(K[p]>0) {
+            ans+=C[p];
+            K[p]--;
         }
-        ans+=c-1-i;
     }
     cout<<ans<<endl;
     return 0;
