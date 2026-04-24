@@ -48,8 +48,8 @@ F id() { return 0; }
  LS.get(i).value.val()
 --------------------------------------- */
 struct S{
-    mint value;
-    int size;
+    ll value=0;
+    int size=1;
 };
 // 区間和。幅も和
 S op(S a, S b){ return S(a.value+b.value, a.size+b.size); }
