@@ -7,16 +7,17 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
-typedef modint998244353 mint;
-int main(){
-    ll N,M;
-    cin >> N >> M;
-    mint ans = 1;
-    vector visit(N);
-    rep(i,N) {
+const ll INF = 0x7F7F7F7F7F7F7F7F;
+const int INFi = 0x7F0F0F0F;
 
+int main(){
+    ll X; cin>>X;
+    for(ll k=1; k<=100000; k++) {
+        if((X*k)%360 == 0) {
+            cout<<k<<endl;
+            return 0;
+        }
     }
+
     return 0;
 }

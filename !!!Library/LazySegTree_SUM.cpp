@@ -146,3 +146,51 @@ typedef ll F;
 S mapping(F f, S x) { x.val += f; return x;}
 F composition(F f, F g) { return f+g;}
 F id() { return 0;}
+
+
+
+
+/* ---------------------------------------
+ [How to]
+ ・区間LからRまでにAを足す区間和
+ ・区間LからRまでの ∑[i=L~R] Ai^2, ∑[i=L~R] Ai をそれぞれ求める区間二乗SUM
+ ・https://atcoder.jp/contests/abc455/tasks/abc455_f
+--------------------------------------- */
+typedef modint998244353 mint;
+struct S {
+    mint s2=0, s1=0; // s2: ai^2, s1: ai^1
+    ll sz=1;
+};
+using F = mint;
+S op(S a, S b) {
+    return { (a.s2 + b.s2), (a.s1 + b.s1), (a.sz + b.sz) };
+}
+S e() { return {0, 0, 0}; }
+S mapping(F f, S x) {
+    mint new_s2 = (x.s2 + 2 * f * x.s1 + f * f * x.sz);
+    mint new_s1 = (x.s1 + f * x.sz);
+    return { new_s2, new_s1, x.sz };
+}
+F composition(F f, F g) { return (f + g); }
+F id() { return 0; }
+
+int main(){
+    ll N,Q;
+    cin >> N >> Q;
+    vector<S> A(N);
+    vector<ll> B(N);
+    lazy_segtree<S, op, e, F, mapping, composition, id> LS(A);
+    vector<ll> ans(Q);
+    rep(i,Q) {
+        int l,r; ll a;
+        cin>>l>>r>>a;
+        l--,r--;
+        LS.apply(l,r+1,a);
+        S x = LS.prod(l,r+1);
+        mint y = x.s1*x.s1 - x.s2;
+        y /= 2;
+        ans[i] = y.val();
+    }
+    rep(i,Q) cout<<ans[i]<<endl;
+    return 0;
+}

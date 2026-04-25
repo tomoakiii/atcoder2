@@ -9,14 +9,30 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint998244353 mint;
-int main(){
-    ll N,M;
-    cin >> N >> M;
-    mint ans = 1;
-    vector visit(N);
-    rep(i,N) {
 
+int main(){
+    ll N;
+    cin >> N;
+    priority_queue<ll> quW, quC;
+    rep(i,N) {
+        ll w; cin>>w; quW.push(w);
     }
+    rep(i,N) {
+        ll w; cin>>w; quC.push(w);
+    }
+    ll ans=0;
+    while(!quC.empty()) {
+        auto c = quC.top();
+        quC.pop();
+        while(!quW.empty()) {
+            auto w = quW.top();
+            quW.pop();
+            if(c >= w) {
+                ans++;
+                break;
+            }
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
