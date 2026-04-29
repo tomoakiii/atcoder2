@@ -101,8 +101,8 @@ int main(){
     };
     vector<ll> ans(Q);
     for(auto vv : Mo) {
-        for(auto [r,l,q] : vv) {
-            exec(l,r);
+        for(auto [tr,tl,q] : vv) {
+            exec(tl,tr);
             ll a = ln * (ln+1) / 2;
             a -= (sm - ln);
             ans[q] = a;
