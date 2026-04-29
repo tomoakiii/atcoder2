@@ -11,20 +11,9 @@ const ll INF = 0x7F7F7F7F7F7F7F7F;
 const int INFi = 0x7F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    string S; cin>>S;
+    if(S.size()%5==0) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
 
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
-    }
     return 0;
 }

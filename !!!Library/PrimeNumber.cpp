@@ -22,8 +22,10 @@ vector<ll> Eratosthenes(const ll N )
             {
                 is_prime[ j ] = false;
             }
-            P.emplace_back( i );
         }
+    }
+    for(ll i=2; i<=N; i++) {
+        P.push_back(i);
     }
     return P;
 }
