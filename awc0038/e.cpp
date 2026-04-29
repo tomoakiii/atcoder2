@@ -21,7 +21,7 @@ int main(){
     rep(kkk,2) {
         rep(i,N12[kkk]) {
             ll p; cin>>p;
-            P[0].push_back(p);
+            P[kkk].push_back(p);
         }
     }
 
@@ -35,40 +35,42 @@ int main(){
     }
     rep(i,N) {
         allow[i] |= (1ll<<i);
-        allow[i] = ~allow[i];
     }
-    vector<ll> mask(2);
-    rep(i,N1) mask[0] |= (1ll<<i);
-    rep(i,N2) mask[1] |= (1ll<<(i+N1));
-    vector<ll> bsft(2, 0);
-    bsft[1] = N1;
+    for(int i=N1; i<N1+N2; i++) {
+        allow[i] = allow[i] >> N1;
+    }
 
     ll full[] = {1ll<<N1, 1ll<<N2};
     ll ans=0;
     vector X(2, vector<ll>{});
     rep(kkk,2) {
         X[kkk].resize(full[kkk],0);
-        rep(i,N12[kkk]) X[kkk][1ll << i] = P[i];
+        rep(i,N12[kkk]) X[kkk][1ll << i] = P[kkk][i];
         rep(S,full[kkk]) {
-            rep(j,N12[kkk]) {
-                if(!(S>>j & 1)) continue;
-                ll S2 = S & (allow[j]>>bsft[kk]);
-                chmax(X[kkk][S], X[kkk][S2]+P[j]);
+            rep(i,N12[kkk]) {
+                ll S2 = S|(1ll<<i);
+                if(kkk==1 && S2==10) {
+                    cerr<<"debug"<<endl;
+                }
+                if((allow[i] & S) == 0) chmax(X[kkk][S2], X[kkk][S] + P[kkk][i]);
+                else chmax(X[kkk][S2], X[kkk][S]);
             }
-
         }
     }
-
-    rep(S,full) {
-        ll S2 = 0;
+    vector<ll> fbt(N2);
+    rep(i,N2) {
+        fbt[i] = 1<<i;
+        fbt[i] = ~fbt[i];
+    }
+    rep(S,full[0]) {
+        ll S2 = full[1]-1;
         rep(i,N1) {
             if(!(S >> i & 1)) continue;
             rep(j,N2) {
-                if(uv[i][N1+j]) S2 |= (1ll << j);
+                if(uv[i][N1+j]) S2 &= fbt[j];
             }
         }
-        ll S3 = (full2-1) & (~S2);
-        chmax(ans, s1[S] + s2[S3]);
+        chmax(ans, X[0][S] + X[1][S2]);
     }
     cout<<min(ans,M)<<endl;
     return 0;

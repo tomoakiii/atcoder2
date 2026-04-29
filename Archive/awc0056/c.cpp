@@ -11,22 +11,19 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,L,K;
-    cin >> N >> L >> K;
+    ll N,K;
+    cin >> N >> K;
     vector<ll> A(N);
     rep(i,N) cin>>A[i];
-    sort(A.begin(),A.end());
+    ll sm=0, r=0;
     ll ans=0;
-    int cnt=0;
-    rep(i,N) {
-        cnt++;
-        if(L>=A[i]) {
-            L-=A[i];
-            ans++;
+    rep(l,N) {
+        while(r<N && sm<=K) {
+            sm+=A[r++];
         }
-        if(cnt>K) {
-            break;
-        }
+        if(sm>K) chmax(ans,r-l-1);
+        else chmax(ans,r-l);
+        sm-=A[l];
     }
     cout<<ans<<endl;
     return 0;
