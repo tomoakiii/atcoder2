@@ -10,27 +10,21 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-void solve(){
-    ll N,M; cin>>N>>M;
-    vector<ll> X(N),Y(N);
-    rep(i,N) cin>>X[i]>>Y[i];
-    ll ans = X[0];
-    ll Blast = 0;
-    rep(i,N) {
-        if(X[i] < 0) {
-            Blast += Y[i]*X[i];
-        }
-        Blast += X[i]*Y[i]*(Y[i]+1)/2;
-        chmax(ans, Blast);
-    }
-    cout<<ans<<endl;
-}
-
-
 int main(){
-    int T; cin>>T;
-    while(T--){
-        solve();
+    ll N;
+    cin >> N;
+    int R=0,W=0,Q=0;
+    rep(i,N) {
+        char c; cin>>c;
+        if(c=='R') R++;
+        if(c=='W') W++;
+        if(c=='?') Q++;
+    }
+    ll ans = abs(R-W);
+    if(ans >= Q) cout<<ans-Q<<endl;
+    else {
+        Q-=ans;
+        cout << Q%2 << endl;
     }
     return 0;
 }

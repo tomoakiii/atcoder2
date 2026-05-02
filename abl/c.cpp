@@ -10,27 +10,21 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-void solve(){
+int main(){
     ll N,M; cin>>N>>M;
-    vector<ll> X(N),Y(N);
-    rep(i,N) cin>>X[i]>>Y[i];
-    ll ans = X[0];
-    ll Blast = 0;
+    dsu UF(N);
+    rep(i,M){
+        int a,b; cin>>a>>b;
+        a--,b--;
+        UF.merge(a,b);
+    }
+    ll ans=0;
     rep(i,N) {
-        if(X[i] < 0) {
-            Blast += Y[i]*X[i];
+        if(!UF.same(0,i)) {
+            ans++;
+            UF.merge(0,i);
         }
-        Blast += X[i]*Y[i]*(Y[i]+1)/2;
-        chmax(ans, Blast);
     }
     cout<<ans<<endl;
-}
-
-
-int main(){
-    int T; cin>>T;
-    while(T--){
-        solve();
-    }
     return 0;
 }

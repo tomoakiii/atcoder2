@@ -9,28 +9,22 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
+typedef pair<ll,ll> pll;
 
-void solve(){
-    ll N,M; cin>>N>>M;
-    vector<ll> X(N),Y(N);
-    rep(i,N) cin>>X[i]>>Y[i];
-    ll ans = X[0];
-    ll Blast = 0;
-    rep(i,N) {
-        if(X[i] < 0) {
-            Blast += Y[i]*X[i];
-        }
-        Blast += X[i]*Y[i]*(Y[i]+1)/2;
-        chmax(ans, Blast);
-    }
-    cout<<ans<<endl;
+pll lcm_d(pll x, pll y){
+    return {lcm(x.first, y.first), gcd(x.second, y.second)};
 }
 
-
 int main(){
-    int T; cin>>T;
-    while(T--){
-        solve();
+    int N;
+    cin >> N;
+    vector<pll> PQ(N);
+    pll ans = {1,0};
+    // cin>>ans.first>>ans.second;
+    rep(i,N) {
+        pll a; cin>>a.first>>a.second;
+        ans = lcm_d(ans, a);
     }
+    cout<<ans.first<<" "<<ans.second<<endl;
     return 0;
 }

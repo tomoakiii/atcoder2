@@ -7,30 +7,17 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
-
-void solve(){
-    ll N,M; cin>>N>>M;
-    vector<ll> X(N),Y(N);
-    rep(i,N) cin>>X[i]>>Y[i];
-    ll ans = X[0];
-    ll Blast = 0;
-    rep(i,N) {
-        if(X[i] < 0) {
-            Blast += Y[i]*X[i];
-        }
-        Blast += X[i]*Y[i]*(Y[i]+1)/2;
-        chmax(ans, Blast);
-    }
-    cout<<ans<<endl;
-}
-
+const ll INF = 0x7F7F7F7F7F7F7F7F;
+const int INFi = 0x7F0F0F0F;
 
 int main(){
-    int T; cin>>T;
-    while(T--){
-        solve();
+    ll N,X;
+    cin >> N >> X;
+    ll ans=0;
+    rep(i,N) {
+        ll a; cin>>a;
+        if(X < a) ans+=a-X;
     }
+    cout<<ans<<endl;
     return 0;
 }
