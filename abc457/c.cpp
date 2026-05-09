@@ -11,21 +11,25 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K,G;
-    cin >> N >> K >> G;
-    vector<ll> A(N);
-    ll sm=0;
-    fenwick_tree<ll> FT(N);
+    ll N,K;
+    cin >> N >> K;
+    vector A(N,vector<ll>{});
     rep(i,N) {
-        ll D,T; cin>>D>>T;
-        sm+=T;
-        A[i]=T;
-        FT.add(i,T);
+        int L; cin>>L;
+        rep(j,L){
+            ll a; cin>>a;
+            A[i].push_back(a);
+        }
     }
-    ll mx=0;
-    rep(i,N-K){
-        chmax(mx, FT.sum(i,i+K));
+    vector<ll> C(N);
+    rep(i,N) cin>>C[i];
+
+    int id=0;
+    K--;
+
+    for(int i=0; K>=C[i]*A[i].size(); i++,id++) {
+        K-=C[i]*A[i].size();
     }
-    cout<<G+sm-mx<<endl;
+    cout<<A[id][K%A[id].size()]<<endl;
     return 0;
 }

@@ -11,20 +11,24 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector A(3, vector<int>(6));
+    rep(i,3) {
+        rep(j,6) cin>>A[i][j];
     }
+    double ans = 0;
+    vector<int> ex(3);
+    ex[0]=4, ex[1]=5, ex[2]=6;
+    do{
+        double p=1;
+        rep(i,3){
+            double q=0;
+            rep(j,6) {
+                if(A[i][j] == ex[i]) q++;
+            }
+            p*=q/6;
+        }
+        ans+=p;
+    }while(next_permutation(ex.begin(),ex.end()));
+    printf("%.10f\n", ans);
     return 0;
 }

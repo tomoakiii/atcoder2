@@ -15,28 +15,28 @@ int main(){
     ll N;
     string S;
     cin >> N >> S;
-    vector<unordered_map<ll,ll>> st(N+1);
-    rep(i,N) {
-        mint sm=0;
-        int cnt=0;
-        for(int j=i; j<N; j++){
-            sm = sm*10 + (S[j]-'0');
-            cnt++;
-            st[cnt][sm.val()]++;
+    ll ans = 0;
+    for(int d=1; d<N; d++) {
+        vector<bool> match(N-d, 0);
+        rep(i, N-d) {
+            match[i] = (S[i] == S[i+d]);
         }
-    }
-    vector<mint> p(N,1);
-    rep(i,N-1)p[i+1]=p[i]*10;
-    ll ans=0;
-    for(int i=1; i<N; i++){
-        for(auto [s,c]:st[i]) {
-            rep(k,i){
-                mint tgt = s + p[k];
-                if(st[i].contains(tgt.val())){
-                    cerr<<s<<" "<<tgt.val()<<endl;
-                    ans+=c*st[i][tgt.val()];
+        vector<ll> cL(N-d), cR(N-d);
+        rep(k,2) {
+            int cnt=0;
+            rep(i, N-d) {
+                if(match[i]) cnt++;
+                else {
+                    cL[i] = cnt+1;
+                    cnt = 0;
                 }
             }
+            swap(cL, cR);
+            reverse(match.begin(), match.end());
+        }
+        reverse(cR.begin(), cR.end());
+        rep(i,N-d) {
+            ans += cR[i] * cL[i];
         }
     }
     cout<<ans<<endl;
