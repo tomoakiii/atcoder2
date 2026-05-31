@@ -11,68 +11,47 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll L, R;
-    cin >> L >> R;
-    auto f = [&](ll x) -> ll{
-        string in = to_string(x);
-        int lm = 0;
-        int sz = in.size();        
-        vector<int> v(sz);
-        vector dp(sz+1, vector(10, vector(2, vector<ll>(2))));
-        for(int i = 0; i < sz; i++) {
-            int v = in[i] - '0';
-            rep(j, 10) {
-                if(j < v){
-                    rep(p, 10) {
-                        dp[i+1][j][1] += dp[i+1][p][0];
-                        dp[i+1][j][1] += dp[i+1][p][1];
-                    }
+    ll l,r;
+    cin >> l >> r;
+
+    auto f = [&](auto f, int cur, ll lmt, int isany, string &s) -> ll{
+        ll ret;
+        ll p = (s[cur]-'0');
+        if(cur == s.size()-1){
+            if(isany == 1) ret = lmt;
+            else ret = min(lmt, p+1);
+        } else {
+            if(isany == 1) ret = lmt * f(f,cur+1,lmt,1,s);
+            else if(p<lmt) ret = p*f(f,cur+1,lmt,1,s) + f(f,cur+1,lmt,0,s);
+            else ret = lmt*f(f,cur+1,lmt,1,s);
+        }
+        return ret;
+    };
+    
+    auto solve = [&](ll nm)->ll{
+        if(nm < 10) return 0;
+        string S = to_string(nm);
+        ll l=0;
+        string tmp = "";
+        for(int d=1; d<S.size(); d++) {
+            tmp = tmp + '9';
+            if(d < (S.size() - 1)){
+                for(int k=1; k<=9; k++) {
+                    l += f(f, 0, k, 1, tmp);
                 }
-                if(j != 0) {
-                    rep(p, 10) {
-                        dp[i+1][j][0][1] += dp[i+1][p][0][0];
-                    }
+            } else {
+                for(int k=1; k<(S[0]-'0'); k++) {
+                    l += f(f, 0, k, 1, tmp);
                 }
             }
-            v[i] = (int)(in[i] - '0');
-            if(i != 0) chmax(lm, v[i]);
         }
-        
-        for(int i = 1; i < sz-1; i++) {
-            ans += v[i] * pow(lm, sz-i-1);
-        }
-        ans += 1 + min(lm, v[sz-1]);
-        return ans;
+        ll p = S[0] - '0';
+        reverse(S.begin(), S.end());        
+        S.pop_back();
+        reverse(S.begin(), S.end());
+        l += f(f, 0, p, 0, S);
+        return l;
     };
-
-    // reverse(L.begin(), L.end());    
-    auto f = [&](ll x) -> ll{
-        string in = to_string(x);
-        int lm = 0;
-        int sz = in.size();        
-        vector<int> v(sz);
-        for(int i = 0; i < sz; i++) {
-            v[i] = (int)(in[i] - '0');
-            if(i != 0) chmax(lm, v[i]);
-        }
-        ll ans = 0;
-        for(ll vs = 1; vs < v[0]; vs++) {
-            ans += pow((vs - 1), sz-1);
-        }
-        for(int i = 1; i < sz-1; i++) {
-            ans += v[i] * pow(lm, sz-i-1);
-        }
-        ans += 1 + min(lm, v[sz-1]);
-        return ans;
-    };
-
-    rep(i, 100) {
-        cout << i << " " << f(i) << endl;
-    }
-
-    ll fr = f(R);
-    ll fl = f(L-1);
-    cout << fr - fl << endl;
-
+    cout << solve(r) - solve(l-1) << endl;
     return 0;
 }

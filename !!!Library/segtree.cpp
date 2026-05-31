@@ -56,10 +56,10 @@ public:
             }
             k*=2;
         }
-        for(int i=n-2; i>=0; i--) {      
+        for(int i=n-2; i>=0; i--) {
             tr[i].l = tr[i*2+1].l;
             tr[i].r = tr[i*2+2].r;
-            tr[i].c = (tr[i].l + tr[i].r)/2;        
+            tr[i].c = (tr[i].l + tr[i].r)/2;
         }
     }
 
@@ -71,7 +71,7 @@ public:
             max(MaxElement(2*ind+1, a, tr[ind].c),
                 MaxElement(2*ind+2, tr[ind].c + 1, b));
         if (tr[ind].c >= b) return MaxElement(2*ind+1, a, b);
-        return MaxElement(2*ind+2, a, b);   
+        return MaxElement(2*ind+2, a, b);
     }
 
     // MinElement(0, start, end);
@@ -90,9 +90,9 @@ public:
 
     Type GetVal(int ind){
         int i = ind+n-1;
-        return tr[i].val;        
+        return tr[i].val;
     }
-    
+
     void SetVal(int ind, Type val){
         int i = ind+n-1;
         tr[i].val = tr[i].min.v = tr[i].max.v = val;
@@ -143,29 +143,3 @@ public:
         cout << endl;
     }
 };
-
-// test case:
-// 10 5
-// 10 1 6 8 7 2 5 9 3 4
-
-int main(){
-    ll N, K;
-    cin >> N >> K;
-    vector<ll> P(N), OD(N);        
-    for(int i=0; i<N;i++) {
-        cin >> P[i];
-        P[i]--;
-        OD[P[i]] = i;        
-    }
-    SegTree<ll> ST(OD);
-    ll sm = INF;
-    for(int i=0; i<N-K+1; i++){
-        ll end = i+K-1;
-        ll mn = ST.MinElement(0, i, end);
-        ll mx = ST.MaxElement(0, i, end);
-        sm = min(sm, mx - mn);
-    }
-    
-    cout << sm << endl;
-    return 0;
-}

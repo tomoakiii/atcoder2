@@ -93,7 +93,9 @@
         "expected": "cpp",
         "format": "cpp",
         "spanstream": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "segtree": "cpp"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "git.ignoreLimitWarning": true
 }

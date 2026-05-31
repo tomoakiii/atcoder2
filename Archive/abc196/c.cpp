@@ -1,0 +1,33 @@
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
+typedef long long ll;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
+
+int main(){
+    ll N; cin>>N;
+    auto chk=[&](ll x)->ll{
+        ll x2 = x;
+        vector<ll> v;
+        while(x2) {
+            v.push_back(x2%10);
+            x2/=10;
+        }
+        for(int i=v.size()-1;i>=0;i--) x = x*10 + v[i];
+        return x;        
+    };
+    rep(i,N) {
+        if(chk(i)>N) {
+            cout<<i-1<<endl;
+            return 0;
+        }
+    }    
+    cout<<0<<endl;
+    return 0;
+}

@@ -11,8 +11,37 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    double H;
-    cin>>H;
-    printf("%.10f", sqrt(H*(12800000+H)));
+    ll N, M;
+    cin >> N;
+    M=N-1;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
+    int ind=1;
+    vector<pair<int,int>> LR(N, {INF, -INF});
+
+    auto dfs = [&](auto dfs, int cur, int pre, int p)->void{
+        if(uv[cur].size() == 1 && uv[cur][0] == pre) {
+            LR[cur] = {ind,ind};
+            ind++;
+            return;
+        }
+        for(auto nx: uv[cur]) {
+            if(nx == pre) continue;
+            dfs(dfs, nx, cur, p);
+            chmin(LR[cur].first, LR[nx].first);
+            chmax(LR[cur].second, LR[nx].second);
+        }
+        return;
+    };
+    dfs(dfs,0,-1,1);
+    for(auto [l,r]:LR) {
+        cout<<l<<" "<<r<<endl;
+    }
     return 0;
 }

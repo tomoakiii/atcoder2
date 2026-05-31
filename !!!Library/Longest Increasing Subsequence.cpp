@@ -1,3 +1,5 @@
+/* https://atcoder.jp/contests/abc006/tasks/abc006_4 */
+/** https://zenn.dev/reputeless/books/standard-cpp-for-competitive-programming/viewer/lis **//
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -10,15 +12,13 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-/** https://zenn.dev/reputeless/books/standard-cpp-for-competitive-programming/viewer/lis **//
-
 int main(){
-    int N;
+    ll N;
     cin >> N;
     vector<int> A(N);
     rep(i,N) cin>>A[i];
-    vector<int> uc(N), dc(N); // Count which order number each index is assigned
-    vector<int> up, dn; // Storage table which number is temporally stored, like as dp
+    vector<int> uc(N); // Count which order number each index is assigned
+    vector<int> up; // Storage table which number is temporally stored, like as dp
     rep(i,N) {
         auto it = lower_bound(up.begin(), up.end(), A[i]);
         if(it == up.end()) {
@@ -30,25 +30,8 @@ int main(){
         }
     }
 
-
-    reverse(A.begin(), A.end());
-    rep(i,N) {
-        auto it = lower_bound(dn.begin(), dn.end(), A[i]);
-        if(it == dn.end()) {
-            dn.push_back(A[i]);
-            dc[i] = dn.size();
-        } else {
-            *it = A[i];
-            dc[i] = it - dn.begin() + 1;
-        }        
-    }
-
-
-    reverse(dc.begin(), dc.end());
     int ans = 0;
-    rep(i,N) {
-        chmax(ans, uc[i]+dc[i]-1);
-    }
-    cout << ans << endl;
-    return 0;
+    for(auto u: uc) chmax(ans,u);
+    cout << N-ans << endl;
+
 }

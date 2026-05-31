@@ -10,16 +10,11 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 vector<ll> Eratosthenes(const ll N )
 {
-    vector<bool> is_prime( N + 1 );
-    for( ll i = 0; i <= N; i++ )
-    {
-        is_prime[ i ] = true;
-    }
+    vector<bool> is_prime(N + 1, true );
     vector<int> P;
-    for( ll i = 2; i <= N; i++ )
+    for( ll i = 2; i*i <= N; i++ )
     {
         if( is_prime[ i ] )
         {
@@ -27,17 +22,65 @@ vector<ll> Eratosthenes(const ll N )
             {
                 is_prime[ j ] = false;
             }
-            P.emplace_back( i );
         }
+    }
+    for(ll i=2; i<=N; i++) {
+        P.push_back(i);
     }
     return P;
 }
 
+/*
+    行列の要素を全部高速に素因数分解する方法
+    https://atcoder.jp/contests/abc177/editorial/82
+    fast prime factorization applied for all members in vector:
+    if A = {4, 6, 10}, call prime_factorization_vector(A, 10).
+    then, the return is
+    X = {
+        {2},
+        {2, 3},
+        {2, 5}
+    }
+    the compute time is O(A log log A + M log A)
+*/
+vector<unordered_set<ll>> prime_factorization_vector(vector<ll> &vec, ll M) {
+    vector<bool> is_prime(M + 1, true );
+    vector<ll> pre(M+1);
+    vector<ll> P;
+    rep(j,M+1) pre[j] = j;
+    for( ll i = 2; i*i <= M; i++ )
+    {
+        if( is_prime[ i ] )
+        {
+            for( ll j = 2 * i; j <= M; j += i )
+            {
+                is_prime[ j ] = false;
+                pre[ j ] = i;
+            }
+        }
+    }
+    int sz = vec.size();
+    vector<unordered_set<ll>> ret(sz);
+    rep(i, sz) {
+        ll v = vec[i];
+        while(v != 1) {
+            ll p = pre[v];
+            ret[i].insert(p);
+            // cerr<<i<<" "<<p<<endl;
+            v /= p;
+        }
+    }
+    return ret;
+}
 
-/* 
+
+
+
+
+/*
 数列 V=(V1​, V2, …, V1000000) を0で初期化しておき、
 1E6以下の各素数p について、すべてのp の倍数iに対しViに1を加算する操作を行うと最終的なViの値がiの素因数の種類数となります。
-output -- v */ 
+output -- v */
 vector<ll> Eratosthenes_cntP(const int N )
 {
     const ll M = 1E6 + 1;
@@ -73,7 +116,7 @@ map<ll, int> prime_factorization(ll K){
         if(i*i > K) break; // break here. for(; i*i<=K ;) is NG
         i++;
     }
-    if (k!=1) mp[k]++; // don't forget to add the last piece (10=2x5)   
+    if (k!=1) mp[k]++; // don't forget to add the last piece (10=2x5)
     return mp;
 }
 

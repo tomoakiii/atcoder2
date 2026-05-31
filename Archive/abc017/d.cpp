@@ -1,0 +1,108 @@
+// https://atcoder.jp/contests/abc221/tasks/abc221_e
+
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+#define rep(i,n) for (ll i = 0; i < (n); ++i)
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+
+typedef long long ll;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
+
+template <class Type> class SegTree {
+private:
+    struct val_ind{
+        Type v;
+        int i;
+    };
+
+    int n, sz, trsize;
+    struct nd{
+        int l;
+        int r;
+        int c;
+        Type val;
+    };
+    vector<nd> tr;
+public:
+    // tr[n-1] ~ tr[n-1+sz-1] = original vector v
+    SegTree(vector<Type> v) {
+        sz = (int)v.size();
+        n = 1;
+        while(n < sz) n *= 2;
+        trsize = 2*n-1;
+        tr.resize((size_t)trsize);
+        for(int i=0; i<sz; i++) {
+            tr[i+n-1].val = v[i];
+        }
+        for(int i=0; i<n; i++) tr[i+n-1].l = tr[i+n-1].r = tr[i+n-1].c = i;
+        int k=1;
+        while ((n-1)/k > 0){
+            for(int i=(n-1)/k; i<(trsize-1)/k; i+=2){
+                tr[i/2].val = tr[i].val + tr[i+1].val;
+            }
+            k*=2;
+        }
+        for(int i=n-2; i>=0; i--) {      
+            tr[i].l = tr[i*2+1].l;
+            tr[i].r = tr[i*2+2].r;
+            tr[i].c = (tr[i].l + tr[i].r)/2;        
+        }
+    }
+
+
+    void AddVal(int ind, Type delta){
+        int i = ind+n-1;
+        tr[i].val = tr[i].val + delta;
+        while(i>0){
+            int ii = (i-1)/2;
+            tr[ii].val = tr[ii*2+1].val + tr[ii*2+2].val;
+            i = ii;
+        }
+    }
+
+    
+    Type GetVal(int ind){
+        int i = ind+n-1;
+        return tr[i].val;
+    }
+
+    Type GetSum(int ind, int a, int b){
+        if(tr[ind].l == a && tr[ind].r == b){
+            return tr[ind].val;
+        }
+        if (tr[ind].c >= a && tr[ind].c < b) {
+            return GetSum(2*ind+1, a, tr[ind].c) +
+                GetSum(2*ind+2, tr[ind].c + 1, b);
+        }
+        if (tr[ind].c >= b) return GetSum(2*ind+1, a, b);
+        return GetSum(2*ind+2, a, b);
+    }
+
+};
+typedef modint1000000007 mint;
+int main(){
+    ll N,M;
+    cin >> N >> M;
+    vector<ll> A(N);
+    rep(i,N) {
+        cin>>A[i];
+        A[i]--;
+    }
+    vector<int> last(M);
+    vector<mint> dp(N+1);
+    dp[0] = 1;
+    SegTree<mint> ST(dp);
+    int d = 0;
+    rep(i,N) {
+        int a = A[i];
+        chmax(d, last[a]);
+        ST.AddVal(i+1, ST.GetSum(0,d,i));            
+        last[a] = i+1;
+    }
+    cout << ST.GetVal(N).val() << endl;
+    return 0;
+}

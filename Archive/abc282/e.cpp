@@ -11,22 +11,49 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll A, X, M;
-    cin >> A >> X >> M;
-    ll S=0, K = 1;
-    while(X) {
-        if (X%2) {
-            
+    ll N,M; cin>>N>>M;
+    vector<pair<ll, pair<int,int>>> score{};
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    vector pow(N, vector<ll>(100));
+    rep(i,N) {
+        pow[i][0]=1;
+        pow[i][1]=A[i]%M;
+        for(int j=2; j<100; j++){
+            pow[i][j] = pow[i][j-1]*pow[i][j-1];
+            pow[i][j]%=M;
         }
     }
-
-
-    rep(i, X) {
-        S += K;
-        S %= M;
-        K*=A;
+    auto calc = [&](int i, ll y)->ll{
+        int id = 1;
+        ll ret = 1;
+        while(y){
+            if(y%2) {
+                ret*=pow[i][id];
+                ret%=M;
+            }
+            y/=2;
+            id++;
+        }
+        return ret;
+    };
+    rep(i,N) {
+        for(int j=i+1;j<N;j++) {
+            ll x = calc(i, A[j]) + calc(j, A[i]);
+            x%=M;
+            score.push_back({x,{i,j}});
+        }
     }
-    
-    cout << S << endl;
+    sort(score.rbegin(),score.rend());
+    dsu UF(N);
+    ll ans = 0;
+    for(auto [x, ij]:score){
+        auto [i,j]=ij;
+        if(UF.same(i,j))continue;
+        UF.merge(i,j);
+        ans+=x;
+//        cerr<<A[i]<<" "<<A[j]<<" "<<x<<endl; 
+    }
+    cout<<ans<<endl;
     return 0;
 }

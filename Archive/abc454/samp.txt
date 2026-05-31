@@ -1,0 +1,20 @@
+tetitubuta@tetitubuta:~/atcoder2/abc454$ ./a.out<e.txt
+Yes
+DRRURDDLLLDRRR
+No
+Yes
+RRDRDLLULDDRRR
+Yes
+RRRDLLDLDRRURD
+No
+Yes
+RRRDDLLULDDRRR
+No
+No
+Yes
+RRRDLLLDDRRURD
+No
+No
+No
+No
+No

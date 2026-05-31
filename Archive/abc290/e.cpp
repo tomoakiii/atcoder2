@@ -11,39 +11,33 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N, M;
-    cin >> N >> M;
-    vector xy(N, vector<int>{});
-    vector<int> inp(N);
+    ll N; cin>>N;
+    vector<ll> A(N);
+    rep(i,N) {
+        cin>>A[i];
+        A[i]--;
+    }
+    ll M = 2E5+10;
+    vector P(M, vector<pair<ll,ll>>{});
+    rep(i,N) {
+        P[A[i]].push_back({i, N-i-1});
+    }
+    ll ans = 0;
+    rep(i,N){
+        ans += (N-i)*((i+1)/2);
+    }
     rep(i,M) {
-        int u, v;
-        cin >> u >> v;
-        u--; v--;
-        xy[u].push_back(v);
-        inp[v]++;
-    }
-    queue<int> que;
-    rep(i, N) {
-        if (inp[i] == 0) que.push(i);
-    }
-    int cnt = 0;
-    vector<int> ans(N);
-    while(!que.empty()) {
-        if (que.size() > 1){
-            cout << "No" << endl;
-            return 0;
-        }
-        int q = que.front();
-        que.pop();
-        ans[q] = cnt++;
-        for(auto nx: xy[q]) {
-            inp[nx]--;
-            if (inp[nx] == 0) que.push(nx);
+        ll l = 0, r = P[i].size()-1;
+        while(r>l) {
+            if(P[i][l].first > P[i][r].second) {
+                ans -= (P[i][r].second+1) * (r-l);
+                r--;
+            } else {
+                ans -= (P[i][l].first+1) * (r-l);
+                l++;
+            }
         }
     }
-    cout<<"Yes"<<endl;
-    //reverse(ans.begin(), ans.end());
-    for(auto a:ans) cout<<a+1<<" ";
-    cout << endl;
+    cout<<ans<<endl;
     return 0;
 }
