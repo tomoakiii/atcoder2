@@ -10,24 +10,21 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-
 int main(){
-    ll N; cin>>N;
-    set<ll>st;
-    rep(i,N){
-        ll a; cin>>a;
-        st.insert(a);
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
     }
-    ll ans=0;
-    auto last = *st.begin();
-    st.erase(st.begin());
-    while(!st.empty()){
-        auto nx = *st.begin();
-        st.erase(st.begin());
-        ans^=(nx-last);
-        last=nx;
-    }
-    if(ans==0)cout<<"second"<<endl;
-    else cout<<"first"<<endl;
     return 0;
 }
