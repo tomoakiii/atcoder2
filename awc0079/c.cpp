@@ -10,16 +10,13 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
+
 int main(){
     ll N,Q;
     cin >> N >> Q;
     vector<ll> A(N), B(N);
     rep(i,N) cin>>A[i]>>B[i];
-    fenwick_tree<ll> fA(N), fB(N);
-    rep(i,N) {
-        fA.add(i, A[i]);
-        fB.add(i, B[i]);
-    }
+
     while(Q--){
         int query;
         cin >> query;
@@ -28,44 +25,43 @@ int main(){
             ll a,b;
             cin >> i >> a >> b;
             i--;
-            fA.add(i, -A[i]);
-            fB.add(i, -B[i]);
-            fA.add(i, a);
-            fB.add(i, b);
             A[i]=a;
             B[i]=b;
         } else {
             ll d; cin>>d;
-            ll Asm=fA.sum(0, N), Bsm=fB.sum(0, N);
-            __uint128_t Asm128=Asm, Bsm128=Bsm, d128=d;
-            ll bb = 0, aa = d;
-            bool flg=true;
+            ll aa=0,bb=0;
+            bool flg=false;
+            ll mx=0;
+            ll Asm=0, Bsm=0;
             rep(i,N){
-                aa += A[i];
-                bb += B[i];
-                if(bb >= aa) {
+                aa+=A[i],bb+=B[i];
+                if(bb-aa>=d){
                     cout<<i+1<<endl;
-                    flg=false;
+                    flg=true;
+                    break;
+                }
+                chmax(mx,bb-aa);
+                Asm+=A[i];
+                Bsm+=B[i];
+            }
+            if(flg)continue;
+            if(Asm>=Bsm){
+                cout<<-1<<endl;
+                continue;
+            }
+            ll BA=Bsm-Asm;
+            ll p = (d-mx+BA-1)/BA;
+            ll ans=p*N;
+            ll rm = d - p*BA;
+            ll aaa=0,bbb=0;
+            rep(i,N){
+                aaa+=A[i],bbb+=B[i];
+                if(bbb-aaa>=rm){
+                    cout<<ans+i+1<<endl;
                     break;
                 }
             }
-            if(!flg) continue;
-            if(Asm >= Bsm) {
-                cout<<-1<<endl;
-            }else{
-                __uint128_t l=0, r=1e16;
-                while(r-l>1){
-                    __uint128_t m=(l+r)/2;
-                    __uint128_t p = m/N;
-                    __uint128_t q = m%N;
-                    __uint128_t As = p*Asm128 + fA.sum(0, q);
-                    __uint128_t Bs = p*Bsm128 + fB.sum(0, q);
-                    if(Bs - As >= d128) r=m;
-                    else l=m;
-                }
-                ll ans=r;
-                cout<<ans<<endl;
-            }
+
         }
     }
     return 0;
