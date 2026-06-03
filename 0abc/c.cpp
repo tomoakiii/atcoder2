@@ -11,6 +11,8 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     ll N;
     cin >> N;
     vector<ll> A(N);
