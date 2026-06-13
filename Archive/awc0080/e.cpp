@@ -23,10 +23,16 @@ int main(){
         }
     }
     int Q; cin>>Q;
-    vector<set<int>> UF(H);
+    vector nx(H,vector<int>(W));
     rep(i,H) {
-        rep(j,W) UF[i].insert(j);
+        rep(j,W) nx[i][j]=j;
     }
+
+    auto findnx = [&](auto findnx, int r, int c)->int{
+        if(c>=W) return c;
+        if(nx[r][c] == c) return c;
+        return nx[r][c] = findnx(findnx, r, nx[r][c]);
+    };
 
     while(Q--) {
         ll ans=0;
@@ -38,13 +44,12 @@ int main(){
             int p=d-abs(ni-r);
             int j0 = max(0,c-p);
             int j1 = min(W-1, c+p);
-            auto nj = UF[ni].lower_bound(j0);
-            if(nj==UF[ni].end()) {
-                continue;
-            }
-            while(nj != UF[ni].end() && *nj <= j1) {
-                ans += A[ni][*nj];
-                nj = UF[ni].erase(nj);
+            int nj = findnx(findnx, ni, j0);
+            while(nj <= j1) {
+                ans += A[ni][nj];
+                A[ni][nj] = 0;
+                nx[ni][nj] = findnx(findnx, ni, nj+1);
+                nj = nx[ni][nj];
             }
         }
         cout<<ans<<"\n";
