@@ -11,24 +11,24 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,B;
-    cin >> N >> B;
-    vector<ll> P(N);
-    rep(i,N) cin>>P[i];
-    vector<ll> C(N);
-    rep(i,N-1) cin>>C[i+1];
-    rep(i,N-1) C[i+1]+=C[i];
-    ll ans = 0;
-    ll psm = 0;
-    int r=0;
-    rep(i,N) {
-        while(r<N && C[r]-C[i] <= B) {
-            psm+=P[r];
-            r++;
-        }
-        chmax(ans,psm);
-        psm -= P[i];
+    ll N,S,T;
+    cin >> N>>S>>T;
+    S-=T;
+    vector<ll> C(N),V(N);
+    rep(i,N) cin>>C[i]>>V[i];
+    vector<ll> dp(S+1,-INF);
+    dp[0]=0;
+    rep(i,N){
+      auto dp_new=dp;
+      rep(j,S){
+        ll nj=j+C[i];
+        if(nj>S)break;
+        chmax(dp_new[nj],dp[j]+V[i]);
+      }
+      swap(dp,dp_new);
     }
-    cout << ans << endl;
+    ll ans=0;
+    rep(i,S+1)chmax(ans,dp[i]);
+    cout<<ans<<endl;
     return 0;
 }

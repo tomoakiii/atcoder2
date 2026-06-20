@@ -11,24 +11,24 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,B;
-    cin >> N >> B;
-    vector<ll> P(N);
-    rep(i,N) cin>>P[i];
-    vector<ll> C(N);
-    rep(i,N-1) cin>>C[i+1];
-    rep(i,N-1) C[i+1]+=C[i];
-    ll ans = 0;
-    ll psm = 0;
-    int r=0;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll N;
+    cin >> N;
+
+    vector ans(N,vector<int>{});
     rep(i,N) {
-        while(r<N && C[r]-C[i] <= B) {
-            psm+=P[r];
-            r++;
+        ll K; cin>>K;
+        rep(j,K) {
+            ll a; cin>>a; a--;
+            ans[a].push_back(i+1);
         }
-        chmax(ans,psm);
-        psm -= P[i];
     }
-    cout << ans << endl;
+    for(auto aa:ans){
+        ll s = aa.size();
+        cout<<s<<" ";
+        for(auto a:aa) cout<<a<<" ";
+        cout<<endl;
+    }
     return 0;
 }

@@ -11,41 +11,34 @@ const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
 int main(){
-    ll N,K,P;
-    cin >> N >> K >> P;
-    vector<ll> M(N);
-    rep(i,N) cin>>M[i];
+    ll N, M, S;
+    cin >> N >> M >> S;
+    S--;
     vector uv(N, vector<ll>{});
-    rep(i,K) {
+    rep(i,M) {
         int u,v;
         cin>>u>>v;
         u--, v--;
         uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
     }
-    vector<ll> E(P);
-    rep(i,P) {
-        cin>>E[i];
-        E[i]--;
-    }
-    vector<ll> dist(N, INF);
-    typedef pair<ll,int> pli;
-    priority_queue<pli,vector<pli>,greater<pli>>que;
-    dist[0]=0;
-    que.push({dist[0],0});
+    vector<ll> dist(N,INF);
+    dist[S]=0;
+    queue<pair<ll,int>> que;
+    que.push({0,S});
     while(!que.empty()){
-        auto [d,cur]=que.top();
+        auto [d,i] = que.front();
         que.pop();
-        if(dist[cur]<d)continue;
-        for(auto nx:uv[cur]){
-            if(chmin(dist[nx], dist[cur] + M[cur]*M[nx])){
-                que.push({dist[nx],nx});
-            }
+        for(auto nx:uv[i]){
+            if(chmin(dist[nx], d+1)) que.push({d+1,nx});
         }
     }
-    ll ans=INF;
-    rep(i,P){
-        chmin(ans, dist[E[i]]);
+    ll ans=0;
+    rep(i,N) {
+        if(dist[i]==INF) {
+            cout<<-1<<endl;
+            return 0;
+        }
+        chmax(ans,dist[i]);
     }
     cout<<ans<<endl;
     return 0;
