@@ -10,7 +10,6 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-
 struct Trie{
     ll ans = 0;
     vector<unordered_map<char, int>> to;
