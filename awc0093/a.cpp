@@ -7,29 +7,24 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
+const ll INF = 0x7F7F7F7F7F7F7F7F;
+const int INFi = 0x7F0F0F0F;
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M,K;
-    cin >> N >> M >> K;
-    dsu UF(N+1);
-    rep(i,K){
-        int k; cin>>k; k--;
-        UF.merge(N,k);
+    ll N,M;
+    cin >> N >> M;
+    vector<ll> C(N);
+    rep(i,N)cin>>C[i];
+    rep(i,M){
+        ll K; cin>>K;
+        ll ans=0;
+        rep(j,K) {
+            int a; cin>>a; a--;
+            ans+=C[a];
+        }
+        cout<<ans<<endl;
     }
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        UF.merge(u,v);
-    }
-    ll ans=0;
-    rep(i,N){
-        if(UF.same(N,i))ans++;
-    }
-    cout<<ans<<endl;
     return 0;
 }

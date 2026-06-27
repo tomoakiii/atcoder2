@@ -17,35 +17,28 @@ int main(){
     cin >> N >> L >> T;
     rep(i,N){
         ll x,v; cin>>x>>v;
-        ll y=v*T;
+        ll y=abs(v)*T;
         y%=(2*L);
-        if(v>0){
-            ll r=L-x;
-            if(y<=r){
-                cout<<x+y<<endl;
-                continue;
+        bool flg = (v>0)? true : false;
+        while(true){
+            if(flg){
+                ll r=L-x;
+                if(y<=r){
+                    cout<<x+y<<endl;
+                    break;
+                }
+                y-=r;
+                x = L;
+                flg = false;
+            } else {
+                if(y<=x){
+                    cout<<x-y<<endl;
+                    break;
+                }
+                y-=x;
+                x = 0;
+                flg = true;
             }
-            y-=r;
-            if(y<=L){
-                cout<<L-y<<endl;
-                continue;
-            }
-            y-=L;
-            cout<<y<<endl;
-            continue;
-        } else {
-            if(y<=x){
-                cout<<x-y<<endl;
-                continue;
-            }
-            y-=x;
-            if(y<=L){
-                cout<<y<<endl;
-                continue;
-            }
-            y-=L;
-            cout<<L-y<<endl;
-            continue;
         }
     }
     return 0;

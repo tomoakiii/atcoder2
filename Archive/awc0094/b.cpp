@@ -13,23 +13,16 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M,K;
-    cin >> N >> M >> K;
-    dsu UF(N+1);
-    rep(i,K){
-        int k; cin>>k; k--;
-        UF.merge(N,k);
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> A(N+1);
+    rep(i,N) cin>>A[i+1];
+    rep(i,N) A[i+1]+=A[i];
+    ll mx=0, mn=INF;
+    for(int i=K;i<=N;i++){
+        chmax(mx,A[i]-A[i-K]);
+        chmin(mn,A[i]-A[i-K]);
     }
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        UF.merge(u,v);
-    }
-    ll ans=0;
-    rep(i,N){
-        if(UF.same(N,i))ans++;
-    }
-    cout<<ans<<endl;
+    cout<<mx-mn<<endl;
     return 0;
 }

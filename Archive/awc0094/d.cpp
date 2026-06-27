@@ -13,23 +13,19 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M,K;
-    cin >> N >> M >> K;
-    dsu UF(N+1);
-    rep(i,K){
-        int k; cin>>k; k--;
-        UF.merge(N,k);
+    ll N,A,B,C;
+    cin >> N >> A >> B >>C;
+    typedef modint1000000007 mint;
+    mint ans = 1;
+    ll sm = A*B*C;
+    if(sm<N){
+        cout<<0<<endl;
+        return 0;
     }
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        UF.merge(u,v);
+    rep(i,N) {
+        ans *= sm;
+        sm--;
     }
-    ll ans=0;
-    rep(i,N){
-        if(UF.same(N,i))ans++;
-    }
-    cout<<ans<<endl;
+    cout<<ans.val()<<endl;
     return 0;
 }
