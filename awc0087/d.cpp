@@ -13,33 +13,27 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M;
-    cin >> N >> M;
-    map<ll,ll> mp;
-    rep(i,N){
-        ll a;
-        cin >> a;
-        mp[a]++;
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> pos, neg;
+    rep(i,N) {
+        ll x; cin>>x;
+        if(x>=0) pos.push_back(x);
+        else neg.push_back(-x);
     }
-    unordered_map<ll,ll> mp2;
-    rep(i,M){
-        ll s, b;
-        cin >> s >> b;
-        if(mp2.contains(s)){
-            chmin(mp2[s], b);
-        } else {
-            mp2[s] = b;
+    auto get=[&K](vector<ll> &X)->ll{
+        sort(X.begin(),X.end());
+        ll ret = 0;
+        while(!X.empty()){
+            ret += 2 * X.back();
+            rep(i,K) {
+                if(!X.empty()) X.pop_back();
+            }
         }
-    }
-    ll ans=0;
-    for(auto [a,x]: mp){
-        if(mp2.contains(a)){
-            ans += x*mp2[a];
-        }else{
-            cout << -1 << endl;
-            return 0;
-        }
-    }
-    cout << ans << endl;
+        return ret;
+    };
+
+    cout << get(pos) + get(neg) << endl;
+
     return 0;
 }

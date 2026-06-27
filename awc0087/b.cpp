@@ -13,33 +13,15 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M;
-    cin >> N >> M;
-    map<ll,ll> mp;
-    rep(i,N){
-        ll a;
-        cin >> a;
-        mp[a]++;
-    }
-    unordered_map<ll,ll> mp2;
-    rep(i,M){
-        ll s, b;
-        cin >> s >> b;
-        if(mp2.contains(s)){
-            chmin(mp2[s], b);
-        } else {
-            mp2[s] = b;
-        }
-    }
+    ll N;
+    cin >> N;
     ll ans=0;
-    for(auto [a,x]: mp){
-        if(mp2.contains(a)){
-            ans += x*mp2[a];
-        }else{
-            cout << -1 << endl;
-            return 0;
-        }
+    ll rmx=0;
+    rep(i,N){
+        ll t,r; cin>>t>>r;
+        ans+=t+r;
+        chmax(rmx,r);
     }
-    cout << ans << endl;
+    cout<<ans-rmx<<endl;
     return 0;
 }

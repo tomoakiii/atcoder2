@@ -15,18 +15,41 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector<string> S(N);
+    vector dist(N, vector<ll>(N, INF));
+    queue<pair<ll,ll>> que;
+    pair<ll,ll> goal;
+    rep(i,N) {
+        cin>>S[i];
+        rep(j,N) {
+            if(S[i][j]=='S') {
+                dist[i][j]=1;
+                que.push({i,j});
+            }
+            if(S[i][j]=='G') {
+                goal = {i,j};
+            }
+        }
+    }
+    vector<ll> dx={1,0,-1,0};
+    vector<ll> dy={0,1,0,-1};
+    while(!que.empty()) {
+        auto [x,y] = que.front();
+        que.pop();
+        rep(i,4) {
+            ll nx = x+dx[i];
+            ll ny = y+dy[i];
+            if(nx<0||nx>=N||ny<0||ny>=N) continue;
+            if(S[nx][ny]=='#') continue;
+            if(chmin(dist[nx][ny], dist[x][y]+1)) {
+                que.push({nx,ny});
+            }
+        }
+    }
+    if(dist[goal.first][goal.second]==INF) {
+        cout << -1 << endl;
+    } else {
+        cout << dist[goal.first][goal.second] << endl;
     }
     return 0;
 }

@@ -7,37 +7,27 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x0F0F0F0F0F0F0F0F;
-const int INFi = 0x0F0F0F0F;
+const ll INF = 0x7F7F7F7F7F7F7F7F;
+const int INFi = 0x7F0F0F0F;
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M,K;
-    cin >> N >> M >> K;
-
-    priority_queue<ll,vector<ll>,greater<ll>> que;
-    rep(i,N) {
-        ll a; cin>>a; que.push(a);
-    }
-
-
-    ll mx=0;
-    rep(i,M) {
-        ll p; cin>>p; chmax(mx,p);
-    }
+    ll T,X,Y;
+    cin >> T >> X >> Y;
+    string A,B; cin>>A>>B;
+    auto cset=[](char c, ll x)->ll{
+        if(c=='L') return x-1;
+        if(c=='R') return x+1;
+        return x;
+    };
     ll ans=0;
-    while(K){
-        auto a = que.top();
-        que.pop();
-        ll p = (a+mx-1)/mx;
-        if(K>=p) {
-            K-=p;
-            ans++;
-        } else {
-            break;
-        }
+    rep(i,T){
+        X = cset(A[i], X);
+        Y = cset(B[i], Y);
+        if(X==Y) ans++;
     }
     cout<<ans<<endl;
+
     return 0;
 }

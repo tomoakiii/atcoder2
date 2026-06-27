@@ -13,31 +13,14 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M,K;
-    cin >> N >> M >> K;
-
-    priority_queue<ll,vector<ll>,greater<ll>> que;
-    rep(i,N) {
-        ll a; cin>>a; que.push(a);
-    }
-
-
-    ll mx=0;
-    rep(i,M) {
-        ll p; cin>>p; chmax(mx,p);
-    }
-    ll ans=0;
-    while(K){
-        auto a = que.top();
-        que.pop();
-        ll p = (a+mx-1)/mx;
-        if(K>=p) {
-            K-=p;
-            ans++;
-        } else {
-            break;
-        }
-    }
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    sort(A.rbegin(), A.rend());
+    ll k2 = (K+1)/2;
+    ll ans = k2*A[0];
+    ans += (K-k2)*A[1];
     cout<<ans<<endl;
     return 0;
 }

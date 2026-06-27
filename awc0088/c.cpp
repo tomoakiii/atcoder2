@@ -15,31 +15,19 @@ int main(){
     cin.tie(NULL);
     ll N,M;
     cin >> N >> M;
-    map<ll,ll> mp;
-    rep(i,N){
-        ll a;
-        cin >> a;
-        mp[a]++;
-    }
-    unordered_map<ll,ll> mp2;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    vector<ll> T(N+1);
     rep(i,M){
-        ll s, b;
-        cin >> s >> b;
-        if(mp2.contains(s)){
-            chmin(mp2[s], b);
-        } else {
-            mp2[s] = b;
-        }
+        ll l,r; cin>>l>>r; l--;
+        T[l]++;
+        T[r]--;
     }
+    rep(i,N)T[i+1]+=T[i];
     ll ans=0;
-    for(auto [a,x]: mp){
-        if(mp2.contains(a)){
-            ans += x*mp2[a];
-        }else{
-            cout << -1 << endl;
-            return 0;
-        }
+    rep(i,N) {
+        if(T[i]>0) ans+=A[i];
     }
-    cout << ans << endl;
+    cout<<ans<<endl;
     return 0;
 }

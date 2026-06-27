@@ -15,18 +15,56 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    string S, T;
+    cin >> S >> T;
+    ll st=0, tt=0;
+    rep(i,N){
+        if(S[i]=='1') st=st*2 + 1;
+        else st=st*2;
+        if(T[i]=='1') tt=tt*2 + 1;
+        else tt=tt*2;
     }
+    if(st==tt){
+        cout<<0<<endl;
+        return 0;
+    }
+    if(N==1){
+        cout<<1<<endl;
+        return 0;
+    }
+    unordered_set<ll> visit;
+    ll ans=-1;
+    ll s = st;
+    ll d = 0;
+    bool flg = true;
+    while(s != tt && flg){
+        visit.insert(s);
+        vector<ll> nexts;
+        rep(i,N){
+            ll ns = s ^ (1LL<<i);
+            bool flg=true;
+            rep(j,N-2){
+                int a=(ns>>(j))%2ll;
+                int b=(ns>>(j+1))%2ll;
+                int c=(ns>>(j+2))%2ll;
+                if(a==b && b==c) {
+                    flg=false;
+                    break;
+                }
+            }
+            if(flg) nexts.push_back(ns);
+        }
+        sort(nexts.begin(), nexts.end());
+        flg = false;
+        for(auto ns: nexts){
+            if(visit.contains(ns)) continue;
+            s = ns;
+            flg = true;
+            d++;
+            break;
+        }
+    };
+    if(s == tt) cout << d << endl;
+    else cout << -1 << endl;
     return 0;
 }
