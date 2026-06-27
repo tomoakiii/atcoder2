@@ -13,20 +13,24 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
+    ll N,M;
     cin >> N >> M;
-    vector uv(N, vector<ll>{});
+    vector vec(M, vector<tuple<ll,ll,int>>{});
+    unordered_map<ll,ll> mp;
+    rep(i,N){
+        ll a,d,b;
+        cin>>a>>d>>b;
+        d--;
+        mp[a]++;
+        vec[d].push_back(make_tuple(a,b,i));
+    }
     rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+        for(auto [a,b,j] : vec[i]){
+            mp[a]--;
+            if(mp[a]==0) mp.erase(a);
+            mp[b]++;
+        }
+        cout<<mp.size()<<endl;
     }
     return 0;
 }

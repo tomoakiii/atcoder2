@@ -13,20 +13,31 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
+    ll N,M,K;
+    cin >> N >> M >> K;
 
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    priority_queue<ll,vector<ll>,greater<ll>> que;
+    rep(i,N) {
+        ll a; cin>>a; que.push(a);
     }
+
+
+    ll mx=0;
+    rep(i,M) {
+        ll p; cin>>p; chmax(mx,p);
+    }
+    ll ans=0;
+    while(!que.empty()){
+        auto a = que.top();
+        que.pop();
+        ll p = (a+mx-1)/mx;
+        if(K>=p) {
+            K-=p;
+            ans++;
+        } else {
+            break;
+        }
+    }
+    cout<<ans<<endl;
     return 0;
 }
