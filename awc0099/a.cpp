@@ -13,9 +13,18 @@ const int INFi = 0x7F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
+    ll N,W;
+    cin >> N >> W;
     ll ans=0;
+    rep(i,N){
+        ll a; cin>>a;
+        if(W>=a){
+            ans++;
+            W-=a;
+        }else{
+            break;
+        }
+    }
     cout<<ans<<endl;
     return 0;
 }
