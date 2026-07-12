@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 //https://atcoder.jp/contests/awc0105/tasks/awc0105_d
 
+=======
+>>>>>>> 762c96cd907c5c0e9074087b1e61f9c27f58aeb4
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,6 +20,7 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
+<<<<<<< HEAD
     vector<pair<ll,ll>> PS(N);
     ll smr = 0;
     rep(i,N) {
@@ -45,5 +49,20 @@ int main(){
         st = PS[i].first;
     }
     cout<<ans<<endl;
+=======
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
+>>>>>>> 762c96cd907c5c0e9074087b1e61f9c27f58aeb4
     return 0;
 }
