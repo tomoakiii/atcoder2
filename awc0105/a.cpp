@@ -13,7 +13,6 @@ const int INFi = 0x7F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-<<<<<<< HEAD
     ll N,Q;
     cin >> N >> Q;
     vector<ll> A(N);
@@ -31,11 +30,6 @@ int main(){
         st%=N;
         ans += A[st];
     }
-=======
-    ll N;
-    cin >> N;
-    ll ans=0;
->>>>>>> 762c96cd907c5c0e9074087b1e61f9c27f58aeb4
     cout<<ans<<endl;
     return 0;
 }

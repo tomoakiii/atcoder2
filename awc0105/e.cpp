@@ -10,25 +10,6 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-<<<<<<< HEAD
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
-=======
 // y0 = x0 + k0 p0
 // y1 = x1 + k1 p1
 // g = gcd(p0, p1)
@@ -79,7 +60,6 @@ int main(){
         cout << "Yes" << endl;
     } else {
         cout << "No" << endl;
->>>>>>> 762c96cd907c5c0e9074087b1e61f9c27f58aeb4
     }
     return 0;
 }
