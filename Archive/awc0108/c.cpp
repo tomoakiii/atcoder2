@@ -162,3 +162,30 @@ public:
         cout << endl;
     }
 };
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll N,K;
+    cin >> N >> K;
+    vector<ll> F(N);
+    rep(i,N) cin>>F[i];
+    SegTree<ll> ST(F);
+    double ans = INF;
+    rep(i,N-K+1){
+        ll sm = ST.GetSum(i,i+K);
+        double mx = sm;
+        mx /= (double)K;
+        if(i>0) {
+            auto [v,j] = ST.MaxElement(0,i);
+            chmax(mx, (double)v);
+        }
+        if(i+K<N){
+            auto [v,j] = ST.MaxElement(i+K,N);
+            chmax(mx, (double)v);
+        }
+        chmin(ans, mx);
+    }
+    printf("%.10f\n", ans);
+    return 0;
+}

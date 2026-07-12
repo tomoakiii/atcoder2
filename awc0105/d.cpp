@@ -17,32 +17,33 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> S(N),P(N);
-    ll l=INF, r=-INF;
+    vector<pair<ll,ll>> PS(N);
+    ll smr = 0;
     rep(i,N) {
-        cin>>S[i]>>P[i];
-        chmin(l,P[i]);
-        chmax(r,P[i]);
+        cin>>PS[i].second>>PS[i].first;
+        smr += PS[i].second;
     }
+    sort(PS.begin(),PS.end());
     auto get = [&](ll c)->ll{
         ll ret = 0;
         rep(i,N) {
-            ret += S[i] * abs(P[i]-c);
+            ret += PS[i].second * abs(PS[i].first-c);
         }
         return ret;
     };
-    l--, r++;
-    while(r-l > 2) {
-        ll cr = (2*r+l)/3;
-        ll cl = (r+2*l)/3;
-        if (get(cl) < get(cr)) {
-            r = cr;
-        } else {
-            l = cl;
-        }
+    ll st = PS[0].first;
+    ll ans = get(st);
+    ll l = 0, r = ans;
+    ll sm = 0;
+    rep(i,N){
+        ll d =  PS[i].first - st;
+        l += d*sm;
+        r -= d*smr;
+        chmin(ans, l+r);
+        sm += PS[i].second;
+        smr -= PS[i].second;
+        st = PS[i].first;
     }
-    ll ans = INF;
-    for(ll k=l; k<=r; k++) chmin(ans, get(k));
     cout<<ans<<endl;
     return 0;
 }
