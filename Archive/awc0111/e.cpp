@@ -1,4 +1,3 @@
-// https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_ec
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -10,7 +9,10 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint998244353 mint;
+typedef modint1000000007 mint;
+typedef modint998244353 mint2;
+
+
 
 template<class Type> class StringHash {
 private:
@@ -47,25 +49,44 @@ public:
 
 
 int main(){
-    ll N,Q;
-    string S;
-    cin>>N>>Q>>S;
-    StringHash<mint> SH(S);
-    reverse(S.begin(),S.end());
-    StringHash<mint> SH2(S);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll N;
+    cin >> N;
+    //vector<StringHash<mint>> S;
+    vector<StringHash<mint>> S(N);
+    vector<StringHash<mint2>> S2(N);
 
-    while(Q--) {
-        int a,b; cin>>a>>b;
-        a--, b--;
-        int ln = (b-a+1)/2;
-        mint h1 = SH.GetHash(a, a+ln);
-        swap(a,b);
-        a = N-a-1;
-        b = N-b-1;
-        ln = (b-a+1)/2;
-        mint h2 = SH2.GetHash(a, a+ln);
-        if(h1 == h2) cout<< "Yes"<<endl;
-        else cout << "No" << endl;
+    rep(i,N) {
+        string s; cin>>s;
+        //S.push_back(StringHash<mint>(s));
+        S[i] = StringHash<mint>(s);
+        S2[i] = StringHash<mint2>(s);
     }
+    vector<unordered_set<ll>> st(N+1), st2(N+1);
+    rep(i,N){
+        rep(j, S[i].N-1){
+            mint x = S[i].GetHash(0, j);
+            st[i].insert(x.val());
+            mint2 x2 = S2[i].GetHash(0, j);
+            st2[i].insert(x2.val());
+        }
+    }
+    ll ans = 0;
+    rep(i,N) {
+        bool flg = false;
+        for(int j=1; j<S[i].N; j++){
+            mint y = S[i].GetHash(j,S[i].N-1);
+            mint2 y2 = S2[i].GetHash(j,S[i].N-1);
+
+            if(st[i+1].contains(y.val()) && st2[i+1].contains(y2.val())){
+                ans += j;
+                flg = true;
+                break;
+            }
+        }
+        if(!flg) ans += S[i].N;
+    }
+    cout << ans << endl;
     return 0;
 }

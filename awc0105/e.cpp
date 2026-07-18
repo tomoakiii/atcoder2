@@ -18,8 +18,7 @@ const int INFi = 0x0F0F0F0F;
 // (x0-x1) = g(k1 p1/g - k0 p0/g)
 // (x0-x1) % g = 0
 // therefore, to make all y0 = y1 = ... = yN-1, we need to check if (xi-xj) % gcd(pi, pj) == 0 for all i,j
-// in order to avoid the O(N^2) time complexity, we can check if (xi-xj) % gcd(pi, pj) == 0 for all i,j by checking if (xi-xj) % g == 0 for all i,j, where g = gcd(p0, p1, ..., pN-1)
-// but the combination of i,j is still O(N^2), so we can check if (xi-xj) % g == 0 for all i,j by checking if (xi-x0) % g == 0 for all i, where x0 is the first element of X// oh no, we forgot the exception case where (k1 p1/g - k0 p0/g) = 0. In this case, the condition to make y0 = y1 is (x0-x1) = 0, which means x0 = x1. Therefore, we need to check if (xi-xj) % g == 0 for all i,j, and if (k1 p1/g - k0 p0/g) = 0, then we need to check if xi = xj for all i,j. But we can check if (xi-xj) % g == 0 for all i,j by checking if (xi-x0) % g == 0 for all i, and we can check if xi = xj for all i,j by checking if xi = x0 for all i. Therefore, we can check if (xi-x0) % g == 0 for all i, and if (k1 p1/g - k0 p0/g) = 0, then we can check if xi = x0 for all i. If both conditions are satisfied, then it is possible to make all yi equal. Otherwise, it is not possible.
+ // in order to avoid the O(N^2) time complexity, we can check if (xi-xj) % gcd(pi, pj) == 0 for all i,j by checking if (xi-xj) % g == 0 for all i,j, where g = gcd(p0, p1, ..., pN-1)
 
 int main(){
     ios_base::sync_with_stdio(false);
