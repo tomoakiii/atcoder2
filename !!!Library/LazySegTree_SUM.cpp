@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
@@ -93,6 +92,27 @@ F composition(F f, F g){ return f+g; }
 F id(){ return 0; }
 
 
+/* ---------------------------------------
+ [How to]
+  Get sum in range l to r
+  LS.prod(l, r+1).value
+  
+  Add value x at range l to r
+  LS.apply(l, r+1, x) ;
+--------------------------------------- */
+struct S{
+    ll value=0;
+    int size=1;
+};
+S op(S a, S b){ return S(a.value+b.value, a.size+b.size); }
+S e(){ return S(0, 0); }
+using F =  long long;
+S mapping(F f, S x){
+    x.value += f * x.size;
+    return x;
+}
+F composition(F f, F g){ return f + g; }
+F id(){ return 0; }
 
 
 /* ---------------------------------------
