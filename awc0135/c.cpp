@@ -13,20 +13,15 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
     ll N, M;
     cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    vector dp(N+1, vector<ll>(M+1));
+    rep(i,N) rep(j,M) {
+        ll a; cin>>a;
+        dp[i][j]+=a;
+        chmax(dp[i+1][j],dp[i][j]);
+        chmax(dp[i][j+1],dp[i][j]);
     }
+    cout<<dp[N-1][M-1]<<endl;
     return 0;
 }
