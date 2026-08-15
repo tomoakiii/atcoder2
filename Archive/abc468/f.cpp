@@ -13,23 +13,30 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,M;
-    cin >> N >> M;
-    vector<ll> V(N),W(N),T(M);
-    rep(i,N) cin>>V[i]>>W[i];
-    rep(i,M) cin>>T[i];
-    ll ful = 1ll<<N;
-    ll ans = 0;
-    rep(S,ful){
-        ll p=S;
-        ll sm=0;
-        while(p){
-            if(p%2)sm^=V[i];
-            else sm^=W[i];
-            p/=2;
+    ll N;
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+    vector<ll> Y(N+1,INF);
+    Y[0]=0;
+    ll mx=0;
+    ll ans=0;
+    rep(i,N){
+        if(A[i]>mx) {
+            mx=A[i];
+            ans++;
+        } else {
+            auto it = lower_bound(Y.begin(), Y.end(), A[i])-Y.begin();
+            Y[it]=A[i];
         }
-        bool flg=0;
-        rep(i,M) if(sm==T[i]) chmax(ans, sm);
     }
+
+    for(int i=N;i>=0;i--){
+        if(Y[i]<INF){
+            ans += i;
+            break;
+        }
+    }
+    cout<<ans<<endl;
     return 0;
 }

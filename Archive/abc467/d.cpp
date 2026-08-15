@@ -77,25 +77,15 @@ Point med(Point P, Point P2){
 bool solve(){
     Point P,Q,R,S;
     cin>>P.x>>P.y>>Q.x>>Q.y>>R.x>>R.y>>S.x>>S.y;
-    // あとで中点を求めたくなるから2倍してるだけ
     P*=2, Q*=2, R*=2, S*=2;
-    // 点Q→Pに向かうベクトル（単位化　別に単位化はいらない）
     Point a1 = normalize(P-Q);
-
-    // 点S→Rに向かうベクトル
     Point a2 = normalize(R-S);
-
-    // a1とa2の外積がゼロ、つまり、二本のベクトルは平行
     if(cross(a1, a2) != 0) return true;
 
-    // 点Pと点Qの中点、点Rと点Sの中点を求める
     auto D = med(P,Q);
     auto E = med(R,S);
-
-    // 中点から中点までのベクトル
     Point a3 = D-E;
 
-    // ベクトルa1とベクトルa3が直交することの判定
     if(dot(a1, a3) == 0) return true;
     return false;
 }

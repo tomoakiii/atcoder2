@@ -15,21 +15,28 @@ int main(){
     cin.tie(NULL);
     ll N,M;
     cin >> N >> M;
-    vector<ll> V(N),W(N),T(M);
-    rep(i,N) cin>>V[i]>>W[i];
-    rep(i,M) cin>>T[i];
-    ll ful = 1ll<<N;
-    ll ans = 0;
-    rep(S,ful){
-        ll p=S;
-        ll sm=0;
-        while(p){
-            if(p%2)sm^=V[i];
-            else sm^=W[i];
-            p/=2;
+    vector<ll> A(N),B(N-1);
+    rep(i,N) cin>>A[i];
+    rep(i,N-1) cin>>B[i];
+    ll ans2=INF;
+    rep(k,2){
+        vector<ll> C(N);
+        C[0]=k;
+        rep(i,N-1){
+            if(B[i]==1){
+                if(C[i]==1) C[i+1]=0;
+                else C[i+1]=1;
+            }  else {
+                if(C[i]==1) C[i+1]=1;
+                else C[i+1]=0;
+            }
         }
-        bool flg=0;
-        rep(i,M) if(sm==T[i]) chmax(ans, sm);
+        ll ans=0;
+        rep(i,N){
+            ans += abs(A[i]-C[i]);
+        }
+        chmin(ans2,ans);
     }
+    cout<<ans2<<endl;
     return 0;
 }

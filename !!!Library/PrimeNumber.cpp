@@ -13,7 +13,7 @@ const int INFi = 0x0F0F0F0F;
 vector<ll> Eratosthenes(const ll N )
 {
     vector<bool> is_prime(N + 1, true );
-    vector<int> P;
+    vector<ll> P;
     for( ll i = 2; i*i <= N; i++ )
     {
         if( is_prime[ i ] )
@@ -119,6 +119,37 @@ map<ll, int> prime_factorization(ll K){
     if (k!=1) mp[k]++; // don't forget to add the last piece (10=2x5)
     return mp;
 }
+
+// https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%A9%E3%83%BC%E2%80%93%E3%83%A9%E3%83%93%E3%83%B3%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A%E6%B3%95#%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A8%E5%AE%9F%E8%A1%8C%E6%99%82%E9%96%93
+// ミラー–ラビン素数判定法
+bool is_prime(ll n){
+    auto modpowll=[](__int128 a, ll e, ll m)->ll{
+        __int128 ret=1;
+        while(e){
+            if(e & 1) ret = ret * a % m;
+            a = a * a % m;
+            e /= 2;
+        }
+        return (ll)ret;
+    };
+    vector<ll> a_list({2, 3, 5, 7, 11});
+    if(n <= 2) return n == 2;
+    if(n % 2 == 0) return false;
+    ll d = (n-1) / ((n-1)&(1-n));
+    for(ll a: a_list){
+        ll t = d;
+        a = modpowll(a, t, n);
+        if(a == 0 || a == 1) continue;
+        while(a != n-1){
+        t *= 2;
+        if(t == n-1) return false;
+        a = (ll)((__int128)a * a % n);
+        if(a == 1) return false;
+        }
+    }
+    return true;
+}
+
 
 
 int main()
