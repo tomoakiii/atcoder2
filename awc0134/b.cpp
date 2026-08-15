@@ -15,18 +15,12 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    double mx = 0;
+    ll ans = -1;
+    rep(i,N) {
+        double p,s; cin>>p>>s;
+        if(chmax(mx, s/p)) ans=i+1;
     }
+    cout<<ans<<endl;
     return 0;
 }

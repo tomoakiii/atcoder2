@@ -13,26 +13,30 @@ const int INFi = 0x0F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N,D;
-    cin >> N >> D;
-    vector<pair<ll,ll>> PC;
-    ll ans=-INF;
-    rep(i,N) {
-        ll p,c; cin>>c>>p;
-        chmax(ans, p-c);
-        if(p>c) PC.push_back({p, p-c});
+    ll N,V;
+    cin >> N >> V;
+    vector<pair<ll,ll>> vec;
+    rep(i,N){
+        ll x,d; cin>>x>>d;
+        vec.push_back({x,d});
+        chmin(mnx,x);
     }
-    sort(PC.begin(), PC.end());
-    deque<pair<ll,ll>> st;
-    ll sm = 0;
-    for(auto [p,pc]:PC) {
-        st.push_back({p, pc});
-        sm += pc;
-        while(!st.empty() && st.front().first+D < p) {
-            sm -= st.front().second;
-            st.pop_front();
+    sort(vec.begin(), vec.end());
+    ll mnx = vec[0].first;
+    rep(i,N) {
+        vec[i].first -= mnx;
+        chmax(mxx,vec[i].first);
+    }
+    ll mxx = vec[N-1].first;
+    ll ok = 9e18, ng = 0;
+    whike(ok-ng>1){
+        ll c = (ok+ng)/2;
+        ll range[2] = {0, mxx};
+        bool flg = true;
+        for(auto [x,d]:vec){
+            ll nrange[2] = {x-c, x+c};
+            if(nrange[1] < range[0])
         }
-        chmax(ans, sm);
     }
     cout << ans << endl;
     return 0;
