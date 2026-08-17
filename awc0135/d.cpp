@@ -35,9 +35,13 @@ int main(){
         bool flg = true;
         for(auto [x,d]:vec){
             ll nrange[2] = {x-c, x+c};
-            if(nrange[1] < range[0])
+            range = {max(range[0],nrange[0]), min(range[1],nrange[1])};
+            if(range[1]<range[0]) flg=false;
         }
+        if(flg) ok=c;
+        else ng=c;
     }
+
     cout << ans << endl;
     return 0;
 }

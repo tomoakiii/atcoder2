@@ -15,18 +15,18 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    map<string,ll> mp;
+    rep(i,N){
+        string s; cin>>s;
+        for(auto &c:s){
+            if(c>='A' && c<='Z') c=c-'A'+'a';
+        }
+        mp[s]++;
     }
+    ll ans = 0;
+    for(auto [v,c]:mp){
+        chmax(ans, c);
+    }
+    cout<<ans<<endl;
     return 0;
 }

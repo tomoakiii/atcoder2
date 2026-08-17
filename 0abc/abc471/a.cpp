@@ -13,21 +13,12 @@ const int INFi = 0x7F0F0F0F;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
-    vector<vector<ll>> v(N);
-    rep(i,N){
-        int c, l; cin>>c>>l; c--;
-        v[c].push_back(l);
+    ll a,b;
+    cin >> a >> b;
+    if(a+b==9 || a-b==9 || a*b==9 || 9*b==a) {
+        cout<<"Nine"<<endl;
+    } else {
+        cout<<"Nein"<<endl;
     }
-    ll ans=0;
-    for(auto vv : v) {
-        rep(i,vv.size()){
-            for(int j=i+1; j<vv.size(); j++){
-                ans += abs(vv[j]-vv[i]);
-            }
-        }
-    }
-    cout<<ans<<endl;
     return 0;
 }

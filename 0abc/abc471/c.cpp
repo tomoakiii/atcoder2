@@ -15,18 +15,30 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
-    vector<ll> A(N);
-    rep(i,N) cin>>A[i];
-
-    ll N, M;
-    cin >> N >> M;
-    vector uv(N, vector<ll>{});
-    rep(i,M) {
-        int u,v;
-        cin>>u>>v;
-        u--, v--;
-        uv[u].emplace_back(v);
-        uv[v].emplace_back(u);
+    multiset<ll> st;
+    rep(i,N) {
+        ll a; cin>>a;
+        st.insert(a);
     }
+    st.insert(-INF);
+    st.insert(INF);
+    ll s = 0;
+    ll ans = 0;
+    rep(i,N){
+        auto it1 = st.lower_bound(s);
+        auto it2 = it1; it2--;
+        ll d1 = abs(s-*it1);
+        ll d2 = abs(s-*it2);
+        if(d1 < d2) {
+            ans += d1;
+            s = *it1;
+            st.erase(it1);
+        } else {
+            ans += d2;
+            s = *it2;
+            st.erase(it2);
+        }
+    }
+    cout << ans << endl;
     return 0;
 }
