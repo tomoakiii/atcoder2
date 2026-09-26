@@ -1,5 +1,3 @@
-//https://atcoder.jp/contests/abc475/tasks/abc475_e
-
 #include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
@@ -14,7 +12,7 @@ const int INFi = 0x0F0F0F0F;
 
 struct Trie{
     ll ans = 0;
-    int M = 'z'-'a'+1;
+    int M = 'b'-'a'+1;
     vector<vector<int>> to;
 
     // how many times each node is visited?
