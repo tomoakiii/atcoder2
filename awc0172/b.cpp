@@ -7,15 +7,23 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 typedef long long ll;
-const ll INF = 0x7F7F7F7F7F7F7F7F;
-const int INFi = 0x7F0F0F0F;
+const ll INF = 0x0F0F0F0F0F0F0F0F;
+const int INFi = 0x0F0F0F0F;
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll N;
-    cin >> N;
-    ll ans=0;
+    ll N,M;
+    cin >> N >> M;
+    vector<ll> A(N);
+    rep(i,N){
+        string S; cin>>S;
+        rep(j,M){
+            if(S[j]=='x')A[i]++;
+        }
+    }
+    ll ans=-1;
+    for(auto a:A)chmax(ans,a);
     cout<<ans<<endl;
     return 0;
 }
