@@ -18,14 +18,14 @@ int main(){
     vector<ll> X(N), Y(N);
     rep(i,N) cin>>X[i]>>Y[i];
     std::random_device rd;
-    
-    rep(k, 10) {        
+
+    rep(k, 10) {
         rd();
         std::uniform_int_distribution<int> dist(0,N-1);
         int p0 = dist(rd);
         rd();
         int p1 = dist(rd);
-        
+
         // X[p0], Y[p0] および X[p1], Y[p1] を通る直線の係数
         auto make_ab = [&](ll x1, ll x2, ll y1, ll y2)-> abc{
             // return abc for a*x + b*y + c = 0
@@ -35,12 +35,12 @@ int main(){
             if(dX == 0) { // X = X[p0]
                 out.a = 1;
                 out.b = 0;
-                out.c = -1 * X[p0];
+                out.c = -1 * X1;
                 return out;
             } else if (dY == 0) { // Y = Y[p0];
                 out.a = 0;
                 out.b = 1;
-                out.c = -1 * Y[p0];
+                out.c = -1 * Y1;
                 return out;
             }
             ll g = gcd(dX, dY);
@@ -51,8 +51,8 @@ int main(){
             }
             // y = dY/dX * x + c / dX;
             // dY * x - dX * U + c = 0
-            out.a = dY, out.b = -1*dX, out.c = dX*Y[p0] - dY*X[p0];;
-            return out; 
+            out.a = dY, out.b = -1*dX, out.c = dX*Y1 - dY*X1;
+            return out;
         };
 
         auto ab = make_ab(X[p0], X[p1], Y[p0], Y[p1]);
@@ -62,14 +62,14 @@ int main(){
                 cnt++;
                 continue;
             }
-            auto ab2 = make_ab(X[i], X[i], Y[p0], Y[p0]);            
+            auto ab2 = make_ab(X[i], X[i], Y[p0], Y[p0]);
             if (ab.a == ab2.a && ab.b == ab2.b && ab.c == ab2.c) cnt++;
         }
         if(cnt > N/2) {
             cout << "Yes" << endl;
             cout << ab.a << " " << ab.b << " " << ab.c << endl;
             return 0;
-        }        
+        }
     }
     cout << "No" << endl;
 
