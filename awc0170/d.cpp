@@ -60,15 +60,18 @@ int main(){
         out.a = dY, out.b = -1*dX, out.c = dX*y1 - dY*x1;;
         return out; 
     };
-    set<abc> st;
+    ll dup = 0;
     rep(i,N){
-        rep(j,N){
-            st.insert(make_ab(X[i],X[j],Y[i],Y[j]));
+        map<abc,int> mp;
+        for(int j=i+1;j<N;j++){
+            mp[make_ab(X[i],X[j],Y[i],Y[j])]++;
+        }
+        for(auto [v,c]:mp){
+            dup += c * (c-1) / 2;
         }
     }
     ll tot = N * (N-1) * (N-2) / 6;
-    ll sm = oo*(oo-1)*(oo-2) + ee*(ee-1)*(ee-2) + (oo+ee)*(eo*(eo-1)+oe*(oe-1));
-    ll rm = tot - st.size();
-    cout << sm - rm << endl;
+    ll ng = oo*oe*eo + oo*oe*ee + oe*eo*ee + oo*eo*ee;
+    cout << tot - ng - dup << endl;
     return 0;
 }
