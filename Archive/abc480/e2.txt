@@ -1,0 +1,38 @@
+    auto func = [&N](__uint128_t beg = 1, __uint128_t intv = 1)->ll{
+        __uint128_t k;
+        __uint128_t p=1;
+        __uint128_t ans = 0;
+
+        __uint128_t cnt=0;
+        for(k=beg; p*k<=(__uint128_t)N; k+=intv){
+            p*=k;
+            cnt++;
+            /*
+            if(cnt>=3){
+                ans += cnt-2;
+            }
+            */
+        }
+        k-=intv;
+        if(cnt>=3)ans += cnt-2;
+        __uint128_t k2;
+        __uint128_t q=1;
+        __uint128_t cnt2=cnt-1;
+        for(k2=beg+intv; k2<k; k2+=intv){
+            if(cnt2 >= 3){
+                ans += cnt2-2;
+            }
+            p /= k2;
+            q *= k2;
+            cnt2--;
+            if(p*(k+intv) <= N){
+                k+=intv;
+                p*=k;
+                cnt2++;
+                if(cnt>=2)ans += cnt2-2;
+
+            }
+        }
+        ll ret = ans;
+        return ret;
+    };

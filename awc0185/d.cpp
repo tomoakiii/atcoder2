@@ -16,6 +16,7 @@ int main(){
     ll N,K,C;
     cin >> N >> K >> C;
     vector dp(K+1,vector<ll>(C+1));
+    ll ans=0;
     rep(i,N){
         ll w,v;cin>>w>>v;
         auto dp2=dp;
@@ -24,13 +25,12 @@ int main(){
             rep(c,C){
                 ll nw=c+w;
                 if(nw>C)break;
-                chmax(dp2[nk][nw],dp[k][c]);
+                chmax(dp2[nk][nw],dp[k][c]+v);
+                chmax(ans,dp2[nk][nw]);
             }
         }
         swap(dp,dp2);
     }
-    ll ans=0;
-    rep(c,C+1)chmax(ans,dp[K][c]);
     cout<<ans<<endl;
     return 0;
 }

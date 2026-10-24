@@ -10,17 +10,17 @@ typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
 
-vector<vector<char>> imrotate(vector<vector<char>> A, int d){    
+vector<vector<char>> imrotate(vector<vector<char>> A, int d){
     if(d==0) {
         return A;
     }
     int N = A.size();
-    if(N==0)return A;    
+    if(N==0)return A;
     int M = (int)A[0].size();
     vector<vector<char>> B;
     if(d==1 || d==3) B.resize(M,vector<char>(N));
     else B.resize(N,vector<char>(M));
-    
+
     if(d == 1) { // 90deg
         for(int i=0;i<N;i++) for(int j=0;j<A[i].size();j++) B[j][N-1-i]=A[i][j];
     } else if (d == 3) { // 270deg
@@ -47,7 +47,7 @@ int main(){
     auto T = S;
     rep(i,N)rep(j,N) cin>>S[i][j];
     rep(i,N)rep(j,N) cin>>T[i][j];
-    
+
     auto A = S;
     disp(A);
     cout<<endl;
