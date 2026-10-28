@@ -16,42 +16,47 @@ int main(){
     ll N, M, T;
     cin >> N >> M >> T;
     vector<ll> P(N);
-    rep(i,N) cin>>P[i];
+    ll mx = 0;
+    rep(i,N) {
+        cin>>P[i];
+        chmax(mx, P[i]);
+    }
     vector uv(N, vector<pair<int,ll>>{});
     rep(i,M) {
         int u,v; ll w;
-        cin>>u>>v>>W;
+        cin>>u>>v>>w;
         u--, v--;
         uv[u].emplace_back(v,w);
         uv[v].emplace_back(u,w);
     }
 
-    typedef pair<ll,int> pli;
-    priority_queue<pli, vector<pli>, greater<pli>> que;
-    vector<ll> dist(N);
-    int st = 0;
-    dist[st] = 0;
-    que.push({dist[st],st});
-    while(!que.empty()){
-        auto [q, i] = que.top();
-        que.pop();
-        for(auto [nx,w]:uv[i]){
-            if(chmin(dist[nx], dist[i]+w))que.push({dist[nx],nx});
+
+    auto check = [&](ll risk)->bool{
+        typedef pair<ll,int> pli;
+        priority_queue<pli, vector<pli>, greater<pli>> que;
+        vector<ll> dist(N, INF);
+        int st = 0;
+        dist[st] = 0;
+        que.push({dist[st],st});
+        while(!que.empty()){
+            auto [q, i] = que.top();
+            que.pop();
+            if(dist[i] < q)continue;
+            for(auto [nx,w]:uv[i]){
+                if(P[nx] > risk) continue;
+                if(chmin(dist[nx], q+w))que.push({dist[nx],nx});
+            }
         }
+        if(dist[N-1]>T) return false;
+        else return true;
+    };
+
+    ll ok = mx, ng = max(P[0], P[N-1]) - 1;
+    while(ok - ng > 1){
+        ll c = (ok+ng)/2;
+        if(check(c)) ok=c;
+        else ng=c;
     }
-
-    vector<ll> risk(N);
-    int st = 0;
-    risk[st] = 0;
-    que.push({risk[st],st});
-    while(!que.empty()){
-        auto [q, i] = que.top();
-        que.pop();
-        for(auto [nx,w]:uv[i]){
-            if(chmin(risk[nx], risk[i]+w))que.push({risk[nx],nx});
-        }
-    }
-
-
+    cout << ok << endl;
     return 0;
 }

@@ -22,9 +22,9 @@ int main(){
     vector<vector<pair<int,int>>> pos(M);
     rep(i,H){
         string S;cin>>S;
-        rep(i,W){
+        rep(j,W){
             pos[S[j]-'a'].push_back({i,j});
-        } 
+        }
     }
     ll N; string S;
     cin>>N>>S;
@@ -33,7 +33,21 @@ int main(){
         priority_queue<pp,vector<pp>,greater<pp>> que;
         rep(i,H)rep(j,W)if(dp[i][j]<INF)que.push({dp[i][j],{i,j}});
         vector dp2(H, vector<ll>(W,INF));
-        
+        while(!que.empty()){
+            auto [d, yx] = que.top();
+            que.pop();
+            auto [y,x] = yx;
+            if(dp2[y][x] < d)continue;
+            for(auto ij : pos[S[i]-'a']){
+                auto [i,j] = ij;
+                if(chmin(dp2[i][j], dp[y][x] + abs(i-y) + abs(j-x)))que.push({dp2[i][j], ij});
+            }
+        }
+        swap(dp,dp2);
     }
+    ll ans = INF;
+    rep(i,H)rep(j,W)chmin(ans, dp[i][j]);
+    if(ans==INF) cout<<-1<<endl;
+    else cout<<ans+S.size()<<endl;
     return 0;
 }

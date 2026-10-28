@@ -9,62 +9,78 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 typedef long long ll;
 const ll INF = 0x0F0F0F0F0F0F0F0F;
 const int INFi = 0x0F0F0F0F;
-typedef modint1000000007 mint;
-template<class Type> class StringHash {
-private:
-    Type d = 1111111;
-    vector<Type> hash;
-    vector<Type> pow;
-    vector<Type> rpow;
-public:
-    int N;
-    StringHash(string S="") {
-        N = S.size();
-        hash.resize(N+1);
-        pow.resize(N+1,1);
-        rpow.resize(N+1,1);
-        Type p = 1;
-        rep(i,N) {
-            hash[i+1] = hash[i] + p * (S[i]-'a'+1);
-            p *= d;
-        }
-        rep(i,N) {
-            pow[i+1] = pow[i] * d;
-        }
-        rpow[N] = (Type)1/pow[N];
-        for(int i=N; i>0; i--) {
-            rpow[i-1] = rpow[i] * d;
-        }
-    }
-    Type GetHash(int l, int r){
-        r++;
-        Type h1 = hash[r] - hash[l];
-        return h1 * rpow[l];
-    }
-};
-
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll N,M,Q;
     cin >> N >> M >> Q;
-    vector<StringHash> SH(N);
-    vector<string> S(N);
-    vector has(N, vector<ll>(M));
-    rep(i,N){
-        string s,c; cin>>s>>c;
-        s= s+s; c=c+c;
-        rep(j,2*M){
-            if(c[j]=='1')s[j]='?';
-        }
-        StringHash<mint> sh(s);
-        SH[i] = StringHash<mint>(sh);
-        rep(j,M) {
-            has[i][j] = sh.GetHash(j,j+M-1);
-        }
-        S[i] = s;
-    }
+    vector<string> S(N), C(N), T(N);
+    rep(i,N) cin>>S[i]>>C[i];
+    rep(i,N) cin>>T[i];
 
+    vector lib(N, vector(N, vector<ll>(M, 0)));
+    rep(m,M){
+        vector<int> ord(N);
+        rep(i,N)ord[i]=i;
+        rep(i,N) rep(i2,N) rep(j,M){
+            int nj=(j+m)%M;
+            if(C[i][j] == '0' && S[i][j]!=T[i2][nj]) lib[i][i2][m]++;
+        }
+    }
+    while(Q--){
+        int op; cin>>op;
+        if(op==1){
+            int i, p; char x;
+            cin>>i>>p>>x; i--,p--;
+            rep(i2,N) rep(m,M){
+                int nj=(p+m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]--;
+            }
+            S[i][p]=x;
+            rep(i2,N) rep(m,M){
+                int nj=(p+m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]++;
+            }
+        }else if(op==2){
+            int i, p; char x;
+            cin>>i>>p>>x; i--,p--;
+            rep(i2,N) rep(m,M){
+                int nj=(p+m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]--;
+            }
+            C[i][p]=x;
+            rep(i2,N) rep(m,M){
+                int nj=(p+m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]++;
+            }
+        }else{
+            int i2, nj; char x;
+            cin>>i2>>nj>>x; i2--,nj--;
+            rep(i,N) rep(m,M){
+                int p=(nj+M-m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]--;
+            }
+            T[i2][nj]=x;
+            rep(i,N) rep(m,M){
+                int p=(nj+M-m)%M;
+                if(C[i][p] == '0' && S[i][p]!=T[i2][nj]) lib[i][i2][m]++;
+            }
+        }
+        ll ans = INF;
+        vector<ll> ord(N);
+        rep(i,N)ord[i]=i;
+        do{
+            rep(m,M){
+                ll cnt = 0;
+                rep(i,N){
+                    int j = ord[i];
+                    cnt += lib[i][j][m];
+                }
+                chmin(ans,cnt);
+            }
+        }while(next_permutation(ord.begin(),ord.end()));
+        cout<<ans<<"\n";
+    }
     return 0;
 }
