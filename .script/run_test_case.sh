@@ -24,7 +24,7 @@ download_dir=${relative_path}/build/testcase/${problem_id}
 echo $download_dir
 mkdir -p "$download_dir"
 
-if [[ ! -e ${download_dir}/sample-1.in ]]; then
+if [ ! -e ${download_dir}/sample-1.in ]; then
     if ! oj dl -d "$download_dir" "$url"; then
         oj login https://atcoder.jp/ || exit 1
         oj dl -d "$download_dir" "$url" || exit 2
