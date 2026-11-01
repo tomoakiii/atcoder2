@@ -1,0 +1,4 @@
+# 1回目のDFSで各頂点の部分木サイズ subsize[v] を求める
+# 2回目のDFSまたは判定で以下を満たす頂点を探す
+# すべての child に対して subsize[child] <= N // 2
+# 且つ (N - subsize[v]) <= N // 2
