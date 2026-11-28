@@ -1,0 +1,1 @@
+setInterval(() => {document.querySelectorAll('video').forEach(video => {if (video.paused) video.play();});}, 1000);

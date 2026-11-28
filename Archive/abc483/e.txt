@@ -1,0 +1,6 @@
+4 3
+aaa
+abb
+acc
+add
+12
