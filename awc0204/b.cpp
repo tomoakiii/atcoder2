@@ -14,6 +14,7 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll N;
+<<<<<<< HEAD
     string S;
     cin >> N>>S;
     rep(i,N){
@@ -23,5 +24,21 @@ int main(){
         }
     }
     cout<<-1<<endl;
+=======
+    cin >> N;
+    vector<ll> A(N);
+    rep(i,N) cin>>A[i];
+
+    ll N, M;
+    cin >> N >> M;
+    vector uv(N, vector<ll>{});
+    rep(i,M) {
+        int u,v;
+        cin>>u>>v;
+        u--, v--;
+        uv[u].emplace_back(v);
+        uv[v].emplace_back(u);
+    }
+>>>>>>> 48f498569788a15edf75f47ebe405de0ad692429
     return 0;
 }

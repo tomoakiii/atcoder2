@@ -15,6 +15,7 @@ int main(){
     cin.tie(NULL);
     ll N;
     cin >> N;
+<<<<<<< HEAD
     string S; cin>>S;
     for(auto c:S)if(c=='x'){
         cout<<"No"<<endl;
@@ -22,5 +23,9 @@ int main(){
     }
 
     cout<<"Yes"<<endl;
+=======
+    ll ans=0;
+    cout<<ans<<endl;
+>>>>>>> 48f498569788a15edf75f47ebe405de0ad692429
     return 0;
 }
